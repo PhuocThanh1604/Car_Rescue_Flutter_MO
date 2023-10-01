@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import '../../../../configuration/frontend_configs.dart';
 
 class RideSelectionWidget extends StatelessWidget {
   RideSelectionWidget(
       {Key? key,
-        required this.icon,
-        required this.title,
-        required this.body,
-        required this.onPressed})
+      required this.icon,
+      required this.title,
+      required this.body,
+      required this.onPressed})
       : super(key: key);
   final String icon;
   final String title;

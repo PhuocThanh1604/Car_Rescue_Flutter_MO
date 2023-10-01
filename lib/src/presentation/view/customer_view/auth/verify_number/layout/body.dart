@@ -3,7 +3,7 @@ import 'package:country_calling_code_picker/country_code_picker.dart';
 import 'package:country_calling_code_picker/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gillar/src/presentation/elements/app_button.dart';
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
 
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../otp/otp_view.dart';
@@ -119,8 +119,10 @@ class _VerifyNumberBodyState extends State<VerifyNumberBody> {
               ),
               AppButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const OTPView()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OTPView()));
                   },
                   btnLabel: "Verify Number")
             ],

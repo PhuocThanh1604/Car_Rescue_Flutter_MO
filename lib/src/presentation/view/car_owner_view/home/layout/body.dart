@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/layout/driver_home_switch.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/layout/driver_home_switch.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../home_view.dart';
 import 'widgets/request_bottom_sheet.dart';
@@ -48,7 +48,7 @@ class DriverHomeBodyState extends State<DriverHomeBody> {
 
   @override
   void initState() {
-    Timer(const Duration(seconds: 5),(){
+    Timer(const Duration(seconds: 5), () {
       requestBottomSheet(context);
     });
     setSourceAndDestinationIcons().then((value) {
@@ -64,7 +64,6 @@ class DriverHomeBodyState extends State<DriverHomeBody> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     print(markers.length);
@@ -79,8 +78,11 @@ class DriverHomeBodyState extends State<DriverHomeBody> {
           _controller.complete(controller);
         },
       ),
-       SwitchWidget(onPressed: () { scaffoldKey.currentState?.openDrawer(); },),
-
+      SwitchWidget(
+        onPressed: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
+      ),
     ]);
   }
 }

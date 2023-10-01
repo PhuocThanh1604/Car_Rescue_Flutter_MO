@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 import 'widgets/select_car.dart';
+
 class SelectCarBody extends StatelessWidget {
   const SelectCarBody({Key? key}) : super(key: key);
 
@@ -13,7 +14,9 @@ class SelectCarBody extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
             children: [
-              const SizedBox(height:18,),
+              const SizedBox(
+                height: 18,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -24,18 +27,20 @@ class SelectCarBody extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height:14,),
-               SelectCarWidget(
+              const SizedBox(
+                height: 14,
+              ),
+              SelectCarWidget(
                   svg: 'assets/images/wagon_car.png',
                   name: 'Mercedes Vito',
                   distance: "2 Near by",
                   amount: '\$10.40'),
-               SelectCarWidget(
+              SelectCarWidget(
                   svg: 'assets/images/mercedies_car.png',
                   name: 'Audi A7',
                   distance: "2 Near by",
                   amount: '\$14.40'),
-               SelectCarWidget(
+              SelectCarWidget(
                   svg: 'assets/images/mercedies_car.png',
                   name: 'Mercedes Benz',
                   distance: "2 Near by",

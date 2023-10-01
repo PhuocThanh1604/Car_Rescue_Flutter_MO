@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gillar/src/presentation/elements/app_button.dart';
-import 'package:gillar/src/providers/location_provider.dart';
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
+import 'package:CarRescue/src/providers/location_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'layout/bottom_sheets/pick_up_sheet.dart';
@@ -76,10 +76,7 @@ class HomeViewState extends State<HomeView> {
         await getBytesFromAsset('assets/images/driver_marker.png', 240);
 
     destinationIcon = BitmapDescriptor.fromBytes(icon1);
-    
   }
-
-  
 
   // Cập nhật Marker dựa trên vị trí hiện tại
   void updateMarker(LatLng latLng) {
@@ -143,17 +140,17 @@ class HomeViewState extends State<HomeView> {
   }
 
   void searchAndMoveCamera(String searchText) async {
-  try {
-    LatLng newPosition = await service.searchPlaces(searchText);
-    setState(() {
-      _latLng = newPosition;
-    });
-    _updateCameraPosition(_latLng);
-  } catch (e) {
-    // Xử lý lỗi ở đây
-    print('Error: $e');
+    try {
+      LatLng newPosition = await service.searchPlaces(searchText);
+      setState(() {
+        _latLng = newPosition;
+      });
+      _updateCameraPosition(_latLng);
+    } catch (e) {
+      // Xử lý lỗi ở đây
+      print('Error: $e');
+    }
   }
-}
 
   void stopListeningToLocationUpdates() {
     _positionStreamSubscription?.cancel();

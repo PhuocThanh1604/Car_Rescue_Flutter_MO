@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import '../../../../../../configuration/frontend_configs.dart';
+
 class SelectCarWidget extends StatefulWidget {
-   SelectCarWidget(
+  SelectCarWidget(
       {Key? key,
       required this.svg,
       required this.name,
@@ -19,23 +20,25 @@ class SelectCarWidget extends StatefulWidget {
 }
 
 class _SelectCarWidgetState extends State<SelectCarWidget> {
-  bool isShow=false;
+  bool isShow = false;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:(){
+      onTap: () {
         setState(() {
-          isShow=!isShow;
+          isShow = !isShow;
         });
       },
       child: Card(
-        shape:OutlineInputBorder(borderRadius:BorderRadius.circular(6),borderSide:BorderSide.none),
-        elevation:0.5,
+        shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide.none),
+        elevation: 0.5,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
-            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -44,9 +47,11 @@ class _SelectCarWidgetState extends State<SelectCarWidget> {
                     height: 62,
                     width: 62,
                   ),
-                  const SizedBox(width:11,),
+                  const SizedBox(
+                    width: 11,
+                  ),
                   Column(
-                    crossAxisAlignment:CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
                         text: widget.name,
@@ -57,7 +62,7 @@ class _SelectCarWidgetState extends State<SelectCarWidget> {
                         text: widget.distance,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color:FrontendConfigs.kIconColor,
+                        color: FrontendConfigs.kIconColor,
                       ),
                     ],
                   )
@@ -65,21 +70,29 @@ class _SelectCarWidgetState extends State<SelectCarWidget> {
               ),
               Column(
                 children: [
-                  if(isShow)
-                     Padding(
-                      padding: const EdgeInsets.only(bottom:12.0),
+                  if (isShow)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
                       child: SizedBox(
-                          height:10,
-                          child: Icon(Icons.check_circle,color:FrontendConfigs.kPrimaryColor,size:16,)),
+                          height: 10,
+                          child: Icon(
+                            Icons.check_circle,
+                            color: FrontendConfigs.kPrimaryColor,
+                            size: 16,
+                          )),
                     )
                   else
                     Padding(
-                      padding: const EdgeInsets.only(top:12.0),
-                      child: Container(height:10,),
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Container(
+                        height: 10,
+                      ),
                     ),
-                  Container(height:10,),
+                  Container(
+                    height: 10,
+                  ),
                   SizedBox(
-                    height:20,
+                    height: 20,
                     child: CustomText(
                       text: widget.amount,
                       fontSize: 16,

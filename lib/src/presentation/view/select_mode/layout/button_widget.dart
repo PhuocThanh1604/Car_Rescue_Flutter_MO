@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 class ModeButton extends StatelessWidget {
   const ModeButton({Key? key, required this.btnLabel, required this.btnColor})
@@ -15,7 +15,7 @@ class ModeButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color:btnColor, width: 1),
+        border: Border.all(color: btnColor, width: 1),
       ),
       child: Center(child: CustomText(text: btnLabel)),
     );

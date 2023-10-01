@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/view/customer_view/chat_with_driver/chat_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/chat_with_driver/chat_view.dart';
 import '../../../../configuration/frontend_configs.dart';
 import '../../../elements/round_button.dart';
 import 'layout/body.dart';
@@ -61,7 +61,8 @@ class DriverDetailsView extends StatelessWidget {
           children: [
             RoundButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatView()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ChatView()));
               },
               icon: 'assets/svg/message.svg',
             ),

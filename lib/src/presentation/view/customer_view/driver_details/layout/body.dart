@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/customer_view/driver_details/layout/widgets/details_widget.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/driver_details/layout/widgets/details_widget.dart';
 
 import '../../../../../configuration/frontend_configs.dart';
+
 class DriverDetailsBody extends StatelessWidget {
   const DriverDetailsBody({Key? key}) : super(key: key);
 
@@ -16,21 +17,29 @@ class DriverDetailsBody extends StatelessWidget {
             radius: 50,
             child: Image.asset('assets/images/profile.png'),
           ),
-          const SizedBox(height:12,),
+          const SizedBox(
+            height: 12,
+          ),
           CustomText(
             text: "Daniel Austin",
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height:8,),
+          const SizedBox(
+            height: 8,
+          ),
           CustomText(
             text: "+1 343-234-4544",
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height:12,),
+          const SizedBox(
+            height: 12,
+          ),
           const DriverDetailsWidget(),
-          const SizedBox(height:24,),
+          const SizedBox(
+            height: 24,
+          ),
           Container(
             height: 171,
             decoration: BoxDecoration(
@@ -43,45 +52,53 @@ class DriverDetailsBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    crossAxisAlignment:CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
                         text: 'Member Since',
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-                        color:FrontendConfigs.kIconColor,
+                        color: FrontendConfigs.kIconColor,
                       ),
-                      const SizedBox(height:18,),
+                      const SizedBox(
+                        height: 18,
+                      ),
                       CustomText(
                         text: 'Car Model',
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-                        color:FrontendConfigs.kIconColor,
+                        color: FrontendConfigs.kIconColor,
                       ),
-                      const SizedBox(height:18,),
+                      const SizedBox(
+                        height: 18,
+                      ),
                       CustomText(
                         text: 'Plate Number',
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-                        color:FrontendConfigs.kIconColor,
+                        color: FrontendConfigs.kIconColor,
                       ),
                     ],
                   ),
                   Column(
-                    crossAxisAlignment:CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       CustomText(
                         text: 'April 09, 2022',
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(height:18,),
+                      const SizedBox(
+                        height: 18,
+                      ),
                       CustomText(
                         text: 'Mercedes Benz E-Class',
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(height:18,),
+                      const SizedBox(
+                        height: 18,
+                      ),
                       CustomText(
                         text: 'HAX - 234',
                         fontSize: 16,

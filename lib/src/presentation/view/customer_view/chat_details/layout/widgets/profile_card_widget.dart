@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/customer_view/chat_details/chat_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/chat_details/chat_view.dart';
 
 class ProfileCardWidget extends StatelessWidget {
-   ProfileCardWidget(
+  ProfileCardWidget(
       {Key? key,
       required this.profileImage,
       required this.name,
       required this.details,
       required this.time,
-        required this.onPressed,
-      this.isShow=false})
+      required this.onPressed,
+      this.isShow = false})
       : super(key: key);
   final String profileImage;
   final String name;
@@ -23,7 +23,7 @@ class ProfileCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:onPressed,
+      onTap: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -60,20 +60,24 @@ class ProfileCardWidget extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              isShow?Container(
-                height: 20,
-                width: 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color:Colors.green),
-                child: Center(
-                    child: CustomText(
-                  text: '4',
-                  color: Colors.white,
-                      fontSize:10,
-                )),
-              ):const SizedBox(),
-              const SizedBox(height:5,),
+              isShow
+                  ? Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.green),
+                      child: Center(
+                          child: CustomText(
+                        text: '4',
+                        color: Colors.white,
+                        fontSize: 10,
+                      )),
+                    )
+                  : const SizedBox(),
+              const SizedBox(
+                height: 5,
+              ),
               CustomText(
                 text: time,
                 fontSize: 10,

@@ -1,9 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/app_button.dart';
-import 'package:gillar/src/presentation/view/onboarding/layout/on_boarding_widget.dart';
-import 'package:gillar/src/presentation/view/select_city/select_city_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
+import 'package:CarRescue/src/presentation/view/onboarding/layout/on_boarding_widget.dart';
+import 'package:CarRescue/src/presentation/view/select_city/select_city_view.dart';
 
 import '../../elements/custom_text.dart';
 

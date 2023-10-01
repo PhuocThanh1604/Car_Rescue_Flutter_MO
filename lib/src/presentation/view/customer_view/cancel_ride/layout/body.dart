@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 class CancelRideBody extends StatefulWidget {
   const CancelRideBody({Key? key}) : super(key: key);
@@ -27,19 +27,23 @@ class _CancelRideBodyState extends State<CancelRideBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height:12,),
+              const SizedBox(
+                height: 12,
+              ),
               CustomText(
                 text: 'Please select the reason of cancellation',
                 fontSize: 16,
                 fontWeight: FontWeight.w300,
               ),
-              const SizedBox(height:12,),
+              const SizedBox(
+                height: 12,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Checkbox(
                       checkColor: Colors.white,
-                      activeColor:Color(0xFF2DBB54),
+                      activeColor: Color(0xFF2DBB54),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       value: waiting,
@@ -56,7 +60,7 @@ class _CancelRideBodyState extends State<CancelRideBody> {
                 children: [
                   Checkbox(
                       checkColor: Colors.white,
-                      activeColor:Color(0xFF2DBB54),
+                      activeColor: Color(0xFF2DBB54),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       value: contact,
@@ -73,7 +77,7 @@ class _CancelRideBodyState extends State<CancelRideBody> {
                 children: [
                   Checkbox(
                       checkColor: Colors.white,
-                      activeColor:Color(0xFF2DBB54),
+                      activeColor: Color(0xFF2DBB54),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       value: destination,
@@ -107,7 +111,7 @@ class _CancelRideBodyState extends State<CancelRideBody> {
                 children: [
                   Checkbox(
                       checkColor: Colors.white,
-                      activeColor:Color(0xFF2DBB54),
+                      activeColor: Color(0xFF2DBB54),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       value: wrongAddress,
@@ -141,7 +145,7 @@ class _CancelRideBodyState extends State<CancelRideBody> {
                 children: [
                   Checkbox(
                       checkColor: Colors.white,
-                      activeColor:Color(0xFF2DBB54),
+                      activeColor: Color(0xFF2DBB54),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       value: reasonable,
@@ -157,26 +161,25 @@ class _CancelRideBodyState extends State<CancelRideBody> {
                 height: 18,
               ),
               SizedBox(
-                height:49,
+                height: 49,
                 child: TextFormField(
-                  keyboardType:TextInputType.text,
-                  controller:_searchController,
+                  keyboardType: TextInputType.text,
+                  controller: _searchController,
                   decoration: InputDecoration(
                     hintText: 'Other reason',
                     hintStyle: TextStyle(
-                        color:FrontendConfigs.kIconColor,
+                        color: FrontendConfigs.kIconColor,
                         fontSize: 14,
                         letterSpacing: 1.5,
                         fontWeight: FontWeight.w400),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide: BorderSide.none),
-                    fillColor:FrontendConfigs.kAuthColor,
+                    fillColor: FrontendConfigs.kAuthColor,
                     filled: true,
-                    ),
                   ),
+                ),
               ),
-
             ],
           ),
         ),

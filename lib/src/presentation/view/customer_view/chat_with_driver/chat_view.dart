@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_appbar.dart';
+import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
 
 import '../../../../configuration/frontend_configs.dart';
 import 'layout/body.dart';

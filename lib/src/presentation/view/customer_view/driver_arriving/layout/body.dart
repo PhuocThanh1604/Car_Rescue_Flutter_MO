@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/elements/round_button.dart';
-import 'package:gillar/src/presentation/view/customer_view/driver_details/driver_details_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/ride_start/ride_start_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/round_button.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/driver_details/driver_details_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/ride_start/ride_start_view.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -63,8 +63,8 @@ class DriverArrivingBodyState extends State<DriverArrivingBody> {
     });
     Timer(
         const Duration(seconds: 3),
-            () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) =>  const RideStartView())));
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const RideStartView())));
     super.initState();
   }
 
@@ -134,9 +134,14 @@ class DriverArrivingBodyState extends State<DriverArrivingBody> {
               const SizedBox(
                 height: 10,
               ),
-               ProfileWidget(onTapped: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const DriverDetailsView()));
-               },),
+              ProfileWidget(
+                onTapped: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DriverDetailsView()));
+                },
+              ),
               const SizedBox(
                 height: 34,
               ),
@@ -145,7 +150,8 @@ class DriverArrivingBodyState extends State<DriverArrivingBody> {
                 children: [
                   RoundButton(
                     icon: 'assets/svg/cancel_icon.svg',
-                    height:18,widht:18,
+                    height: 18,
+                    widht: 18,
                     color: FrontendConfigs.kAuthColor,
                     svgColor: Colors.white,
                     onPressed: () {},

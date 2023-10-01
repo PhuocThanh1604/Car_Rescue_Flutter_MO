@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\FPT learning\\Capstone\\Capstone_Car_Rescuse_Code\\MO\\CarRescue_flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\FPT learning\\Capstone\\Capstone_Car_Rescuse_Code\\MO\\CarRescue_flutter\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+
 class SettingWidget extends StatelessWidget {
   SettingWidget(
       {Key? key,
       required this.icon,
       required this.title,
       this.isShow = false,
-        this.height=20,
-        this.weight=20,
-        required this.onTap,
+      this.height = 20,
+      this.weight = 20,
+      required this.onTap,
       required this.name})
       : super(key: key);
   final String icon;
@@ -23,9 +24,9 @@ class SettingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:onTap,
+      onTap: onTap,
       child: Row(
-        mainAxisAlignment:MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -33,12 +34,14 @@ class SettingWidget extends StatelessWidget {
                 icon,
                 height: height,
                 width: weight,
-                color:FrontendConfigs.kPrimaryColor,
+                color: FrontendConfigs.kPrimaryColor,
               ),
-              const SizedBox(width:18,),
+              const SizedBox(
+                width: 18,
+              ),
               Text(name,
                   style: TextStyle(
-                      color:FrontendConfigs.kPrimaryColor,
+                      color: FrontendConfigs.kPrimaryColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400))
             ],

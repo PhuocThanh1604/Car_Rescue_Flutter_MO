@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/select_city/layout/custom_button.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/select_city/layout/custom_button.dart';
 
 class SelectCityBody extends StatelessWidget {
   const SelectCityBody({Key? key}) : super(key: key);
@@ -58,15 +58,15 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-               CityButton(btnLabel: "Ibiza"),
+              CityButton(btnLabel: "Ibiza"),
               const SizedBox(
                 height: 18,
               ),
-               CityButton(btnLabel: "Santorini"),
+              CityButton(btnLabel: "Santorini"),
               const SizedBox(
                 height: 18,
               ),
-               CityButton(btnLabel: "Dubai"),
+              CityButton(btnLabel: "Dubai"),
             ],
           ),
         ),

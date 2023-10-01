@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/app_button.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/auth/log_in/log_in_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/auth/log_in/log_in_view.dart';
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/auth/log_in/log_in_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/auth/log_in/log_in_view.dart';
 
 class SelectModeBody extends StatelessWidget {
   const SelectModeBody({Key? key}) : super(key: key);

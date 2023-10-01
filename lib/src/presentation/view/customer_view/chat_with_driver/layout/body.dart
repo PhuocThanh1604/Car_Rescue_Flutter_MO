@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/view/customer_view/chat_with_driver/layout/widget/build_appbar.dart';
-import 'package:gillar/src/presentation/view/customer_view/chat_with_driver/layout/widget/chat_widget.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/chat_with_driver/layout/widget/build_appbar.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/chat_with_driver/layout/widget/chat_widget.dart';
 
 import '../../../../../models/message.dart';
 
@@ -10,6 +10,7 @@ class ChatViewBody extends StatefulWidget {
   @override
   State<ChatViewBody> createState() => _ChatViewBodyState();
 }
+
 TextEditingController _controller = TextEditingController();
 final List<Message> messages = [
   Message(0,
@@ -19,12 +20,15 @@ final List<Message> messages = [
       "But I may not go if the weather is bad. So lets see the weather condition 😀"),
   Message(3, "I suppose I am."),
 ];
+
 class _ChatViewBodyState extends State<ChatViewBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const SizedBox(height:40,),
+        const SizedBox(
+          height: 40,
+        ),
         Expanded(
           child: ListView.separated(
             physics: const BouncingScrollPhysics(),

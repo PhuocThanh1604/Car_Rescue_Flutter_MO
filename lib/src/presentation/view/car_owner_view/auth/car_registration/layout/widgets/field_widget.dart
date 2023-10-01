@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
 
 class RegistrationFieldWidget extends StatelessWidget {
   RegistrationFieldWidget(

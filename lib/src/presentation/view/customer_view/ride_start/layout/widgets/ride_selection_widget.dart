@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import '../../../../../../configuration/frontend_configs.dart';
+
 class RideSelectionWidget extends StatelessWidget {
   RideSelectionWidget(
-      {Key? key, required this.icon, required this.title, required this.body,required this.onPressed})
+      {Key? key,
+      required this.icon,
+      required this.title,
+      required this.body,
+      required this.onPressed})
       : super(key: key);
   final String icon;
   final String title;
@@ -14,7 +19,7 @@ class RideSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
@@ -23,7 +28,7 @@ class RideSelectionWidget extends StatelessWidget {
               width: 40,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color:FrontendConfigs.kIconColor.withOpacity(0.6)),
+                  color: FrontendConfigs.kIconColor.withOpacity(0.6)),
               child: Center(
                 child: Container(
                   height: 28,
@@ -33,22 +38,27 @@ class RideSelectionWidget extends StatelessWidget {
                       color: const Color(0xff252525)),
                   child: Center(
                     child: SvgPicture.asset(
-                      icon,color:Colors.white,
+                      icon,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 11,),
+            const SizedBox(
+              width: 11,
+            ),
             Column(
-              crossAxisAlignment:CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: title,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
-                const SizedBox(height:3,),
+                const SizedBox(
+                  height: 3,
+                ),
                 CustomText(
                   text: body,
                   fontSize: 14,
@@ -58,7 +68,9 @@ class RideSelectionWidget extends StatelessWidget {
             )
           ],
         ),
-        IconButton(onPressed:onPressed, icon:SvgPicture.asset('assets/svg/edit_icon.svg'))
+        IconButton(
+            onPressed: onPressed,
+            icon: SvgPicture.asset('assets/svg/edit_icon.svg'))
       ],
     );
   }

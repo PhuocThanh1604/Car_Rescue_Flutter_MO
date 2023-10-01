@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 import 'layout/body.dart';
 
@@ -27,9 +25,7 @@ class SelectModeView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          _popMenu()
-        ],
+        actions: [_popMenu()],
       ),
       body: const SelectModeBody(),
     );
@@ -47,15 +43,15 @@ class SelectModeView extends StatelessWidget {
             borderSide: BorderSide.none),
         itemBuilder: (context) => [
               PopupMenuItem(
-                height:40,
+                  height: 40,
                   child: CustomText(
-                text: 'English',
-              )),
+                    text: 'English',
+                  )),
               PopupMenuItem(
-                height:40,
+                  height: 40,
                   child: CustomText(
-                text: 'Spanish',
-              ))
+                    text: 'Spanish',
+                  ))
             ]);
   }
 }

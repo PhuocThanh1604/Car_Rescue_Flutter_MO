@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 // ignore: unused_import
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/view/onboarding/onboarding_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/view/onboarding/onboarding_view.dart';
 
 class SplashBody extends StatefulWidget {
   const SplashBody({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class _SplashBodyState extends State<SplashBody> {
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) =>  const OnBoardingView())));
+            MaterialPageRoute(builder: (context) => const OnBoardingView())));
     super.initState();
   }
 
@@ -26,14 +26,16 @@ class _SplashBodyState extends State<SplashBody> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment:MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             "assets/images/logo.png",
-            height:200,
-            width:200,
+            height: 200,
+            width: 200,
           ),
-          const SizedBox(height:16,),
+          const SizedBox(
+            height: 16,
+          ),
           // RichText(
           //     text: const TextSpan(
           //         text: "Be your own ",

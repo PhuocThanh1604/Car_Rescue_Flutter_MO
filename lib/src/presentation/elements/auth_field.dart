@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
 
 class CustomTextField extends StatefulWidget {
   CustomTextField({
     Key? key,
-     this.controller,
+    this.controller,
     required this.icon,
     required this.text,
     this.isSecure = true,
@@ -19,7 +19,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyBoardType;
 
   bool isPassword;
-  TextEditingController ?controller;
+  TextEditingController? controller;
   final VoidCallback onTap;
 
   @override
@@ -30,7 +30,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:49,
+      height: 49,
       child: TextFormField(
         keyboardType: widget.keyBoardType,
         controller: widget.controller,
@@ -38,30 +38,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           hintText: widget.text,
           hintStyle: TextStyle(
-              color:FrontendConfigs.kIconColor,
+              color: FrontendConfigs.kIconColor,
               fontSize: 14,
               letterSpacing: 1.5,
               fontWeight: FontWeight.w400),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
-          fillColor:FrontendConfigs.kAuthColor,
+          fillColor: FrontendConfigs.kAuthColor,
           suffixIcon: widget.isPassword
               ? InkWell(
-              onTap: () {
-                setState(() {
-                  widget.isSecure = !widget.isSecure;
-                });
-                return widget.onTap();
-              },
-              child: widget.isSecure
-                  ? Icon( Icons.visibility_off_outlined,
-                  color:FrontendConfigs.kIconColor, size: 20)
-                  : Icon(
-                Icons.remove_red_eye_outlined,
-                color:FrontendConfigs.kIconColor,
-                size: 20,
-              ))
+                  onTap: () {
+                    setState(() {
+                      widget.isSecure = !widget.isSecure;
+                    });
+                    return widget.onTap();
+                  },
+                  child: widget.isSecure
+                      ? Icon(Icons.visibility_off_outlined,
+                          color: FrontendConfigs.kIconColor, size: 20)
+                      : Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: FrontendConfigs.kIconColor,
+                          size: 20,
+                        ))
               : null,
           filled: true,
           prefixIcon: Padding(

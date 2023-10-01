@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/payment/payment_view.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/trip_details/trip_details_view.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/payment/payment_view.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/trip_details/trip_details_view.dart';
 
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../../../../elements/app_button.dart';
@@ -52,7 +52,7 @@ Future<void> showRatingSheet(context) {
               const SizedBox(
                 height: 8,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 8,
               ),
@@ -100,7 +100,7 @@ Future<void> showRatingSheet(context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -117,20 +117,24 @@ Future<void> showRatingSheet(context) {
                     ),
                   ),
                   InkWell(
-                    onTap:(){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const PaymentView()));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PaymentView()));
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color:Color(0xFF2DBB54),),
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFF2DBB54),
+                      ),
                       child: Center(
                           child: CustomText(
-                            text: 'Submit',
-                            color: Colors.white,
-                          )),
+                        text: 'Submit',
+                        color: Colors.white,
+                      )),
                     ),
                   )
                 ],
@@ -143,6 +147,7 @@ Future<void> showRatingSheet(context) {
         );
       });
 }
+
 Future<void> goingTOPickingUpSheet(context) {
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -157,7 +162,7 @@ Future<void> goingTOPickingUpSheet(context) {
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize:MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
                 height: 12,
@@ -178,15 +183,17 @@ Future<void> goingTOPickingUpSheet(context) {
               const SizedBox(
                 height: 24,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 24,
               ),
-              AppButton(onPressed: (){
-                showRatingSheet(context);
-              }, btnLabel:'End Trip'),
+              AppButton(
+                  onPressed: () {
+                    showRatingSheet(context);
+                  },
+                  btnLabel: 'End Trip'),
               const SizedBox(
-                height:10,
+                height: 10,
               ),
             ],
           ),

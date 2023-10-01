@@ -3,12 +3,12 @@ import 'dart:ui' as ui;
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/elements/round_button.dart';
-import 'package:gillar/src/presentation/view/customer_view/driver_details/driver_details_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/profile/profile_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/ride_start/layout/widgets/ride_selection_widget.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/round_button.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/driver_details/driver_details_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/ride_start/layout/widgets/ride_selection_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 

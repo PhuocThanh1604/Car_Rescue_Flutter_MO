@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 class WalletDriverWidget extends StatelessWidget {
-  const WalletDriverWidget(
-      {Key? key,
-        required this.profileImage,
-        required this.name,
-        required this.details,
-      })
-      : super(key: key);
+  const WalletDriverWidget({
+    Key? key,
+    required this.profileImage,
+    required this.name,
+    required this.details,
+  }) : super(key: key);
   final String profileImage;
   final String name;
   final String details;
@@ -55,10 +54,16 @@ class WalletDriverWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                CustomText(text: "          \$10.00",fontSize:16,fontWeight:FontWeight.w600,),
+                CustomText(
+                  text: "          \$10.00",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ],
             ),
-            const SizedBox(height:5,),
+            const SizedBox(
+              height: 5,
+            ),
             Row(
               children: [
                 CustomText(
@@ -66,7 +71,9 @@ class WalletDriverWidget extends StatelessWidget {
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                 ),
-                const SizedBox(width:5,),
+                const SizedBox(
+                  width: 5,
+                ),
                 SvgPicture.asset('assets/svg/red_arrow.svg')
               ],
             )

@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/view/customer_view/profile/profile_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/wallet/wallet_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/wallet/wallet_view.dart';
 import '../chat_details/chat_view.dart';
 import '../home/home_view.dart';
 
@@ -17,11 +16,11 @@ class BottomNavBarView extends StatefulWidget {
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-     HomeView(),
+    HomeView(),
     const ChatDetailsView(),
     const WalletView(),
     const ProfileView()
-   ];
+  ];
 
   // void onTabTapped(int index, BuildContext context) {
   //   // var bottomIndex = Provider.of<BottomIndexProvider>(context, listen: false);
@@ -46,15 +45,17 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         unselectedItemColor: FrontendConfigs.kIconColor,
         backgroundColor: Colors.white,
         selectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 10,
-            fontFamily: "Poppins",
-            color: FrontendConfigs.kPrimaryColor,),
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+          fontFamily: "Poppins",
+          color: FrontendConfigs.kPrimaryColor,
+        ),
         unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 10,
-            fontFamily: "Poppins",
-            color: FrontendConfigs.kIconColor,),
+          fontWeight: FontWeight.w400,
+          fontSize: 10,
+          fontFamily: "Poppins",
+          color: FrontendConfigs.kIconColor,
+        ),
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         // currentIndex:getIndex,
@@ -81,7 +82,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                   width: 18,
                   'assets/svg/message.svg',
                   // ignore: deprecated_member_use
-                  color:_currentIndex == 1
+                  color: _currentIndex == 1
                       ? Colors.green
                       : FrontendConfigs.kIconColor,
                 ),
@@ -95,7 +96,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                   width: 16,
                   'assets/svg/wallet_icon.svg',
                   // ignore: deprecated_member_use
-                  color: _currentIndex== 2
+                  color: _currentIndex == 2
                       ? Colors.green
                       : FrontendConfigs.kIconColor,
                 ),

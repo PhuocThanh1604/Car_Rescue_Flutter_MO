@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
 
 class BottomBarWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -23,13 +23,13 @@ class BottomBarWidget extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color:FrontendConfigs.kAuthColor,
+                color: FrontendConfigs.kAuthColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: TextField(
                 textInputAction: TextInputAction.send,
                 controller: controller,
-                decoration:  const InputDecoration(
+                decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       vertical: 10.0,
                       horizontal: 20.0,
@@ -46,12 +46,14 @@ class BottomBarWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width:6,),
+          const SizedBox(
+            width: 6,
+          ),
           CircleAvatar(
             backgroundColor: Color(0xFF2DBB54),
             radius: 18,
             child: IconButton(
-              icon:SvgPicture.asset('assets/svg/send_icon.svg'),
+              icon: SvgPicture.asset('assets/svg/send_icon.svg'),
               color: Theme.of(context).primaryColor,
               onPressed: () {},
             ),

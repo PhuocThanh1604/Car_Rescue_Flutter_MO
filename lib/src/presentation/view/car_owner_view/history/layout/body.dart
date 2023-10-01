@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/history/campleted/completed_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/history/campleted/completed_view.dart';
 
 import '../canceled/canceled_view.dart';
 
@@ -14,7 +14,6 @@ class HistoryBody extends StatelessWidget {
         child: Column(
           children: [
             TabBar(
-
                 indicatorColor: FrontendConfigs.kPrimaryColor,
                 labelColor: FrontendConfigs.kPrimaryColor,
                 labelStyle: TextStyle(
@@ -39,8 +38,7 @@ class HistoryBody extends StatelessWidget {
               height: 18,
             ),
             const Expanded(
-              child: TabBarView(
-                  children: [CompletedView(), CanceledView()]),
+              child: TabBarView(children: [CompletedView(), CanceledView()]),
             ),
           ],
         ),

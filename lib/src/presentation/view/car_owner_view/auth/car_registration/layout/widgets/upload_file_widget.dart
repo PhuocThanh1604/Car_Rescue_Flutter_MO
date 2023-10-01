@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 class UploadFileWidget extends StatelessWidget {
-  const UploadFileWidget({Key? key, required this.btnLebal, required this.fileName})
+  const UploadFileWidget(
+      {Key? key, required this.btnLebal, required this.fileName})
       : super(key: key);
   final String btnLebal;
   final String fileName;
@@ -10,7 +11,7 @@ class UploadFileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomText(
           text: fileName,

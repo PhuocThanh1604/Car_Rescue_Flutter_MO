@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gillar/src/presentation/elements/app_button.dart';
-import 'package:gillar/src/presentation/view/select_mode/select_mode_view.dart';
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
+import 'package:CarRescue/src/presentation/view/select_mode/select_mode_view.dart';
 
 import 'layout/body.dart';
 

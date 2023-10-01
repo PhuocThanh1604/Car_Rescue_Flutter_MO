@@ -4,10 +4,10 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/layout/driver_profile_widget.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/trip_details/layout/widgets/trip_details_card.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/layout/driver_profile_widget.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/trip_details/layout/widgets/trip_details_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -78,7 +78,9 @@ class TripDetailsBodyState extends State<TripDetailsBody> {
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(children: [
             const RideSelectionCard(),
-            const SizedBox(height:8,),
+            const SizedBox(
+              height: 8,
+            ),
             SizedBox(
               height: 200,
               child: GoogleMap(
@@ -92,17 +94,19 @@ class TripDetailsBodyState extends State<TripDetailsBody> {
                 },
               ),
             ),
-            const SizedBox(height:8,),
+            const SizedBox(
+              height: 8,
+            ),
             Card(
-              elevation:0.5,
-              shape:OutlineInputBorder(
-                borderRadius:BorderRadius.circular(8),borderSide:BorderSide.none
-              ),
+              elevation: 0.5,
+              shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none),
               child: SizedBox(
-                height:87,
-                width:MediaQuery.of(context).size.width,
+                height: 87,
+                width: MediaQuery.of(context).size.width,
                 child: Column(
-                  mainAxisAlignment:MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
                       text: "\$56.00",
@@ -119,22 +123,24 @@ class TripDetailsBodyState extends State<TripDetailsBody> {
                 ),
               ),
             ),
-            const SizedBox(height:8,),
+            const SizedBox(
+              height: 8,
+            ),
             Card(
-              elevation:0.5,
-              shape:OutlineInputBorder(
-                  borderRadius:BorderRadius.circular(8),borderSide:BorderSide.none
-              ),
+              elevation: 0.5,
+              shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none),
               child: SizedBox(
-                height:87,
-                width:MediaQuery.of(context).size.width,
+                height: 87,
+                width: MediaQuery.of(context).size.width,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:18.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Row(
-                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        mainAxisAlignment:MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
                             text: "14 min",
@@ -149,9 +155,12 @@ class TripDetailsBodyState extends State<TripDetailsBody> {
                           ),
                         ],
                       ),
-                      Container(width:1,color:FrontendConfigs.kIconColor,),
+                      Container(
+                        width: 1,
+                        color: FrontendConfigs.kIconColor,
+                      ),
                       Column(
-                        mainAxisAlignment:MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomText(
                             text: "10 km",
@@ -171,38 +180,75 @@ class TripDetailsBodyState extends State<TripDetailsBody> {
                 ),
               ),
             ),
-            const SizedBox(height:8,),
+            const SizedBox(
+              height: 8,
+            ),
             Card(
-              elevation:0.5,
-              shape:OutlineInputBorder(
-                  borderRadius:BorderRadius.circular(8),borderSide:BorderSide.none
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  children: [
-                    const TripRowWidget(title: 'Date & Time', value: 'Jul 10 2022',),
-                    const SizedBox(height:18,),
-                    const TripRowWidget(title: 'Payment Method', value: 'Credit Card',),
-                    const SizedBox(height:18,),
-                    const TripRowWidget(title: 'Service Type', value: 'E - Class',),
-                    const SizedBox(height:18,),
+                elevation: 0.5,
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none),
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Column(children: [
+                    const TripRowWidget(
+                      title: 'Date & Time',
+                      value: 'Jul 10 2022',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const TripRowWidget(
+                      title: 'Payment Method',
+                      value: 'Credit Card',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const TripRowWidget(
+                      title: 'Service Type',
+                      value: 'E - Class',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
                     Row(
-                      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                      CustomText(text: 'Your Ratted',fontSize:16,fontWeight:FontWeight.w300,),
-                      SvgPicture.asset('assets/svg/rating.svg')
-                    ],),
-                    const SizedBox(height:18,),
-                    const TripRowWidget(title: 'Trip Fare', value: '\$48.00',),
-                    const SizedBox(height:18,),
-                    const TripRowWidget(title: '+Tax', value: '\$2.00',),
-                    const SizedBox(height:18,),
-                    const TripRowWidget(title: '+Tolls', value: '\$6.00',),
-                    const SizedBox(height:18,),
-             ] ),
-              ))
-
+                        CustomText(
+                          text: 'Your Ratted',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        SvgPicture.asset('assets/svg/rating.svg')
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const TripRowWidget(
+                      title: 'Trip Fare',
+                      value: '\$48.00',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const TripRowWidget(
+                      title: '+Tax',
+                      value: '\$2.00',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    const TripRowWidget(
+                      title: '+Tolls',
+                      value: '\$6.00',
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                  ]),
+                ))
           ]),
         ),
       ),

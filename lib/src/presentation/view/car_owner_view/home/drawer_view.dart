@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/history/history_view.dart';
-import 'package:gillar/src/presentation/view/car_owner_view/home/home_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/history/history_view.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/home/home_view.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class DrawerView extends StatelessWidget {
     return SizedBox(
       width: 240,
       child: Drawer(
-        backgroundColor:Colors.white,
+        backgroundColor: Colors.white,
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
@@ -47,10 +47,14 @@ class DrawerView extends StatelessWidget {
                   ],
                 )),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
-                leading: SvgPicture.asset("assets/svg/home_icon.svg",height:20,width:20,),
+                leading: SvgPicture.asset(
+                  "assets/svg/home_icon.svg",
+                  height: 20,
+                  width: 20,
+                ),
                 title: CustomText(
                   text: 'Home',
                   color: FrontendConfigs.kIconColor,
@@ -61,10 +65,14 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
-                leading: SvgPicture.asset("assets/svg/person_icon.svg",height:18,width:18,),
+                leading: SvgPicture.asset(
+                  "assets/svg/person_icon.svg",
+                  height: 18,
+                  width: 18,
+                ),
                 title: CustomText(
                   text: 'Profile',
                   color: FrontendConfigs.kIconColor,
@@ -75,7 +83,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -94,7 +102,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -113,7 +121,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -127,12 +135,15 @@ class DrawerView extends StatelessWidget {
                   color: FrontendConfigs.kIconColor,
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const HistoryView()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryView()));
                 },
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -151,7 +162,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -170,7 +181,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -189,7 +200,7 @@ class DrawerView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
@@ -207,14 +218,13 @@ class DrawerView extends StatelessWidget {
                 },
               ),
             ),
-
             SizedBox(
-              height:40,
+              height: 40,
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
                   "assets/svg/exit.svg",
-                  color:Colors.red,
+                  color: Colors.red,
                   height: 20,
                   width: 20,
                 ),
@@ -227,7 +237,6 @@ class DrawerView extends StatelessWidget {
                 },
               ),
             )
-
           ],
         ),
       ),

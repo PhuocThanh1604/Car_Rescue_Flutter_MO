@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import '../../../layout/profile_widget.dart';
 import 'amount_widget.dart';
 
@@ -49,7 +49,9 @@ Future<void> showRatingSheet(context) {
               const SizedBox(
                 height: 8,
               ),
-               ProfileWidget(onTapped: () {  },),
+              ProfileWidget(
+                onTapped: () {},
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -97,7 +99,7 @@ Future<void> showRatingSheet(context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -114,15 +116,16 @@ Future<void> showRatingSheet(context) {
                     ),
                   ),
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       showTipSheet(context);
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: const Color(0xFF2DBB54),),
+                        borderRadius: BorderRadius.circular(6),
+                        color: const Color(0xFF2DBB54),
+                      ),
                       child: Center(
                           child: CustomText(
                         text: 'Submit',
@@ -184,7 +187,9 @@ Future<void> showTipSheet(context) {
               const SizedBox(
                 height: 8,
               ),
-               ProfileWidget(onTapped: () {  },),
+              ProfileWidget(
+                onTapped: () {},
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -203,12 +208,12 @@ Future<void> showTipSheet(context) {
                 height: 12,
               ),
               Row(
-                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                RiderTip(amount:'\$5', color:FrontendConfigs.kAuthColor),
-                RiderTip(amount:'\$10', color:FrontendConfigs.kAuthColor),
-                RiderTip(amount:'\$15', color:FrontendConfigs.kAuthColor),
-                RiderTip(amount:'\$20', color:FrontendConfigs.kAuthColor),
+                  RiderTip(amount: '\$5', color: FrontendConfigs.kAuthColor),
+                  RiderTip(amount: '\$10', color: FrontendConfigs.kAuthColor),
+                  RiderTip(amount: '\$15', color: FrontendConfigs.kAuthColor),
+                  RiderTip(amount: '\$20', color: FrontendConfigs.kAuthColor),
                 ],
               ),
               const SizedBox(
@@ -218,7 +223,7 @@ Future<void> showTipSheet(context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -235,15 +240,16 @@ Future<void> showTipSheet(context) {
                     ),
                   ),
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color:const Color(0xFF2DBB54),),
+                        borderRadius: BorderRadius.circular(6),
+                        color: const Color(0xFF2DBB54),
+                      ),
                       child: Center(
                           child: CustomText(
                         text: 'Pay Tip',

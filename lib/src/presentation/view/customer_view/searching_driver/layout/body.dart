@@ -3,12 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gillar/src/configuration/frontend_configs.dart';
-import 'package:gillar/src/presentation/elements/custom_text.dart';
-import 'package:gillar/src/presentation/view/customer_view/cancel_ride/cancel_ride_view.dart';
-import 'package:gillar/src/presentation/view/customer_view/driver_arriving/driver_arriving_view.dart';
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/cancel_ride/cancel_ride_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/driver_arriving/driver_arriving_view.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:slider_button/slider_button.dart';
+
 class SearchingDrivingBody extends StatefulWidget {
   @override
   State<SearchingDrivingBody> createState() => SearchingDrivingBodyState();
@@ -40,13 +41,12 @@ class SearchingDrivingBodyState extends State<SearchingDrivingBody> {
 
   Future setSourceAndDestinationIcons() async {
     final Uint8List icon1 =
-    await getBytesFromAsset('assets/images/driver_marker.png', 240);
+        await getBytesFromAsset('assets/images/driver_marker.png', 240);
 
     destinationIcon = await BitmapDescriptor.fromBytes(icon1);
     setState(() {});
     return Future.value(true);
   }
-
 
   Timer? _timer;
 
@@ -63,71 +63,93 @@ class SearchingDrivingBodyState extends State<SearchingDrivingBody> {
     });
     _timer = Timer(
         const Duration(seconds: 5),
-            () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) =>  const DriverArrivingView())));
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const DriverArrivingView())));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print(markers.length);
-    return  Stack(children: [
-        GoogleMap(
-          zoomControlsEnabled: false,
-          mapType: MapType.normal,
-          mapToolbarEnabled: false,
-          markers: markers,
-          initialCameraPosition: _kGooglePlex,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ),
+    return Stack(children: [
+      GoogleMap(
+        zoomControlsEnabled: false,
+        mapType: MapType.normal,
+        mapToolbarEnabled: false,
+        markers: markers,
+        initialCameraPosition: _kGooglePlex,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
       Positioned.fill(
-        top:100,
+        top: 100,
         child: Column(
           children: [
-          Container(
-            height:61,
-            width:61,
-            decoration:BoxDecoration(
-              borderRadius:BorderRadius.circular(100),
-                color:const Color(0xFF2DBB54),
-            ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SvgPicture.asset("assets/svg/car_icon.svg",),
-              )),
+            Container(
+                height: 61,
+                width: 61,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color(0xFF2DBB54),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SvgPicture.asset(
+                    "assets/svg/car_icon.svg",
+                  ),
+                )),
             Transform.translate(
-              offset:const Offset(0,-1),
-                child: SvgPicture.asset("assets/svg/polygon.svg",color:Color(0xFF2DBB54),)),
-            const SizedBox(height:6,),
-            CustomText(text: "Searching Ride...",fontSize:16,fontWeight:FontWeight.w600,),
-            const SizedBox(height:6,),
-            CustomText(text: "This may take a few seconds...",fontSize:16,fontWeight:FontWeight.w400,),
-        ],),
+                offset: const Offset(0, -1),
+                child: SvgPicture.asset(
+                  "assets/svg/polygon.svg",
+                  color: Color(0xFF2DBB54),
+                )),
+            const SizedBox(
+              height: 6,
+            ),
+            CustomText(
+              text: "Searching Ride...",
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            CustomText(
+              text: "This may take a few seconds...",
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ],
+        ),
       ),
       Align(
-        alignment:Alignment.bottomCenter,
+        alignment: Alignment.bottomCenter,
         child: SliderButton(
-          shimmer:true,
-          baseColor:Colors.white,
-          buttonSize:45,
-          height:60,
-          width:200,
-          backgroundColor:Colors.green,
+          shimmer: true,
+          baseColor: Colors.white,
+          buttonSize: 45,
+          height: 60,
+          width: 200,
+          backgroundColor: Colors.green,
           action: () {
-          _timer!.cancel();
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>const CancelRideView()));
+            _timer!.cancel();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CancelRideView()));
           },
           label: const Text(
             ">>> Slide to cancel",
             style: TextStyle(
-                color:Colors.white, fontWeight: FontWeight.w500, fontSize: 14),
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14),
           ),
-          icon:SvgPicture.asset("assets/svg/cancel_icon.svg"),
+          icon: SvgPicture.asset("assets/svg/cancel_icon.svg"),
         ),
       )
-
     ]);
   }
 }
