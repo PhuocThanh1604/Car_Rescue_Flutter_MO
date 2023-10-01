@@ -1,0 +1,57 @@
+name: gillar
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.5
+  dots_indicator: ^3.0.0
+  country_calling_code_picker: ^2.0.1
+  pinput: ^2.2.16
+  google_maps_flutter: ^2.2.1
+  geolocator: ^10.0.1
+  flutter_google_places: ^0.3.0
+  sliding_up_panel: ^2.0.0+1
+  dotted_line: ^3.1.0
+  slider_button: ^2.0.0
+  flutter_rating_bar: ^4.0.1
+  change_app_package_name: ^1.1.0
+  permission_handler: ^10.2.0
+  http: ^0.13.1
+  google_sign_in: ^6.1.4
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  # flutter_osm_plugin: ^0.60.4
+
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+  flutter_test:
+    sdk: flutter
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/svg/
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+

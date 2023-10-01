@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387575068560",
+    "project_id": "car-rescue-399511",
+    "storage_bucket": "car-rescue-399511.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387575068560:android:36e80e2114d16c130a2515",
+        "android_client_info": {
+          "package_name": "com.infusibleCoder.raido"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZmPE0cCErk-nZtza3mDsXwIKLhS2s8Jg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
