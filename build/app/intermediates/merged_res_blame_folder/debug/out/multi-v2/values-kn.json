@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\FPT learning\\Capstone\\Capstone_Car_Rescuse_Code\\MO\\CarRescue_flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-kn\\values-kn.xml",
+            "outputFile": "C:\\Users\\zeddr\\Desktop\\flutter_projects\\Car_Rescue_Flutter_MO-main\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-kn\\values-kn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\266ae46e80a76bb57c5f456e82198a50\\transformed\\jetified-play-services-basement-18.2.0\\res\\values-kn\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "141",
-                        "endOffsets": "336"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1063",
-                        "endColumns": "145",
-                        "endOffsets": "1204"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\31cf818a6376c7d2a0421b99ffb662ea\\transformed\\browser-1.4.0\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\31cf818a6376c7d2a0421b99ffb662ea\\transformed\\browser-1.4.0\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\c1f8c020d7996e8d7c3388e68d913600\\transformed\\jetified-play-services-base-18.1.0\\res\\values-kn\\values.xml",
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\c1f8c020d7996e8d7c3388e68d913600\\transformed\\jetified-play-services-base-18.1.0\\res\\values-kn\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -55,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\eff40c8f408e0d9cf9f3182c61048f88\\transformed\\core-1.9.0\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\266ae46e80a76bb57c5f456e82198a50\\transformed\\jetified-play-services-basement-18.2.0\\res\\values-kn\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "141",
+                        "endOffsets": "336"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1063",
+                        "endColumns": "145",
+                        "endOffsets": "1204"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\eff40c8f408e0d9cf9f3182c61048f88\\transformed\\core-1.9.0\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

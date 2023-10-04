@@ -18,9 +18,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   final List<SliderPage> _pageList = [
     SliderPage(
       svg: 'assets/svg/onboarding_one.svg',
-      body: 'We provide easy cab booking solutuin with ',
+      body: 'We provide easy car rescue booking solution with ',
       title: 'Easy booking',
-      subBody: ' reasonable price. ',
+      subBody: ' reasonable price and fastest service. ',
     ),
     SliderPage(
       svg: 'assets/svg/onboarding_two.svg',
@@ -30,7 +30,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     ),
     SliderPage(
       svg: 'assets/svg/onboarding_three.svg',
-      body: 'Lets make your day great wth GILAR right now',
+      body: 'Lets make your day great wth CRS right now',
       title: 'Lets Get Started',
       subBody: '',
     )
@@ -107,7 +107,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     dotsCount: 3,
                     position: int.parse(pageIndex.toString()),
                     decorator: DotsDecorator(
-                      activeColor: const Color(0xFF2DBB54),
+                      activeColor: const Color(0xFFC68642),
                       color: FrontendConfigs.kIconColor,
                       size: const Size.square(9.0),
                       activeSize: const Size(27.0, 8.0),

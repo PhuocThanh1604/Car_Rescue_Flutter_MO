@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\FPT learning\\Capstone\\Capstone_Car_Rescuse_Code\\MO\\CarRescue_flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rCA\\values-en-rCA.xml",
+            "outputFile": "C:\\Users\\zeddr\\Desktop\\flutter_projects\\Car_Rescue_Flutter_MO-main\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rCA\\values-en-rCA.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\eff40c8f408e0d9cf9f3182c61048f88\\transformed\\core-1.9.0\\res\\values-en-rCA\\values-en-rCA.xml",
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\eff40c8f408e0d9cf9f3182c61048f88\\transformed\\core-1.9.0\\res\\values-en-rCA\\values-en-rCA.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\31cf818a6376c7d2a0421b99ffb662ea\\transformed\\browser-1.4.0\\res\\values-en-rCA\\values-en-rCA.xml",
+                    "source": "C:\\Users\\zeddr\\.gradle\\caches\\transforms-3\\31cf818a6376c7d2a0421b99ffb662ea\\transformed\\browser-1.4.0\\res\\values-en-rCA\\values-en-rCA.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
