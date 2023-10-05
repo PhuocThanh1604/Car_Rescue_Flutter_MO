@@ -47,13 +47,13 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         selectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 10,
-          fontFamily: "Poppins",
+          fontFamily: "Montserrat",
           color: FrontendConfigs.kPrimaryColor,
         ),
         unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 10,
-          fontFamily: "Poppins",
+          fontFamily: "Montserrat",
           color: FrontendConfigs.kIconColor,
         ),
         onTap: onTabTapped,

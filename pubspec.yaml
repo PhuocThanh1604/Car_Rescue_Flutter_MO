@@ -30,6 +30,8 @@ dependencies:
   google_sign_in: ^6.1.4
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
+  table_calendar: ^3.0.9
+  syncfusion_flutter_calendar: ^23.1.39
   # flutter_osm_plugin: ^0.60.4
 
 
@@ -51,7 +53,7 @@ flutter:
     - assets/images/
     - assets/svg/
   fonts:
-    - family: Poppins
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
 

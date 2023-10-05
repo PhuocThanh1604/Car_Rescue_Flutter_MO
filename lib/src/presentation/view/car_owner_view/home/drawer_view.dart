@@ -56,7 +56,7 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Home',
+                  text: 'Home1',
                   color: FrontendConfigs.kIconColor,
                 ),
                 onTap: () {

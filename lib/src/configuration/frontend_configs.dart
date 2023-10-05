@@ -8,5 +8,5 @@ class FrontendConfigs {
       color: Color(0xFF333333),
       fontWeight: FontWeight.w500,
       fontSize: 32,
-      fontFamily: "Poppins");
+      fontFamily: "Montserrat");
 }

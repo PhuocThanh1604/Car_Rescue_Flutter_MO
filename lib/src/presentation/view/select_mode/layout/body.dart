@@ -1,3 +1,4 @@
+import 'package:CarRescue/src/presentation/view/technician_view/auth/log_in/log_in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
@@ -78,16 +79,6 @@ class SelectModeBody extends StatelessWidget {
               ),
               AppButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Text('abc')));
-                },
-                btnLabel: "I’m a Technician",
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              AppButton(
-                onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -103,9 +94,21 @@ class SelectModeBody extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
+                          builder: (context) => TechnicianLogInView()));
+                },
+                btnLabel: "I’m a Technician",
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              AppButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
                           builder: (context) => const DriverLogInView()));
                 },
-                btnLabel: "I’am a Driver",
+                btnLabel: "I’m a Rescue Car Owner",
               )
             ],
           ),

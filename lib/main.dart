@@ -16,7 +16,7 @@ import 'package:CarRescue/src/presentation/view/splash_screen/splash_view.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(fontFamily: "Poppins"),
+    theme: ThemeData(fontFamily: "Montserrat"),
     home: const SplashView(),
   ));
 }
