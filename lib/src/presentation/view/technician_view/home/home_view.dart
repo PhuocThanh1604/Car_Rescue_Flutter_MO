@@ -1,6 +1,6 @@
 import 'package:CarRescue/src/presentation/view/technician_view/home/layout/body.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
@@ -21,29 +21,47 @@ class TechnicianHomeView extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: Color.fromARGB(255, 126, 65, 0),
+              color: Color.fromARGB(0, 0, 0, 0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                'assets/images/logo-no-background.png',
-                width: 50,
-                height: 50,
+              padding: const EdgeInsets.all(0.0),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/logo-no-background.png',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit
+                      .cover, // Optional, you can adjust the BoxFit as needed
+                ),
               ),
             ),
           ),
         ),
         title: CustomText(
           fontWeight: FontWeight.bold,
-          text: 'Home',
+          text: 'Trang chủ',
           fontSize: 16,
           color: FrontendConfigs.kPrimaryColor,
         ),
         centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Center(
+              child: CustomText(
+                text: 'Xin chào, Hieu',
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: Colors.black, // Màu chữ nâu
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
-          color: const Color.fromARGB(255, 126, 61, 61),
-          child: TechncianHomePageBody()),
+        color: const Color.fromARGB(255, 126, 61, 61),
+        child: TechncianHomePageBody(),
+      ),
     );
   }
 }

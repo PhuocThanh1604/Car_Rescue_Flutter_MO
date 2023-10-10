@@ -1,6 +1,9 @@
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/view/technician_view/home/layout/widgets/scheduling_task.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../../../models/work_shift.dart';
+import 'package:intl/intl.dart';
 
 class MyCalendarPage extends StatefulWidget {
   @override
@@ -40,51 +43,34 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: FrontendConfigs.kBackgrColor, // Background color
       body: SingleChildScrollView(
+        // Wrap your column with a SingleChildScrollView
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // Custom Calendar Header
-            SizedBox(
-              height: 10,
-            ),
+            // Container for "Works Schedule" with line underneath
             Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFE0AC69),
-                    Color(0xFF8D5524)
-                  ], // Customize gradient colors here
+              // Container background color
+
+              color: Colors.white,
+              padding: const EdgeInsets.only(
+                  left: 17, top: 8, right: 17, bottom: 8), // Adjust padding
+              child: Text(
+                'Lịch làm việc',
+                style: TextStyle(
+                  color: Colors.black, // Text color
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                borderRadius:
-                    BorderRadius.circular(8.0), // Optional: Add rounded corners
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Today works', // Updated header text
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(Icons.calendar_month),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  // Add any additional header elements or widgets here
-                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(1.0),
+
+            SizedBox(height: 2), // Adjust the spacing as needed
+
+            // Table Calendar
+            Container(
+              color: Colors.white, // Container background color
               child: TableCalendar(
                 calendarFormat: _calendarFormat,
                 focusedDay: _focusedDay,
@@ -113,11 +99,13 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
                     );
 
                     // Display the shift details as a modal bottom sheet
-                    _showShiftDetailsModal(context, _selectedShift);
+                    _showSchedulingCard(context, selectedDay);
                   });
                 },
               ),
             ),
+
+            // Divider line under "Active Booking"
           ],
         ),
       ),
@@ -125,7 +113,8 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
   }
 
   // Function to show the shift details as a modal bottom sheet
-  void _showShiftDetailsModal(BuildContext context, ShiftDetails shift) {
+  void _showSchedulingCard(BuildContext context, DateTime selectedDay) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(selectedDay);
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -138,43 +127,33 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
           child: Container(
             width: double.infinity,
             padding: EdgeInsets.all(16),
+            color: Colors.white, // Container background color
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Shift Details',
+                  'Chi tiết',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black, // Text color
                   ),
                 ),
                 SizedBox(height: 12),
-                Text(
-                  'Date: ${shift.date.toLocal()}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Time: ${shift.time}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Number of Slots: ${shift.numberOfSlots.toString()}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Manager: ${shift.managerName}',
-                  style: TextStyle(fontSize: 16),
+                TaskSchedulingCard(
+                  taskTitle: 'Today Work',
+                  taskTime: '9:00 AM - 21:00 PM',
+                  taskDescription:
+                      'Discuss project requirements and finalize the contract details.',
+                  taskCreated: '${formattedDate}',
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context); // Close the modal
                   },
-                  child: Text('Close'),
+                  child: Text('Đóng'),
                 ),
               ],
             ),

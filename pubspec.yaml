@@ -32,6 +32,8 @@ dependencies:
   firebase_auth: ^4.7.2
   table_calendar: ^3.0.9
   syncfusion_flutter_calendar: ^23.1.39
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
   # flutter_osm_plugin: ^0.60.4
 
 
@@ -56,4 +58,5 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Regular.ttf
+
 

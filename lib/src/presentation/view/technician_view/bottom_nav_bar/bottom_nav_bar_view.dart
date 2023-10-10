@@ -1,9 +1,10 @@
+import 'package:CarRescue/src/presentation/view/technician_view/booking_list/booking_view.dart';
+import 'package:CarRescue/src/presentation/view/technician_view/notification/notification_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/wallet/wallet_view.dart';
-import '../chat_details/chat_view.dart';
+import 'package:CarRescue/src/presentation/view/technician_view/profile/profile_view.dart';
+
 import '../home/home_view.dart';
 
 class BottomNavBarView extends StatefulWidget {
@@ -17,8 +18,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     TechnicianHomeView(),
-    const ChatDetailsView(),
-    const WalletView(),
+    const BookingListView(),
+    const NotificationView(),
     const ProfileView()
   ];
 
@@ -73,7 +74,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                       : FrontendConfigs.kIconColor,
                 ),
               ),
-              label: "Home"),
+              label: "Trang chủ"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
@@ -87,7 +88,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                       : FrontendConfigs.kIconColor,
                 ),
               ),
-              label: "Booking"),
+              label: "Đơn làm việc"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
@@ -101,7 +102,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                       : FrontendConfigs.kIconColor,
                 ),
               ),
-              label: "Notification"),
+              label: "Thông báo"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
@@ -115,7 +116,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                   width: 18,
                 ),
               ),
-              label: "Profile"),
+              label: "Cá nhân"),
         ],
       ),
     );

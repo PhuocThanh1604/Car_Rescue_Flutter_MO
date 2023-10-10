@@ -1,8 +1,8 @@
+import 'package:CarRescue/src/presentation/view/technician_view/auth/log_in/log_in_view.dart';
+import 'package:CarRescue/src/presentation/view/technician_view/edit_profile/edit_profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
-
-import '../../../../../configuration/frontend_configs.dart';
 import 'row_widget.dart';
 
 class ProfileBody extends StatefulWidget {
@@ -52,7 +52,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       height: 18,
                     ),
                     CustomText(
-                      text: "Andrew Johns",
+                      text: "Hieu Phan",
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -60,7 +60,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       height: 7,
                     ),
                     CustomText(
-                      text: '+1 343-234-4544',
+                      text: '+84 0123456768',
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     )
@@ -74,60 +74,13 @@ class _ProfileBodyState extends State<ProfileBody> {
             SettingWidget(
               icon: "assets/svg/user.svg",
               title: "John_wick",
-              name: 'Edit profile',
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            SettingWidget(
-              icon: "assets/svg/notification_icon.svg",
-              title: "+966 1114141",
-              name: 'Notification',
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            SettingWidget(
-              icon: "assets/svg/wallet_icon.svg",
-              title: "Payment",
-              name: 'Payment',
-              height: 16,
-              weight: 16,
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SettingWidget(
-                    icon: "assets/svg/language.svg",
-                    title: "",
-                    name: 'Language',
-                    isShow: true,
-                    onTap: () {},
-                  ),
-                  Row(
-                    children: const [
-                      Text("English (US)",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w400)),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                      ),
-                    ],
-                  )
-                ],
-              ),
+              name: 'Chỉnh sửa thông tin',
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfileView()));
+              },
             ),
             const SizedBox(
               height: 24,
@@ -135,7 +88,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             SettingWidget(
               icon: "assets/svg/privacy.svg",
               title: "John_wick",
-              name: 'Privacy Policy',
+              name: 'Chính sách riêng tư',
               onTap: () {},
             ),
             const SizedBox(
@@ -144,14 +97,24 @@ class _ProfileBodyState extends State<ProfileBody> {
             SettingWidget(
               icon: "assets/svg/help_center.svg",
               title: "",
-              name: 'Help Center',
+              name: 'Trung tâm hỗ trợ',
               onTap: () {},
             ),
             const SizedBox(
               height: 24,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () async {
+                // Perform logout actions (e.g., clear session, remove tokens, etc.)
+
+                // Navigate to the login screen and replace the current screen
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TechnicianLogInView(),
+                  ),
+                );
+              },
               child: Row(
                 children: [
                   SvgPicture.asset(
@@ -163,15 +126,16 @@ class _ProfileBodyState extends State<ProfileBody> {
                     width: 18,
                   ),
                   Text(
-                    "Log out",
+                    "Đăng xuất",
                     style: TextStyle(
-                        color: redColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
+                      color: redColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
