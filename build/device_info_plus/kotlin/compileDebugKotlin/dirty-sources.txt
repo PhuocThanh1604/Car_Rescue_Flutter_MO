@@ -1,2 +1,0 @@
-C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\kotlin\dev\fluttercommunity\plus\device_info\DeviceInfoPlusPlugin.kt
-C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\kotlin\dev\fluttercommunity\plus\device_info\MethodCallHandlerImpl.kt

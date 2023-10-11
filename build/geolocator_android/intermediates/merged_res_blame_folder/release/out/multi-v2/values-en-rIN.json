@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\geolocator_android\\intermediates\\merged_res\\release\\values-en-rIN\\values-en-rIN.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\geolocator_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-en-rIN\\values-en-rIN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0922f29a6ed9b7a97060e93c21aa9884\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\827f1d0a1c189be24837870e84fd605d\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\geolocator_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-en-rIN\\values-en-rIN.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\geolocator_android\\intermediates\\merged_res\\release\\values-en-rIN\\values-en-rIN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0922f29a6ed9b7a97060e93c21aa9884\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\827f1d0a1c189be24837870e84fd605d\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

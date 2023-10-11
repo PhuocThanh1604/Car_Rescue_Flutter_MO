@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\geolocator_android\\intermediates\\merged_res\\release\\values-mr\\values-mr.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\geolocator_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-mr\\values-mr.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\b6b6aa13e988648470d75497845ae820\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-mr\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\a830c493904021abd4f946887f1173a5\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-mr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0922f29a6ed9b7a97060e93c21aa9884\\transformed\\core-1.9.0\\res\\values-mr\\values-mr.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\827f1d0a1c189be24837870e84fd605d\\transformed\\core-1.9.0\\res\\values-mr\\values-mr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\f6756aef245ade1f42e84bd4214e2821\\transformed\\jetified-play-services-base-18.1.0\\res\\values-mr\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\49fabfebfcd9f697d0c39a5092d917d3\\transformed\\jetified-play-services-base-18.1.0\\res\\values-mr\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -57,10 +57,10 @@
             ]
         },
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\geolocator_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-mr\\values-mr.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\geolocator_android\\intermediates\\merged_res\\release\\values-mr\\values-mr.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\b6b6aa13e988648470d75497845ae820\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-mr\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\a830c493904021abd4f946887f1173a5\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-mr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -77,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\0922f29a6ed9b7a97060e93c21aa9884\\transformed\\core-1.9.0\\res\\values-mr\\values-mr.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\827f1d0a1c189be24837870e84fd605d\\transformed\\core-1.9.0\\res\\values-mr\\values-mr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -94,7 +94,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\f6756aef245ade1f42e84bd4214e2821\\transformed\\jetified-play-services-base-18.1.0\\res\\values-mr\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\49fabfebfcd9f697d0c39a5092d917d3\\transformed\\jetified-play-services-base-18.1.0\\res\\values-mr\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",

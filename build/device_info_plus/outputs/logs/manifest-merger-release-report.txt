@@ -13,6 +13,12 @@ uses-sdk
 INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
 INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml
 		ADDED from C:\Users\Admin\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-9.0.3\android\src\main\AndroidManifest.xml

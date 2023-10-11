@@ -20,7 +20,7 @@ class CustomTextField extends StatefulWidget {
 
   bool isPassword;
   TextEditingController? controller;
-  final VoidCallback onTap;
+  final Function onTap;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -38,10 +38,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           hintText: widget.text,
           hintStyle: TextStyle(
-              color: FrontendConfigs.kIconColor,
-              fontSize: 14,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w400),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
@@ -65,7 +62,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               : null,
           filled: true,
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
             child: SvgPicture.asset(
               widget.icon,
             ),

@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\google_maps_flutter_android\\intermediates\\merged_res\\release\\values-sw\\values-sw.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\google_maps_flutter_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-sw\\values-sw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\2040db21043db050b5258e40127bc893\\transformed\\core-1.6.0\\res\\values-sw\\values-sw.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2316",
-                        "endColumns": "100",
-                        "endOffsets": "2412"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\27bd69ffb6f7393686681e5ba72d93f4\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-sw\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\717e13d579c1064e63fad1ee6d80617a\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-sw\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\50ad38cb4f1ff2cd95f13513a3b3be95\\transformed\\jetified-play-services-base-18.0.1\\res\\values-sw\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\8ac54b1a19bf841181b539c605e73150\\transformed\\jetified-play-services-base-18.0.1\\res\\values-sw\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -52,32 +35,32 @@
                         "startOffsets": "55,159,315,440,549,712,837,956,1216,1381,1487,1641,1768,1918,2077,2145,2220",
                         "endColumns": "103,155,124,108,162,124,118,113,164,105,153,126,149,158,67,74,95",
                         "endOffsets": "154,310,435,544,707,832,951,1065,1376,1482,1636,1763,1913,2072,2140,2215,2311"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\1d97968c7c6c12adaf59aa092cb6f825\\transformed\\core-1.6.0\\res\\values-sw\\values-sw.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2316",
+                        "endColumns": "100",
+                        "endOffsets": "2412"
                     }
                 }
             ]
         },
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\google_maps_flutter_android\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-sw\\values-sw.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\google_maps_flutter_android\\intermediates\\merged_res\\release\\values-sw\\values-sw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\2040db21043db050b5258e40127bc893\\transformed\\core-1.6.0\\res\\values-sw\\values-sw.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2316",
-                        "endColumns": "100",
-                        "endOffsets": "2412"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\27bd69ffb6f7393686681e5ba72d93f4\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-sw\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\717e13d579c1064e63fad1ee6d80617a\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-sw\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -94,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\50ad38cb4f1ff2cd95f13513a3b3be95\\transformed\\jetified-play-services-base-18.0.1\\res\\values-sw\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\8ac54b1a19bf841181b539c605e73150\\transformed\\jetified-play-services-base-18.0.1\\res\\values-sw\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -108,6 +91,23 @@
                         "startOffsets": "55,159,315,440,549,712,837,956,1216,1381,1487,1641,1768,1918,2077,2145,2220",
                         "endColumns": "103,155,124,108,162,124,118,113,164,105,153,126,149,158,67,74,95",
                         "endOffsets": "154,310,435,544,707,832,951,1065,1376,1482,1636,1763,1913,2072,2140,2215,2311"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\1d97968c7c6c12adaf59aa092cb6f825\\transformed\\core-1.6.0\\res\\values-sw\\values-sw.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2316",
+                        "endColumns": "100",
+                        "endOffsets": "2412"
                     }
                 }
             ]

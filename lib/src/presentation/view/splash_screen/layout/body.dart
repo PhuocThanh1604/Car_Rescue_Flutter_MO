@@ -29,7 +29,7 @@ class _SplashBodyState extends State<SplashBody> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/images/logo.png",
+            "assets/images/logocarescue.png",
             height: 200,
             width: 200,
           ),

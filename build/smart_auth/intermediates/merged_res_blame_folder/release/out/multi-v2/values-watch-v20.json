@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\smart_auth\\intermediates\\merged_res\\release\\values-watch-v20\\values-watch-v20.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\smart_auth\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\c94870f46e8f1c0998d079a430a46e15\\transformed\\jetified-play-services-auth-20.4.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\5e9ef7f57cc016b6186db8fb65f25fbb\\transformed\\jetified-play-services-auth-20.4.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -23,10 +23,10 @@
             ]
         },
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\smart_auth\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\smart_auth\\intermediates\\merged_res\\release\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\c94870f46e8f1c0998d079a430a46e15\\transformed\\jetified-play-services-auth-20.4.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\5e9ef7f57cc016b6186db8fb65f25fbb\\transformed\\jetified-play-services-auth-20.4.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\device_info_plus\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-iw\\values-iw.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\device_info_plus\\intermediates\\merged_res\\release\\values-iw\\values-iw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\2040db21043db050b5258e40127bc893\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\1d97968c7c6c12adaf59aa092cb6f825\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "E:\\Capstone\\raido_flutter_UI\\raido_flutter_UI\\build\\device_info_plus\\intermediates\\merged_res\\release\\values-iw\\values-iw.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\device_info_plus\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-iw\\values-iw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\2040db21043db050b5258e40127bc893\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\1d97968c7c6c12adaf59aa092cb6f825\\transformed\\core-1.6.0\\res\\values-iw\\values-iw.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
