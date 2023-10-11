@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\FPT learning\\Capstone\\Capstone_Car_Rescuse_Code\\MO\\CarRescue_flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
+            "outputFile": "E:\\Capstone\\Car_Rescue_Flutter_MO\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MrThanh\\.gradle\\caches\\transforms-3\\889cc9cf4c8f049aa4a55c558ecbd8d2\\transformed\\jetified-play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\30372c897d470a6fe00b912c727ad86d\\transformed\\jetified-play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
