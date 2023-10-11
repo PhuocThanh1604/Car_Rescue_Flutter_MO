@@ -1,24 +1,26 @@
 import 'dart:async';
 import 'dart:ui' as ui;
+import 'package:CarRescue/src/enviroment/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:google_place/google_place.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
-import 'package:CarRescue/src/providers/location_provider.dart';
+import 'package:CarRescue/src/providers/google_map_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'layout/bottom_sheets/pick_up_sheet.dart';
 import 'layout/widget/home_field.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:google_maps_webservice/places.dart' as place;
 
 class HomeView extends StatefulWidget {
   @override
   State<HomeView> createState() => HomeViewState();
 }
 
-const _kGoogleApiKey = 'AIzaSyB2fhukchi90Nc1P1i-9s2kJRjlEpw4r0k';
 final GlobalKey<ScaffoldMessengerState> homeScaffoldKey =
     GlobalKey<ScaffoldMessengerState>();
 
@@ -27,8 +29,7 @@ class HomeViewState extends State<HomeView> {
   // final TextEditingController _dropLocationController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController controller;
-  LocationService service = LocationService();
-  // final Mode _mode = Mode.overlay;
+  LocationProvider service = LocationProvider();
   StreamSubscription<Position>? _positionStreamSubscription;
   late LatLng _latLng;
   Position? position;
@@ -53,6 +54,7 @@ class HomeViewState extends State<HomeView> {
     startListeningToLocationUpdates();
   }
 
+  List<Prediction> predictions = [];
   Set<Marker> markers = {};
   // static const CameraPosition _kLake = CameraPosition(
   //   bearing: 192.8334901395799,
@@ -163,15 +165,16 @@ class HomeViewState extends State<HomeView> {
     _isMounted = true;
     requestLocationPermission();
     setSourceAndDestinationIcons();
-    Timer(
-      const Duration(seconds: 5),
-      () => piUpLocationBottomSheet(context),
-    );
+    // Timer(
+    //   const Duration(seconds: 5),
+    //   () => piUpLocationBottomSheet(context),
+    // );
   }
 
   @override
   void dispose() {
     _isMounted = false;
+    _pickUpController.dispose();
     super.dispose();
     // Cancel sự kiện async trong dispose
     _positionStreamSubscription?.cancel();
@@ -235,19 +238,30 @@ class HomeViewState extends State<HomeView> {
                     hint: 'Enter your pickup location',
                     controller: _pickUpController,
                     inputType: TextInputType.text,
+                    onTextChanged: onSearchTextChanged,
+                   ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: predictions.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(predictions[index].description!),
+                          onTap: () {
+                            // Xử lý khi người dùng chọn một dự đoán
+                            print(predictions[index].description);
+                            // Có thể thực hiện thêm các thao tác sau khi chọn dự đoán
+                            searchAndMoveCamera(predictions[index].description!);
+                          },
+                        );
+                      },
+                    ),
                   ),
-                  const SizedBox(height: 18),
-                  // HomeField(
-                  //   svg: 'assets/svg/location_icon.svg',
-                  //   hint: 'Where you want to go?',
-                  //   controller: _dropLocationController,
-                  //   inputType: TextInputType.text,
-                  // ),
                   AppButton(
                       onPressed: () {
                         // _handlePressButton();
                         stopListeningToLocationUpdates();
                         searchAndMoveCamera(_pickUpController.text);
+                        
                       },
                       btnLabel: "Confirm Location"),
                 ],
@@ -259,6 +273,18 @@ class HomeViewState extends State<HomeView> {
     );
   }
 
+  void onSearchTextChanged(String query) async {
+    try {
+      final response = await service.getPlacePredictions(query);
+      setState(() {
+        predictions = response.predictions;
+      });
+      print(predictions[0].description);
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   // Future<void> _handlePressButton() async {
   //   stopListeningToLocationUpdates();
   //   Prediction? p = await PlacesAutocomplete.show(
@@ -266,7 +292,7 @@ class HomeViewState extends State<HomeView> {
   //       apiKey: _kGoogleApiKey,
   //       onError: onError,
   //       mode: _mode,
-  //       language: 'en',
+  //       language: 'vn',
   //       strictbounds: false,
   //       types: [""],
   //       decoration: InputDecoration(
@@ -275,7 +301,7 @@ class HomeViewState extends State<HomeView> {
   //             borderRadius: BorderRadius.circular(20),
   //             borderSide: BorderSide(color: Colors.white)),
   //       ),
-  //       components: [Component(Component.country, "vn")]);
+  //       components: [place.Component(place.Component.country, "vn")]);
   //   if (p != null) {
   //     displayPrediction(p, homeScaffoldKey.currentState);
   //   }
@@ -304,12 +330,11 @@ class HomeViewState extends State<HomeView> {
   //   updateMarker(_latLng);
   //   _updateCameraPosition(_latLng);
 
-  //   // markers.clear();
-  //   // markers.add(Marker(markerId: const MarkerId("0"),position: LatLng(lat,lng),icon: destinationIcon!));
-  //   // setState(() {
-  //   //   if (_isMounted) {
-  //   //     controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
-  //   //   }
-  //   // });
-  // }
-}
+  //   markers.clear();
+  //   markers.add(Marker(markerId: const MarkerId("0"),position: LatLng(lat,lng),icon: destinationIcon!));
+  //   setState(() {
+  //     if (_isMounted) {
+  //       controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
+  //     }
+  //   });
+    }

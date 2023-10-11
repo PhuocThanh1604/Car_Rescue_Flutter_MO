@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../configuration/frontend_configs.dart';
 
+// ignore: must_be_immutable
 class AppButton extends StatelessWidget {
   VoidCallback onPressed;
   String btnLabel;

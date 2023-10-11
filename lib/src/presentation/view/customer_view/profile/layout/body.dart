@@ -1,6 +1,11 @@
+import 'package:CarRescue/src/models/customer.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/auth/log_in/log_in_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/profile/layout/profile_detail/edit_profile.dart';
+import 'package:CarRescue/src/providers/gmail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../../configuration/frontend_configs.dart';
 import 'row_widget.dart';
@@ -15,11 +20,29 @@ class ProfileBody extends StatefulWidget {
 class _ProfileBodyState extends State<ProfileBody> {
   final Color redColor = const Color(0xffFF455B);
 
+  GmailProvider gmailProvider = GmailProvider();
+
   bool isFirstSelected = false;
 
   bool isSecondSelected = false;
 
   bool isThirdSelected = false;
+
+
+  Customer customer = Customer.fromJson(GetStorage().read('customer') ?? {});
+
+  void _handleSignOut() async {
+    gmailProvider.handleSignOut();
+    if(customer != null){
+      GetStorage().remove("customer");
+    }
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +64,19 @@ class _ProfileBodyState extends State<ProfileBody> {
                       backgroundColor: Colors.black,
                       radius: 37,
                       child: Padding(
-                        padding: const EdgeInsets.all(0.20),
-                        child: Image.asset(
-                          "assets/images/profile.png",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(0.20),
+                          child: ClipOval(
+                            child: Image.network(
+                              customer.avatar,
+                              fit: BoxFit.cover,
+                            ),
+                          )),
                     ),
                     const SizedBox(
                       height: 18,
                     ),
                     CustomText(
-                      text: "Andrew Johns",
+                      text: customer.fullname,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -60,7 +84,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       height: 7,
                     ),
                     CustomText(
-                      text: '+1 343-234-4544',
+                      text: customer.phone,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     )
@@ -75,7 +99,11 @@ class _ProfileBodyState extends State<ProfileBody> {
               icon: "assets/svg/user.svg",
               title: "John_wick",
               name: 'Edit profile',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditProfile()),
+                );
+              },
             ),
             const SizedBox(
               height: 24,
@@ -151,7 +179,9 @@ class _ProfileBodyState extends State<ProfileBody> {
               height: 24,
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                _handleSignOut();
+              },
               child: Row(
                 children: [
                   SvgPicture.asset(

@@ -30,6 +30,11 @@ dependencies:
   google_sign_in: ^6.1.4
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
+  google_place: ^0.4.7
+  google_maps_webservice: ^0.0.20-nullsafety.5
+  image_picker: ^1.0.4
+  get_storage: ^2.0.3
+  fluttertoast: ^8.0.8
   # flutter_osm_plugin: ^0.60.4
 
 
