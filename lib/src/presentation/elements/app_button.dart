@@ -36,10 +36,10 @@ class AppButton extends StatelessWidget {
         children: [
           Text(
             btnLabel,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
+            style: TextStyle(
+              color: FrontendConfigs.kTextButton,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
         ],

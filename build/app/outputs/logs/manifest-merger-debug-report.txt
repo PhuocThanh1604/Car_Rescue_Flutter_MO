@@ -125,6 +125,7 @@ MERGED from [:path_provider_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter
 MERGED from [:smart_auth] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\smart_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:vibration] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\vibration\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:google_sign_in_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:shared_preferences_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:permission_handler_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:geocoding_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\geocoding_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:google_api_headers] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\google_api_headers\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -318,6 +319,8 @@ MERGED from [:vibration] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\vi
 MERGED from [:vibration] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\vibration\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:google_sign_in_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:google_sign_in_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:permission_handler_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:permission_handler_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:geocoding_android] E:\Car_Rescue_Flutter_MO\Car_Rescue_Flutter_MO\build\geocoding_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41

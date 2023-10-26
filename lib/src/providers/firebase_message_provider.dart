@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:CarRescue/main.dart';
@@ -24,6 +25,7 @@ class FireBaseMessageProvider {
   Future<String?> getDeviceToken() async {
     try {
       deviceToken = await _firebaseMessaging.getToken();
+
       print("Device Token: $deviceToken");
       return deviceToken;
     } catch (e) {

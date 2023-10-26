@@ -24,6 +24,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+
         fontWeight: fontWeight,
         fontSize: fontSize,
         color: color ??
@@ -32,6 +33,7 @@ class CustomText extends StatelessWidget {
         fontFamily: fontFamily, // Set fontFamily
       ),
       maxLines: 10,
+
     );
   }
 }

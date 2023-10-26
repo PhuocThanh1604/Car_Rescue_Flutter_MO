@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
   CustomTextField({
     Key? key,
@@ -42,7 +43,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
-          fillColor: FrontendConfigs.kAuthColor,
+          fillColor: FrontendConfigs.kButtonColor,
           suffixIcon: widget.isPassword
               ? InkWell(
                   onTap: () {
@@ -53,10 +54,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   },
                   child: widget.isSecure
                       ? Icon(Icons.visibility_off_outlined,
-                          color: FrontendConfigs.kIconColor, size: 20)
+                          color: FrontendConfigs.kTextButton, size: 20)
                       : Icon(
                           Icons.remove_red_eye_outlined,
-                          color: FrontendConfigs.kIconColor,
+                          color: FrontendConfigs.kTextButton,
                           size: 20,
                         ))
               : null,

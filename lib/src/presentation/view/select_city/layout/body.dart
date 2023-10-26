@@ -31,7 +31,7 @@ class SelectCityBody extends StatelessWidget {
                 height: 44,
               ),
               CustomText(
-                text: "Select your city",
+                text: "Chọn thành phố bạn đang sống",
                 fontSize: 21,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -39,12 +39,13 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              CityButton(btnLabel: "Ho Chi Minh"),
+
+              CityButton(btnLabel: "TP Hồ Chí Minh"),
               const SizedBox(
                 height: 18,
               ),
               CityButton(
-                btnLabel: "Hanoi (Coming Soon)",
+                btnLabel: "Hà Nội (Sớm ra mắt)",
                 isDisabled: true,
               ),
             ],

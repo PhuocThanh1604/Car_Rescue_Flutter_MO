@@ -1,10 +1,11 @@
+
 class Customer {
+
   final String id;
   final String accountId;
   final String fullname;
   final String sex;
   final String phone;
-  final String licensePlate;
   final String avatar;
   final String address;
   final String status;
@@ -12,13 +13,14 @@ class Customer {
   final String updateAt;
   final String birthdate;
 
+
   Customer({
+
     required this.id,
     required this.accountId,
     required this.fullname,
     required this.sex,
     required this.phone,
-    required this.licensePlate,
     required this.avatar,
     required this.address,
     required this.status,
@@ -27,6 +29,7 @@ class Customer {
     required this.birthdate,
   });
 
+
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
       id: json['id'] ?? "",
@@ -34,7 +37,6 @@ class Customer {
       fullname: json['fullname'] ?? "",
       sex: json['sex']?? "",
       phone: json['phone']?? "",
-      licensePlate: json['licensePlate']?? "",
       avatar: json['avatar'] ?? "",
       address: json['address']?? "",
       status: json['status'] ?? "",
@@ -50,7 +52,6 @@ class Customer {
   'fullname': fullname,
   'sex': sex,
   'phone': phone,
-  'licensePlate': licensePlate,
   'avatar': avatar,
   'address': address,
   'status': status,

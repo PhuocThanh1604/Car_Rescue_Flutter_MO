@@ -24,7 +24,7 @@ customAppBar(
             style: TextStyle(
                 color: FrontendConfigs.kPrimaryColor,
                 fontSize: 16,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.bold),
           )
         : const SizedBox(),
     backgroundColor: Colors.transparent,

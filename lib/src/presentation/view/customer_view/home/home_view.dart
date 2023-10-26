@@ -1,27 +1,28 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'dart:ui' as ui;
-
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/models/enum.dart';
 import 'package:CarRescue/src/models/location_info.dart';
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
-import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+
 import 'package:CarRescue/src/presentation/view/customer_view/order/layout/order_view.dart';
+import 'package:CarRescue/src/providers/google_map_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_webservice/places.dart';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
-import 'package:CarRescue/src/providers/google_map_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
 import 'layout/widget/home_field.dart';
+
+// import 'package:google_api_headers/google_api_headers.dart';
+// import 'package:google_maps_webservice/places.dart';
 
 class HomeView extends StatefulWidget {
   final String services;
@@ -39,7 +40,6 @@ class HomeViewState extends State<HomeView> {
   final TextEditingController _pickUpController = TextEditingController();
   final TextEditingController _dropLocationController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
-
   ServiceType selectedService = ServiceType.repair;
   PanelController _pc = new PanelController();
   late GoogleMapController controller;
@@ -263,17 +263,36 @@ class HomeViewState extends State<HomeView> {
               bottom: 300,
               right: 16,
               child: FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                heroTag: null, // Set the heroTag property to null
+                mini: true, // Set the mini property to true
                 onPressed: () {
-                  getCurrentLocation();
-                  startListeningToLocationUpdates();
-                  _updateCameraPosition(LatLng(
-                    position!.latitude,
-                    position!.longitude,
-                  ));
+                  Navigator.of(context).pop();
                 },
-                child: Icon(Icons.my_location),
+                child: Icon(
+                  Icons.arrow_back_sharp,
+                  color: FrontendConfigs.kIconColor,
+                ),
               ),
             ),
+          Positioned(
+            bottom: 270,
+            right: 16,
+            child: FloatingActionButton(
+              backgroundColor: FrontendConfigs.kPrimaryColor,
+              mini: true,
+              onPressed: () {
+                getCurrentLocation();
+                startListeningToLocationUpdates();
+                _updateCameraPosition(LatLng(
+                  position!.latitude,
+                  position!.longitude,
+                ));
+              },
+              child: Icon(Icons.my_location),
+            ),
+          ),
           SlidingUpPanel(
             controller: _pc,
             minHeight: 200,
@@ -326,8 +345,8 @@ class HomeViewState extends State<HomeView> {
                           // Dữ liệu đã được tải thành công
                           final predictions = snapshot.data;
 
-                          return Expanded( 
-                          child: Column(
+                          return Expanded(
+                              child: Column(
                             children: [
                               if (predictions!.isNotEmpty)
                                 Expanded(
@@ -340,22 +359,20 @@ class HomeViewState extends State<HomeView> {
                                         onTap: () {
                                           _pickUpController.text =
                                               prediction.display;
-                                              getLatLng(prediction.display);
+                                          getLatLng(prediction.display);
                                           // setState(() {
                                           //   _latLng = LatLng(
                                           //       prediction.latitude,
                                           //       prediction.longitude);
                                           // });
                                           clearPredictions();
-                                          
                                         },
                                       );
                                     },
                                   ),
                                 ),
                             ],
-                          )
-                          );
+                          ));
                         } else {
                           // Không có dữ liệu hoặc dữ liệu rỗng
                           return Text('');
@@ -392,17 +409,18 @@ class HomeViewState extends State<HomeView> {
   }
 
   Future<void> onSearchTextChanged(String query) async {
-  try {
-    final response = await service.getDisplayNamesByVietMap(query);
-    setState(() {
-      predictions = Future.value(response); // Gán danh sách LocationInfo vào Future
-    });
-  } catch (e) {
-    print('Error: $e');
+    try {
+      final response = await service.getDisplayNamesByVietMap(query);
+      setState(() {
+        predictions =
+            Future.value(response); // Gán danh sách LocationInfo vào Future
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
   }
-}
 
-  void getLatLng(String query) async{
+  void getLatLng(String query) async {
     final response = await service.searchPlaces(query);
     setState(() {
       _latLng = LatLng(response.latitude, response.longitude);

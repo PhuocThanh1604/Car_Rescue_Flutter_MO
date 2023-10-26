@@ -38,7 +38,8 @@ class _HomeFieldState extends State<HomeField> {
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: TextStyle(
-            color: FrontendConfigs.kHintColor, // Đổi màu hint text
+
+            color: FrontendConfigs.kHintColorCustomer, // Đổi màu hint text
             fontSize: 14,
             letterSpacing: 1.5,
             fontWeight: FontWeight.w400,
@@ -57,6 +58,7 @@ class _HomeFieldState extends State<HomeField> {
         onChanged: (value) {
           widget.onTextChanged(value); // Gọi hàm callback khi người dùng thay đổi văn bản
         },
+
       ),
       
     );
