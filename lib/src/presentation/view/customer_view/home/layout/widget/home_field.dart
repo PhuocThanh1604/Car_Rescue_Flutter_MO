@@ -11,7 +11,8 @@ class HomeField extends StatefulWidget {
     required this.hint,
     required this.controller,
     required this.inputType,
-    required this.onTextChanged,
+    required this.onTextChanged, 
+    required this.onTap,
   }) : super(key: key);
 
   final String svg;
@@ -19,6 +20,7 @@ class HomeField extends StatefulWidget {
   TextInputType inputType;
   TextEditingController controller;
   final Function(String) onTextChanged;
+  final VoidCallback onTap;
 
   @override
   _HomeFieldState createState() => _HomeFieldState();
@@ -28,14 +30,15 @@ class _HomeFieldState extends State<HomeField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 49,
+      height: 70,
       child: TextFormField(
+        onTap: widget.onTap,
         keyboardType: widget.inputType,
         controller: widget.controller,
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: TextStyle(
-            color: FrontendConfigs.kIconColor, // Đổi màu hint text
+            color: FrontendConfigs.kHintColor, // Đổi màu hint text
             fontSize: 14,
             letterSpacing: 1.5,
             fontWeight: FontWeight.w400,

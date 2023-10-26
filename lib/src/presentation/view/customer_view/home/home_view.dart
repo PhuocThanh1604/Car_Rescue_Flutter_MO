@@ -1,22 +1,33 @@
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'package:CarRescue/src/enviroment/env.dart';
+
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/models/enum.dart';
+import 'package:CarRescue/src/models/location_info.dart';
+import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/order/layout/order_view.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_svg/svg.dart';
+
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:google_place/google_place.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:CarRescue/src/providers/google_map_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'layout/bottom_sheets/pick_up_sheet.dart';
+
 import 'layout/widget/home_field.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart' as place;
 
 class HomeView extends StatefulWidget {
+  final String services;
+
+  HomeView({required this.services});
+
   @override
   State<HomeView> createState() => HomeViewState();
 }
@@ -26,8 +37,11 @@ final GlobalKey<ScaffoldMessengerState> homeScaffoldKey =
 
 class HomeViewState extends State<HomeView> {
   final TextEditingController _pickUpController = TextEditingController();
-  // final TextEditingController _dropLocationController = TextEditingController();
+  final TextEditingController _dropLocationController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
+
+  ServiceType selectedService = ServiceType.repair;
+  PanelController _pc = new PanelController();
   late GoogleMapController controller;
   LocationProvider service = LocationProvider();
   StreamSubscription<Position>? _positionStreamSubscription;
@@ -35,6 +49,8 @@ class HomeViewState extends State<HomeView> {
   Position? position;
   BitmapDescriptor? destinationIcon;
   bool _isMounted = false;
+  late Future<List<LocationInfo>> predictions;
+
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(10.762622, 106.660172),
     zoom: 10,
@@ -54,7 +70,6 @@ class HomeViewState extends State<HomeView> {
     startListeningToLocationUpdates();
   }
 
-  List<Prediction> predictions = [];
   Set<Marker> markers = {};
   // static const CameraPosition _kLake = CameraPosition(
   //   bearing: 192.8334901395799,
@@ -114,6 +129,22 @@ class HomeViewState extends State<HomeView> {
       currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
       );
+      if (currentPosition != null) {
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          currentPosition.latitude,
+          currentPosition.longitude,
+        );
+        if (placemarks.isNotEmpty) {
+          Placemark placemark = placemarks[0];
+          String address =
+              "${placemark.street}, ${placemark.subAdministrativeArea}, ${placemark.administrativeArea}, ${placemark.country}";
+          setState(() {
+            _pickUpController.text = address;
+          });
+        } else {
+          print("No placemark found.");
+        }
+      }
     } catch (e) {
       print("Lỗi khi lấy vị trí: $e");
     }
@@ -163,6 +194,7 @@ class HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _isMounted = true;
+    predictions = Future.value([]);
     requestLocationPermission();
     setSourceAndDestinationIcons();
     // Timer(
@@ -175,6 +207,7 @@ class HomeViewState extends State<HomeView> {
   void dispose() {
     _isMounted = false;
     _pickUpController.dispose();
+    _dropLocationController.dispose();
     super.dispose();
     // Cancel sự kiện async trong dispose
     _positionStreamSubscription?.cancel();
@@ -183,6 +216,11 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(
+        context,
+        text: 'Map Location',
+        showText: true,
+      ),
       key: homeScaffoldKey,
       body: Stack(
         children: [
@@ -196,9 +234,33 @@ class HomeViewState extends State<HomeView> {
               _controller.complete(controller);
             },
           ),
+          Positioned(
+            top: 0, // Đặt ở phía trên cùng
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
           if (position != null)
             Positioned(
-              bottom: 250,
+              bottom: 300,
               right: 16,
               child: FloatingActionButton(
                 onPressed: () {
@@ -213,7 +275,9 @@ class HomeViewState extends State<HomeView> {
               ),
             ),
           SlidingUpPanel(
+            controller: _pc,
             minHeight: 200,
+            maxHeight: 250,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -233,37 +297,91 @@ class HomeViewState extends State<HomeView> {
                     ),
                   ),
                   const SizedBox(height: 18),
+                  // Hiển thị trường đầu vào dựa trên dịch vụ được chọn
                   HomeField(
+                    onTap: () {
+                      if (_pc.isPanelOpen) {
+                        _pc.close(); // Đóng panel nếu đã mở
+                      } else {
+                        _pc.open(); // Mở panel nếu đã đóng
+                      }
+                    },
                     svg: 'assets/svg/pickup_icon.svg',
                     hint: 'Enter your pickup location',
                     controller: _pickUpController,
                     inputType: TextInputType.text,
                     onTextChanged: onSearchTextChanged,
-                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: predictions.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(predictions[index].description!),
-                          onTap: () {
-                            // Xử lý khi người dùng chọn một dự đoán
-                            print(predictions[index].description);
-                            // Có thể thực hiện thêm các thao tác sau khi chọn dự đoán
-                            searchAndMoveCamera(predictions[index].description!);
-                          },
-                        );
-                      },
-                    ),
                   ),
+                  FutureBuilder<List<LocationInfo>>(
+                    future: predictions, // query là tham số tìm kiếm
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // Trạng thái đang tải dữ liệu
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        // Xử lý lỗi nếu có
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                          // Dữ liệu đã được tải thành công
+                          final predictions = snapshot.data;
+
+                          return Expanded( 
+                          child: Column(
+                            children: [
+                              if (predictions!.isNotEmpty)
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: predictions.length,
+                                    itemBuilder: (context, index) {
+                                      final prediction = predictions[index];
+                                      return ListTile(
+                                        title: Text(prediction.display),
+                                        onTap: () {
+                                          _pickUpController.text =
+                                              prediction.display;
+                                              getLatLng(prediction.display);
+                                          // setState(() {
+                                          //   _latLng = LatLng(
+                                          //       prediction.latitude,
+                                          //       prediction.longitude);
+                                          // });
+                                          clearPredictions();
+                                          
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                            ],
+                          )
+                          );
+                        } else {
+                          // Không có dữ liệu hoặc dữ liệu rỗng
+                          return Text('');
+                        }
+                      }
+                    },
+                  ),
+                  if (predictions == Future.value([]))
+                    SizedBox(
+                      height: 10,
+                    ),
                   AppButton(
-                      onPressed: () {
-                        // _handlePressButton();
-                        stopListeningToLocationUpdates();
-                        searchAndMoveCamera(_pickUpController.text);
-                        
-                      },
-                      btnLabel: "Confirm Location"),
+                    onPressed: () {
+                      // _handlePressButton();
+                      // stopListeningToLocationUpdates();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => OrderView(
+                                  latLng: _latLng,
+                                  address: _pickUpController.text,
+                                  serviceType: widget.services,
+                                )),
+                      );
+                    },
+                    btnLabel: "Xác nhận địa điểm",
+                  ),
                 ],
               ),
             ),
@@ -273,16 +391,29 @@ class HomeViewState extends State<HomeView> {
     );
   }
 
-  void onSearchTextChanged(String query) async {
-    try {
-      final response = await service.getPlacePredictions(query);
-      setState(() {
-        predictions = response.predictions;
-      });
-      print(predictions[0].description);
-    } catch (e) {
-      print('Error: $e');
-    }
+  Future<void> onSearchTextChanged(String query) async {
+  try {
+    final response = await service.getDisplayNamesByVietMap(query);
+    setState(() {
+      predictions = Future.value(response); // Gán danh sách LocationInfo vào Future
+    });
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+
+  void getLatLng(String query) async{
+    final response = await service.searchPlaces(query);
+    setState(() {
+      _latLng = LatLng(response.latitude, response.longitude);
+    });
+    _updateCameraPosition(_latLng);
+  }
+
+  void clearPredictions() {
+    setState(() {
+      predictions = Future.value([]);
+    });
   }
 
   // Future<void> _handlePressButton() async {
@@ -337,4 +468,4 @@ class HomeViewState extends State<HomeView> {
   //       controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
   //     }
   //   });
-    }
+}

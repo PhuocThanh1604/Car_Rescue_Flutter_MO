@@ -1,3 +1,4 @@
+import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -202,15 +203,9 @@ class _EditProfileBodyState extends State<EditProfileBody> {
               ),
               Container(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add logic to save profile changes
-                  },
-                  child: Text(
-                    'Save Profile',
-                    style: TextStyle(fontFamily: 'Montserrat'),
-                  ),
-                ),
+                child: AppButton(onPressed: () {
+                  
+                }, btnLabel: "Lưu thông tin"),
               )
             ],
           ),

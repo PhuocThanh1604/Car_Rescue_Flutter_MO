@@ -6,7 +6,7 @@ import 'dart:convert' as convert;
 class LoginProvider {
   final String key = Environment.API_LOGIN_GMAIL;
 
-  Future<LoginResponse?> loginWithGmail(String accessToken) async {
+  Future<LoginResponse?> loginWithGmail(String accessToken, String deviceToken) async {
     final url = Uri.parse('https://rescuecapstoneapi.azurewebsites.net/api/Login/LoginWithGoogle');
 
     final Map<String, String> headers = {
@@ -15,6 +15,7 @@ class LoginProvider {
 
     final Map<String, dynamic> body = {
       "accessToken": accessToken,
+      "deviceToken": deviceToken
     };
 
     final String encodedBody = convert.jsonEncode(body);

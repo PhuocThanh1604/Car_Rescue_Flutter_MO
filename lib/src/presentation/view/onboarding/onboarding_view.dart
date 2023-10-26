@@ -65,7 +65,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           if (pageIndex == 0)
             TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const SelectCityView()),
@@ -126,7 +126,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     } else if (pageIndex == 1) {
                       controller.jumpToPage(2);
                     } else if (pageIndex == 2) {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const SelectCityView()));

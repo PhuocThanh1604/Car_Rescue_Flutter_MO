@@ -49,24 +49,27 @@ class HomeSelectionWidget extends StatelessWidget {
             const SizedBox(
               width: 11,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                CustomText(
-                  text: body,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                )
-              ],
-            )
+            Container(
+                // Sử dụng Container cho phần body
+                width: 250,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: title,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    CustomText(
+                      text: body,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    )
+                  ],
+                ))
           ],
         ),
         IconButton(

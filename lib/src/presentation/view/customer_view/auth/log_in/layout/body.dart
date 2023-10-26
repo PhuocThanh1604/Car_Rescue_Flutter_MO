@@ -1,4 +1,6 @@
+import 'package:CarRescue/src/configuration/show_toast_notify.dart';
 import 'package:CarRescue/src/models/customer.dart';
+import 'package:CarRescue/src/providers/firebase_message_provider.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:CarRescue/src/providers/gmail_provider.dart';
 import 'package:CarRescue/src/providers/login_provider.dart';
@@ -22,9 +24,12 @@ class LogInBody extends StatefulWidget {
 class _LogInBodyState extends State<LogInBody> {
   GmailProvider gmailProvider = GmailProvider();
   LoginProvider loginProvider = LoginProvider();
+  FireBaseMessageProvider fbMessage = FireBaseMessageProvider();
   final box = GetStorage();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
+  NotifyMessage notifyMessage = NotifyMessage();
   // GoogleSignIn _googleSignIn = GoogleSignIn(
   //   scopes: <String>[
   //     'email',
@@ -44,43 +49,46 @@ class _LogInBodyState extends State<LogInBody> {
   }
 
   void _handleSignInWithGmail() async {
-  String? token = await gmailProvider.handleSignIn();
-  if (token != null) {
-    final loginResponse = await loginProvider.loginWithGmail(token);
-    Customer customer = loginResponse!.customer;
-    if (loginResponse != null) {
-      box.write("accessToken", loginResponse.accessToken);
-      box.write("refreshToken", loginResponse.refreshToken);
-      box.write("customer", customer.toJson());
+    setState(() {
+      isLoading =
+          true; // Set loading state to true when starting the login process
+    });
+    String? token = await gmailProvider.handleSignIn();
+    String? deviceToken = await fbMessage.getDeviceToken();
+    if (token != null) {
+      final loginResponse =
+          await loginProvider.loginWithGmail(token, deviceToken!);
+      Customer customer = loginResponse!.customer;
+      if (loginResponse != null && customer != null) {
+        // Login successful, set loading state to false
+        box.write("accessToken", loginResponse.accessToken);
+        box.write("refreshToken", loginResponse.refreshToken);
+        box.write("customer", customer.toJson());
+        setState(() {
+          isLoading = false;
+        });
 
-      // Hiển thị thông báo thành công bằng fluttertoast
-      Fluttertoast.showToast(
-        msg: "Đăng nhập thành công",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBarView()));
+        // Continue with navigation
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNavBarView(page: 0,)),
+        );
+        notifyMessage.showToast("Đăng nhập thành công");
+      } else {
+        // Login failed, set loading state to false
+        setState(() {
+          isLoading = true;
+        });
+        // Handle login failure
+        notifyMessage.showToast("Đăng nhập không thành công");
+      }
     } else {
-      // Xử lý trường hợp không đăng nhập thành công
-      Fluttertoast.showToast(
-        msg: "Đăng nhập không thành công",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      print("Không tìm thấy token");
+      setState(() {
+        isLoading = false;
+      });
     }
-  } else {
-    print("Không tìm thấy token");
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +141,11 @@ class _LogInBodyState extends State<LogInBody> {
                 height: 24,
               ),
               AppButton(
-                  onPressed: () {
+                  onPressed: () async{
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BottomNavBarView()));
+                            builder: (context) => const BottomNavBarView(page: 0,)));
                   },
                   btnLabel: "Log in"),
               const SizedBox(
@@ -179,9 +187,12 @@ class _LogInBodyState extends State<LogInBody> {
                     LogInWidget(
                       logo: "assets/images/google.png",
                       onPressed: () {
-                        _handleSignInWithGmail();
-                        // _handleSignOutWithGmail();
+                        if (!isLoading) {
+                          _handleSignInWithGmail();
+                        }
                       },
+                      isLoading:
+                          isLoading, // Pass the loading state to the widget
                     ),
                     SizedBox(
                       width: 12,

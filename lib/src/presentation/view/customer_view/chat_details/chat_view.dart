@@ -28,7 +28,7 @@ class ChatDetailsView extends StatelessWidget {
           ),
         ),
         title: CustomText(
-          text: 'Inbox',
+          text: 'Đơn hàng',
           fontSize: 16,
           color: FrontendConfigs.kPrimaryColor,
         ),

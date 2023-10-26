@@ -12,6 +12,7 @@ class GmailProvider {
         if (user != null) {
             GoogleSignInAuthentication? googleSignInAuthentication =
                 await user.authentication;
+                print("Token: "+ googleSignInAuthentication.accessToken!);
             return googleSignInAuthentication.accessToken;
         } else {
             return null;

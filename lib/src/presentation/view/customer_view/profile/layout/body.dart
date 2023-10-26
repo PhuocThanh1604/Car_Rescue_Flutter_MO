@@ -1,13 +1,14 @@
 import 'package:CarRescue/src/models/customer.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/auth/log_in/log_in_view.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/profile/layout/profile_detail/edit_profile.dart';
+
+import 'package:CarRescue/src/presentation/view/customer_view/profile/edit_profile/edit_profile_view.dart';
+
 import 'package:CarRescue/src/providers/gmail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../../../configuration/frontend_configs.dart';
 import 'row_widget.dart';
 
 class ProfileBody extends StatefulWidget {
@@ -28,15 +29,15 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   bool isThirdSelected = false;
 
-
   Customer customer = Customer.fromJson(GetStorage().read('customer') ?? {});
 
   void _handleSignOut() async {
     gmailProvider.handleSignOut();
-    if(customer != null){
+    if (customer.id != '') {
       GetStorage().remove("customer");
     }
     Navigator.of(context).pop();
+   
   }
 
   @override
@@ -66,10 +67,15 @@ class _ProfileBodyState extends State<ProfileBody> {
                       child: Padding(
                           padding: const EdgeInsets.all(0.20),
                           child: ClipOval(
-                            child: Image.network(
-                              customer.avatar,
-                              fit: BoxFit.cover,
-                            ),
+                            child: customer.avatar != ''
+                                ? Image.network(
+                                    customer.avatar,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "assets/images/profile.png",
+                                    fit: BoxFit.cover,
+                                  ),
                           )),
                     ),
                     const SizedBox(
@@ -100,9 +106,11 @@ class _ProfileBodyState extends State<ProfileBody> {
               title: "John_wick",
               name: 'Edit profile',
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfile()),
-                );
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //       builder: (context) => EditProfileViewCustomer()),
+                // );
+                Navigator.pushNamed(context, "/editProfile");
               },
             ),
             const SizedBox(

@@ -5,6 +5,7 @@ class FrontendConfigs {
   static Color kAuthColor = const Color(0xffF1C27D);
   static Color kIconColor = const Color(0xffF1C27D);
   static Color kBackgrColor = const Color(0xffF5F5F5);
+  static Color kHintColor = Color.fromARGB(255, 129, 125, 125);
   static TextStyle kHeadingStyle = const TextStyle(
       color: Color(0xFF333333),
       fontWeight: FontWeight.w500,

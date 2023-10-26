@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
 class LogInWidget extends StatelessWidget {
-  LogInWidget({Key? key, required this.logo, required this.onPressed}) : super(key: key);
+  LogInWidget({Key? key, required this.logo, required this.onPressed, required this.isLoading}) : super(key: key);
   final String logo;
   final VoidCallback onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
+      onTap: () {
+        if (!isLoading) {
+          onPressed(); // Only call onPressed when not loading
+        }
+      },
       child: Container(
         height: 61,
         width: 98,
@@ -17,12 +22,14 @@ class LogInWidget extends StatelessWidget {
           border: Border.all(color: const Color(0xff9B9B9B), width: 0.2),
         ),
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Image.asset(
-              logo,
-            ),
-          ),
+          child: isLoading
+              ? CircularProgressIndicator() // Display CircularProgressIndicator when isLoading is true
+              : Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Image.asset(
+                    logo,
+                  ),
+                ),
         ),
       ),
     );

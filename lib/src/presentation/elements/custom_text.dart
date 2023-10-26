@@ -31,6 +31,7 @@ class CustomText extends StatelessWidget {
         letterSpacing: letterSpacing,
         fontFamily: fontFamily, // Set fontFamily
       ),
+      maxLines: 10,
     );
   }
 }
