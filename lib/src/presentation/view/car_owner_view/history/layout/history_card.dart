@@ -33,7 +33,7 @@ class _HistoryCardState extends State<HistoryCard> {
       shape: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6), borderSide: BorderSide.none),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -79,8 +79,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   height: 28,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF2DBB54),
-                        fixedSize: const Size(90, 15),
+                        backgroundColor: const Color(0xFF2DBB54),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         )),
@@ -201,7 +200,7 @@ class _HistoryCardState extends State<HistoryCard> {
                       RideSelectionWidget(
                         icon: 'assets/svg/pickup_icon.svg',
                         title: 'Pick up Location',
-                        body: '089 Stark Gateway',
+                        // body: '089 Stark Gateway',
                         onPressed: () {},
                       ),
                       const Padding(
@@ -220,7 +219,7 @@ class _HistoryCardState extends State<HistoryCard> {
                       RideSelectionWidget(
                         icon: 'assets/svg/location_icon.svg',
                         title: 'Drop off Location',
-                        body: '92676 Orion Meadows',
+                        // body: '92676 Orion Meadows',
                         onPressed: () {},
                       ),
                       Row(

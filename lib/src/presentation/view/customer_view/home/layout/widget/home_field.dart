@@ -27,23 +27,37 @@ class HomeField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
+<<<<<<< Updated upstream
               color: FrontendConfigs.kIconColor,
               fontSize: 14,
               letterSpacing: 1.5,
+=======
+              color: Colors.black,
+              fontSize: 14,
+              letterSpacing: 1,
+>>>>>>> Stashed changes
               fontWeight: FontWeight.w400),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
+<<<<<<< Updated upstream
           fillColor: FrontendConfigs.kAuthColor,
+=======
+          fillColor: FrontendConfigs.kButtonColor,
+>>>>>>> Stashed changes
           filled: true,
           suffixIcon: Padding(
             padding: const EdgeInsets.all(15.0),
             child: SvgPicture.asset(svg),
           ),
         ),
+<<<<<<< Updated upstream
         onChanged: (value) {
           
         },
+=======
+        onChanged: (value) {},
+>>>>>>> Stashed changes
       ),
     );
   }

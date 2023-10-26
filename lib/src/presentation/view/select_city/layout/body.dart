@@ -50,7 +50,7 @@ class SelectCityBody extends StatelessWidget {
                 height: 44,
               ),
               CustomText(
-                text: "Select your city",
+                text: "Chọn thành phố bạn đang sống",
                 fontSize: 21,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -58,6 +58,7 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
+<<<<<<< Updated upstream
               CityButton(btnLabel: "Ibiza"),
               const SizedBox(
                 height: 18,
@@ -65,6 +66,15 @@ class SelectCityBody extends StatelessWidget {
               CityButton(btnLabel: "Santorini"),
               const SizedBox(
                 height: 18,
+=======
+              CityButton(btnLabel: "TP Hồ Chí Minh"),
+              const SizedBox(
+                height: 18,
+              ),
+              CityButton(
+                btnLabel: "Hà Nội (Sớm ra mắt)",
+                isDisabled: true,
+>>>>>>> Stashed changes
               ),
               CityButton(btnLabel: "Dubai"),
             ],

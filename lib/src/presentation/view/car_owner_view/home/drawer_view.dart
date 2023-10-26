@@ -1,3 +1,6 @@
+import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/car_view.dart';
+
+import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/car_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
@@ -32,7 +35,7 @@ class DrawerView extends StatelessWidget {
                       height: 5,
                     ),
                     CustomText(
-                      text: 'Daniel Austin',
+                      text: 'Hieu Phan',
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -40,7 +43,7 @@ class DrawerView extends StatelessWidget {
                       height: 5,
                     ),
                     CustomText(
-                      text: '+1 343-234-4544',
+                      text: '+84 34567890',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -51,13 +54,20 @@ class DrawerView extends StatelessWidget {
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
+                  color: FrontendConfigs.kIconColor,
                   "assets/svg/home_icon.svg",
                   height: 20,
                   width: 20,
                 ),
                 title: CustomText(
+<<<<<<< Updated upstream
                   text: 'Home',
                   color: FrontendConfigs.kIconColor,
+=======
+                  text: 'Trang chủ',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+>>>>>>> Stashed changes
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -70,12 +80,14 @@ class DrawerView extends StatelessWidget {
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
                   "assets/svg/person_icon.svg",
+                  color: FrontendConfigs.kIconColor,
                   height: 18,
                   width: 18,
                 ),
                 title: CustomText(
-                  text: 'Profile',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Cá nhân',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -87,18 +99,21 @@ class DrawerView extends StatelessWidget {
               child: ListTile(
                 minLeadingWidth: 2,
                 leading: SvgPicture.asset(
-                  "assets/svg/message.svg",
+                  "assets/svg/car_icon.svg",
+                  // ignore: deprecated_member_use
                   color: FrontendConfigs.kIconColor,
                   height: 20,
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Chat',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Xe của tôi',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                // onTap: () {
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => CarListView()));
+                // },
               ),
             ),
             SizedBox(
@@ -112,8 +127,9 @@ class DrawerView extends StatelessWidget {
                   width: 16,
                 ),
                 title: CustomText(
-                  text: 'Wallet',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Ví của tôi',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -131,8 +147,9 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Trip History',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Lịch sử đơn hàng',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.push(
@@ -153,33 +170,34 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Notification',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Thông báo',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);
                 },
               ),
             ),
-            SizedBox(
-              height: 40,
-              child: ListTile(
-                minLeadingWidth: 2,
-                leading: SvgPicture.asset(
-                  "assets/svg/language.svg",
-                  color: FrontendConfigs.kIconColor,
-                  height: 20,
-                  width: 20,
-                ),
-                title: CustomText(
-                  text: 'Language',
-                  color: FrontendConfigs.kIconColor,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            // SizedBox(
+            //   height: 40,
+            //   child: ListTile(
+            //     minLeadingWidth: 2,
+            //     leading: SvgPicture.asset(
+            //       "assets/svg/language.svg",
+            //       color: FrontendConfigs.kIconColor,
+            //       height: 20,
+            //       width: 20,
+            //     ),
+            //     title: CustomText(
+            //       text: 'Language',
+            //       color: FrontendConfigs.kIconColor,
+            //     ),
+            //     onTap: () {
+            //       Navigator.pop(context);
+            //     },
+            //   ),
+            // ),
             SizedBox(
               height: 40,
               child: ListTile(
@@ -191,8 +209,9 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Privacy Policy',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Chính sách riêng tư',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -210,8 +229,9 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Help Center',
-                  color: FrontendConfigs.kIconColor,
+                  text: 'Trung tâm hỗ trợ',
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -229,8 +249,9 @@ class DrawerView extends StatelessWidget {
                   width: 20,
                 ),
                 title: CustomText(
-                  text: 'Lout out',
+                  text: 'Đăng xuất',
                   color: Colors.red,
+                  fontWeight: FontWeight.bold,
                 ),
                 onTap: () {
                   Navigator.pop(context);

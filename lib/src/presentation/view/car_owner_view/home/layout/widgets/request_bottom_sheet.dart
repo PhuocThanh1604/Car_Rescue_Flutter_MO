@@ -1,4 +1,3 @@
-
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../configuration/frontend_configs.dart';
@@ -60,7 +59,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               const SizedBox(
                 height: 8,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 8,
               ),
@@ -73,7 +72,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               RideSelectionWidget(
                 icon: 'assets/svg/pickup_icon.svg',
                 title: 'Pick up Location',
-                body: '089 Stark Gateway',
+                // body: '089 Stark Gateway',
                 onPressed: () {},
               ),
               const Padding(
@@ -92,7 +91,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               RideSelectionWidget(
                 icon: 'assets/svg/location_icon.svg',
                 title: 'Drop off Location',
-                body: '92676 Orion Meadows',
+                // body: '92676 Orion Meadows',
                 onPressed: () {},
               ),
               const SizedBox(
@@ -108,7 +107,7 @@ Future<void> requestBottomSheet(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -125,21 +124,22 @@ Future<void> requestBottomSheet(BuildContext context) {
                     ),
                   ),
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(dialogContext);
-                pickUpBottomSheetSheet(context);
+                      pickUpBottomSheetSheet(context);
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0xFF2DBB54),),
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFF2DBB54),
+                      ),
                       child: Center(
                           child: CustomText(
-                            text: 'Accept',
-                            color: Colors.white,
-                          )),
+                        text: 'Accept',
+                        color: Colors.white,
+                      )),
                     ),
                   )
                 ],

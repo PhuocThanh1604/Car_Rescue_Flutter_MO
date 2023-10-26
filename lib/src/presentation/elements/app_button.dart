@@ -24,7 +24,11 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+<<<<<<< Updated upstream
           primary: const Color(0xFF2DBB54),
+=======
+          primary: Color(0xfff1cd00),
+>>>>>>> Stashed changes
           fixedSize: Size(width, height),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: borderColor!),
@@ -36,10 +40,10 @@ class AppButton extends StatelessWidget {
         children: [
           Text(
             btnLabel,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
+            style: TextStyle(
+              color: FrontendConfigs.kTextButton,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
         ],

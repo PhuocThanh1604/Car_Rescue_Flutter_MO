@@ -1,5 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'dart:ui' as ui;
+<<<<<<< Updated upstream
+=======
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/models/vehicle_item.dart';
+import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -10,10 +18,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'layout/bottom_sheets/pick_up_sheet.dart';
 import 'layout/widget/home_field.dart';
+<<<<<<< Updated upstream
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
+=======
+// import 'package:google_api_headers/google_api_headers.dart';
+// import 'package:google_maps_webservice/places.dart';
+>>>>>>> Stashed changes
 
 class HomeView extends StatefulWidget {
+  Vehicle? vehicle;
+  HomeView({
+    Key? key,
+    required this.vehicle,
+  }) : super(key: key);
   @override
   State<HomeView> createState() => HomeViewState();
 }
@@ -195,22 +213,41 @@ class HomeViewState extends State<HomeView> {
           ),
           if (position != null)
             Positioned(
-              bottom: 250,
-              right: 16,
+              top: 50,
+              left: 10,
               child: FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                heroTag: null, // Set the heroTag property to null
+                mini: true, // Set the mini property to true
                 onPressed: () {
-                  getCurrentLocation();
-                  startListeningToLocationUpdates();
-                  _updateCameraPosition(LatLng(
-                    position!.latitude,
-                    position!.longitude,
-                  ));
+                  Navigator.of(context).pop();
                 },
-                child: Icon(Icons.my_location),
+                child: Icon(
+                  Icons.arrow_back_sharp,
+                  color: FrontendConfigs.kIconColor,
+                ),
               ),
             ),
+          Positioned(
+            bottom: 270,
+            right: 16,
+            child: FloatingActionButton(
+              backgroundColor: FrontendConfigs.kPrimaryColor,
+              mini: true,
+              onPressed: () {
+                getCurrentLocation();
+                startListeningToLocationUpdates();
+                _updateCameraPosition(LatLng(
+                  position!.latitude,
+                  position!.longitude,
+                ));
+              },
+              child: Icon(Icons.my_location),
+            ),
+          ),
           SlidingUpPanel(
-            minHeight: 200,
+            minHeight: 250,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -227,6 +264,41 @@ class HomeViewState extends State<HomeView> {
                     decoration: BoxDecoration(
                       color: const Color(0xffE0E0E0),
                       borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundImage:
+                                NetworkImage('https://example.com/avatar.jpg'),
+                          ),
+                          SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.vehicle?.manufacturer ?? '',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                widget.vehicle?.licensePlate ?? '',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 18),

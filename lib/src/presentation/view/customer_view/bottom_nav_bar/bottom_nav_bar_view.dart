@@ -16,7 +16,7 @@ class BottomNavBarView extends StatefulWidget {
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    HomeView(),
+    // HomeView(),
     const ChatDetailsView(),
     const WalletView(),
     const ProfileView()

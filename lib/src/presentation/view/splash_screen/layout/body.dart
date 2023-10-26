@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:CarRescue/src/presentation/view/select_mode/select_mode_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
@@ -15,11 +16,36 @@ class SplashBody extends StatefulWidget {
 class _SplashBodyState extends State<SplashBody> {
   @override
   void initState() {
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const OnBoardingView())));
     super.initState();
+    _checkFirstLaunch();
+  }
+
+  void _checkFirstLaunch() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstLaunch = prefs.getBool('first_launch') ?? true;
+
+    if (isFirstLaunch) {
+      // It's the first launch, show the onboarding view
+      prefs.setBool(
+          'first_launch', false); // Mark that it's no longer the first launch
+
+      Timer(
+        const Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const OnBoardingView()),
+        ),
+      );
+    } else {
+      // Not the first launch, navigate to your main app screen
+      Timer(
+        const Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SelectModeView()),
+        ),
+      );
+    }
   }
 
   @override

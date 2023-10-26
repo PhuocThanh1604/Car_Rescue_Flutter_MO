@@ -18,20 +18,31 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   final List<SliderPage> _pageList = [
     SliderPage(
       svg: 'assets/svg/onboarding_one.svg',
+<<<<<<< Updated upstream
       body: 'We provide easy cab booking solutuin with ',
       title: 'Easy booking',
       subBody: ' reasonable price. ',
+=======
+      body: 'Chúng tôi cung cấp một dịch vụ ',
+      title: 'Đặt đơn nhanh chóng',
+      subBody: ' với giá cả phải chăng và xử lí nhanh chóng. ',
+>>>>>>> Stashed changes
     ),
     SliderPage(
       svg: 'assets/svg/onboarding_two.svg',
-      body: 'All of the drivers and their vehicles documents ',
-      title: 'Verified Drivers',
-      subBody: ' are verified by our system ',
+      body: 'Những kĩ thuật viên đã được huấn luyện  ',
+      title: 'Kĩ thuật viên chuyên nghiệp',
+      subBody: ' chuyên nghiệp để xử lí các tình huống ',
     ),
     SliderPage(
       svg: 'assets/svg/onboarding_three.svg',
+<<<<<<< Updated upstream
       body: 'Lets make your day great wth GILAR right now',
       title: 'Lets Get Started',
+=======
+      body: 'Hãy bắt đầu sử dụng dịch vụ của chúng tôi',
+      title: 'Bắt đầu thôi',
+>>>>>>> Stashed changes
       subBody: '',
     )
   ];

@@ -25,7 +25,7 @@ class HistoryView extends StatelessWidget {
             },
           ),
           title: Text(
-            "Trip Detail",
+            "Lịch sử đơn hàng",
             style: TextStyle(
                 color: FrontendConfigs.kPrimaryColor,
                 fontSize: 16,

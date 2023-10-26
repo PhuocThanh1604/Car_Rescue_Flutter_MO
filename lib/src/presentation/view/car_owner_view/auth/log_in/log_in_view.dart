@@ -5,8 +5,10 @@ import '../../../../../configuration/frontend_configs.dart';
 import '../../../../elements/custom_appbar.dart';
 import 'layout/body.dart';
 
-class DriverLogInView extends StatelessWidget {
-  const DriverLogInView({Key? key}) : super(key: key);
+class CarOwnerLogInView extends StatelessWidget {
+  const CarOwnerLogInView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class DriverLogInView extends StatelessWidget {
       appBar: customAppBar(
         context,
       ),
-      body: DriverLogInBody(),
+      body: CarOwnerLogInBody(),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: Row(
@@ -31,15 +33,15 @@ class DriverLogInView extends StatelessWidget {
                   text: TextSpan(
                       text: "Don’t have an account? ",
                       style: TextStyle(
-                          color: FrontendConfigs.kPrimaryColor,
+                          color: FrontendConfigs.kAuthColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 16),
                       children: [
                     TextSpan(
                       text: " Sign up.",
                       style: TextStyle(
-                          color: FrontendConfigs.kPrimaryColor,
-                          fontWeight: FontWeight.w600,
+                          color: FrontendConfigs.kAuthColor,
+                          fontWeight: FontWeight.bold,
                           fontSize: 16),
                     )
                   ])),

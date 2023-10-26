@@ -8,12 +8,12 @@ class RideSelectionWidget extends StatelessWidget {
       {Key? key,
       required this.icon,
       required this.title,
-      required this.body,
+      // required this.body,
       required this.onPressed})
       : super(key: key);
   final String icon;
   final String title;
-  final String body;
+  // final String body;
   VoidCallback onPressed;
 
   @override
@@ -51,19 +51,26 @@ class RideSelectionWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  softWrap: false, // Set softWrap to false
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                 ),
                 const SizedBox(
                   height: 3,
                 ),
-                CustomText(
-                  text: body,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                )
+                // CustomText(
+                //   text: body,
+                //   color: Colors.black54,
+                //   fontSize: 14,
+                //   fontWeight: FontWeight.w400,
+                // )
               ],
             )
           ],

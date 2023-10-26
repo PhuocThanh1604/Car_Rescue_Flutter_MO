@@ -21,10 +21,20 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+<<<<<<< Updated upstream
           fontWeight: fontWeight,
           fontSize: fontSize,
           color: color,
           letterSpacing: letterSpacing),
+=======
+        fontWeight: fontWeight,
+        fontSize: fontSize,
+        color: color ??
+            FrontendConfigs.kIconColor, // Use default color if color is null
+        letterSpacing: letterSpacing,
+        fontFamily: fontFamily, // Set fontFamily
+      ),
+>>>>>>> Stashed changes
     );
   }
 }

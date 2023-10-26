@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:dotted_line/dotted_line.dart';
@@ -21,7 +20,7 @@ Future<void> pickUpBottomSheetSheet(context) {
       ),
       context: context,
       builder: (dialogContext) {
-        Timer(const Duration(seconds: 3),(){
+        Timer(const Duration(seconds: 3), () {
           Navigator.pop(dialogContext);
           goingTOPickingUpSheet(context);
         });
@@ -68,7 +67,7 @@ Future<void> pickUpBottomSheetSheet(context) {
               const SizedBox(
                 height: 8,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 8,
               ),
@@ -81,7 +80,7 @@ Future<void> pickUpBottomSheetSheet(context) {
               RideSelectionWidget(
                 icon: 'assets/svg/pickup_icon.svg',
                 title: 'Pick up Location',
-                body: '089 Stark Gateway',
+                // body: '089 Stark Gateway',
                 onPressed: () {},
               ),
               const Padding(
@@ -100,7 +99,7 @@ Future<void> pickUpBottomSheetSheet(context) {
               RideSelectionWidget(
                 icon: 'assets/svg/location_icon.svg',
                 title: 'Drop off Location',
-                body: '92676 Orion Meadows',
+                // body: '92676 Orion Meadows',
                 onPressed: () {},
               ),
               const SizedBox(
@@ -117,8 +116,8 @@ Future<void> pickUpBottomSheetSheet(context) {
                 children: [
                   RoundButton(
                     icon: 'assets/svg/cancel_icon.svg',
-                    height:16,
-                    widht:16,
+                    height: 16,
+                    widht: 16,
                     color: FrontendConfigs.kAuthColor,
                     svgColor: Colors.white,
                     onPressed: () {},
@@ -143,7 +142,6 @@ Future<void> pickUpBottomSheetSheet(context) {
                   )
                 ],
               )
-
             ],
           ),
         );
