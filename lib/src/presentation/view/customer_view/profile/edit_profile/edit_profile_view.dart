@@ -1,5 +1,5 @@
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
-import 'package:CarRescue/src/presentation/view/technician_view/edit_profile/widget/edit_profile.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/profile/edit_profile/widget/edit_profile.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileViewCustomer extends StatelessWidget {
