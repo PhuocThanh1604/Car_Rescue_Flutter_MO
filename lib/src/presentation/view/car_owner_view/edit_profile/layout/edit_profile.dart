@@ -1,4 +1,5 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/presentation/elements/loading_state.dart';
 import 'package:CarRescue/src/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,8 +27,12 @@ class ProfileItem {
 class EditProfileBody extends StatefulWidget {
   final String userId;
   final String accountId;
-  EditProfileBody({Key? key, required this.userId, required this.accountId})
-      : super(key: key);
+
+  EditProfileBody({
+    Key? key,
+    required this.userId,
+    required this.accountId,
+  }) : super(key: key);
 
   @override
   _EditProfileBodyState createState() => _EditProfileBodyState();
@@ -46,6 +51,8 @@ class _EditProfileBodyState extends State<EditProfileBody> {
   File? _profileImage;
   String? _downloadURL;
 
+// Chuyển đổi sang đối tượng DateTime
+  String updatedAtString = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final ImagePicker imagePicker = ImagePicker();
   AuthService authService = AuthService();
   DateTime _birthday = DateTime(2000, 1, 1);
@@ -91,6 +98,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
     required String address,
     required String birthdate,
     required String sex,
+    required String updateAt,
     String? downloadURL, // Optional avatar URL parameter
   }) async {
     final Map<String, dynamic> requestBody = {
@@ -102,6 +110,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
       'sex': sex,
       'birthdate': birthdate,
       'avatar': downloadURL ?? _downloadURL,
+      'updateAt': updateAt,
     };
 
     final response = await http.put(
@@ -135,6 +144,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
         _profileImageChanged = false;
         _downloadURL = downloadURL;
         _isUpdating = false;
+        updatedAtString = updateAt;
       });
       print(_downloadURL);
       // Display a success message to the user
@@ -172,41 +182,6 @@ class _EditProfileBodyState extends State<EditProfileBody> {
         _profileImage = file;
         _profileImageChanged = true;
       });
-    }
-  }
-
-  Future<void> uploadAndSaveProfile() async {
-    setState(() {
-      _isUpdating = true;
-    });
-    if (_profileImage != null && _profileImageChanged) {
-      String? downloadURL =
-          await authService.uploadImageToFirebase(_profileImage!);
-      if (downloadURL != null) {
-        _downloadURL = downloadURL;
-      }
-      print(downloadURL);
-    }
-    String selectedGender = _selectedGenderString ?? '';
-    String formattedBirthdate = DateFormat('yyyy-MM-dd').format(_birthday);
-    if (_profileImage != null) {
-      String? downloadURL =
-          await authService.uploadImageToFirebase(_profileImage!);
-      print(downloadURL);
-
-      await updateProfile(
-          userId: widget.userId,
-          accountId: widget.accountId,
-          name: _nameController.text,
-          phone: _phoneController.text,
-          address: _addressController.text,
-          birthdate: formattedBirthdate,
-          sex: selectedGender,
-          downloadURL: _downloadURL
-          // Pass the download URL to updateProfile if needed
-          );
-    } else {
-      // Handle the case where no image was selected
     }
   }
 
@@ -425,8 +400,9 @@ class _EditProfileBodyState extends State<EditProfileBody> {
                         if (_formKey.currentState!.validate()) {
                           String? downloadURL;
                           if (_profileImage != null && _profileImageChanged) {
-                            downloadURL = await authService
-                                .uploadImageToFirebase(_profileImage!);
+                            downloadURL =
+                                await authService.uploadImageToFirebase(
+                                    _profileImage!, 'RVOprofile_images/');
                             if (downloadURL == null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -447,9 +423,11 @@ class _EditProfileBodyState extends State<EditProfileBody> {
                               address: _addressController.text,
                               birthdate: formattedBirthdate,
                               sex: selectedGender,
-                              downloadURL: downloadURL);
+                              downloadURL: downloadURL,
+                              updateAt: updatedAtString);
                         }
-                        Navigator.pop(context, 'Profile updated successfully');
+
+                        Navigator.pop(context, true);
                       },
                       child: Text('Save Profile'),
                     ),
@@ -467,10 +445,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
               color: Colors.black,
             ),
           ),
-        if (_isUpdating)
-          Center(
-            child: CircularProgressIndicator(),
-          ),
+        if (_isUpdating) LoadingState()
       ]),
     );
   }

@@ -51,20 +51,25 @@ class RideSelectionWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: FrontendConfigs.kAuthColor,
+                Container(
+                  width: 200,
+                  child: CustomText(
+                    text: title,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(
                   height: 3,
                 ),
-                CustomText(
+                Container(
+                  width: 220,
+                  child: CustomText(
                     text: body,
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    color: FrontendConfigs.kAuthColor)
+                  ),
+                )
               ],
             )
           ],

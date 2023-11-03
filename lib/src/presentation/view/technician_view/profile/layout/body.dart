@@ -1,3 +1,4 @@
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/technician_view/auth/log_in/log_in_view.dart';
 import 'package:CarRescue/src/presentation/view/technician_view/edit_profile/edit_profile_view.dart';
 import 'package:CarRescue/src/utils/api.dart';
@@ -87,7 +88,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Colors.white,
                       radius: 37,
                       backgroundImage: NetworkImage(
                           'https://firebasestorage.googleapis.com/v0/b/car-rescue-399511.appspot.com/o/images%2Favatars-2.png?alt=media&token=ebea458f-13c0-4c20-9d52-15eca7f652ac&_gl=1*1fo3xxj*_ga*NDA4Mjk5NjgwLjE2OTc4OTc1Nzc.*_ga_CW55HF8NVT*MTY5NzkxMDU5MC41LjEuMTY5NzkxMDYwMi40OC4wLjA.'), // Use 'backgroundImage' to set the image

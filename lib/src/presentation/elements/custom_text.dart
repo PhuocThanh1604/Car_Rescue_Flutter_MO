@@ -24,16 +24,14 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-
         fontWeight: fontWeight,
         fontSize: fontSize,
-        color: color ??
-            FrontendConfigs.kPrimaryColor, // Use default color if color is null
+        color: color ?? FrontendConfigs.kAuthColor,
         letterSpacing: letterSpacing,
-        fontFamily: fontFamily, // Set fontFamily
+        fontFamily: fontFamily,
       ),
-      maxLines: 10,
-
+      maxLines: 2, // Set the maximum number of lines to 2
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

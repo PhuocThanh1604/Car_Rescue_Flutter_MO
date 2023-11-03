@@ -1,5 +1,6 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+import 'package:CarRescue/src/presentation/elements/loading_state.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/car_view.dart';
 import 'package:CarRescue/src/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +28,16 @@ class _AddCarScreenState extends State<AddCarScreen> {
   AuthService authService = AuthService();
   File? _carRegistrationFontImage;
   File? _carRegistrationBackImage;
+  File? vehicleImage;
   String _manufacturer = '';
   String _licensePlate = '';
   String _status = '';
   String _vinNumber = '';
-  String _type = '';
+  String _selectedType = '';
   String _color = '';
   int _manufacturingYear = 0;
   bool _isLoading = false;
-
+  bool _isValidate = false;
   final titleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
   final inputDecoration = InputDecoration(
     border: OutlineInputBorder(),
@@ -45,38 +47,42 @@ class _AddCarScreenState extends State<AddCarScreen> {
     var uuid = Uuid();
     String randomId = uuid.v4();
     if (_formKey.currentState!.validate()) {
+      _showAlertDialog(context);
       _formKey.currentState!.save();
       setState(() {
         _isLoading = true;
       });
 
       try {
-        bool isSuccess = await authService.createCarApproval(
-          randomId,
-          rvoid: widget.userId,
-          licensePlate: _licensePlate,
-          manufacturer: _manufacturer,
-          status: _status,
-          vinNumber: _vinNumber,
-          type: _type,
-          color: _color,
-          manufacturingYear: _manufacturingYear,
-          carRegistrationFontImage: _carRegistrationFontImage!,
-          carRegistrationBackImage: _carRegistrationBackImage!,
-        );
+        bool isSuccess = await authService.createCarApproval(randomId,
+            rvoid: widget.userId,
+            licensePlate: _licensePlate,
+            manufacturer: _manufacturer,
+            status: _status,
+            vinNumber: _vinNumber,
+            type: _selectedType,
+            color: _color,
+            manufacturingYear: _manufacturingYear,
+            carRegistrationFontImage: _carRegistrationFontImage!,
+            carRegistrationBackImage: _carRegistrationBackImage!,
+            vehicleImage: vehicleImage!);
 
         if (isSuccess) {
           setState(() {
             _isLoading = false;
+            Navigator.pop(context, true);
           });
-          Navigator.pop(context, true);
+
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Thành công'),
+                title: Text('Thành công',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 content: Text(
-                    'Đã lưu thông tin thành công.Vui lòng chờ quản lí xác nhận'),
+                  'Đã lưu thông tin thành công.Vui lòng chờ quản lí xác nhận',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -97,10 +103,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
           );
         }
       } catch (error) {
-        // Handle errors, show a snackbar or dialog with an error message.
+        Navigator.pop(context, false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('An error occurred. Please try again.')),
         );
+        setState(() {
+          _isLoading = false;
+        });
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +125,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
         appBar: customAppBar(context, text: 'Đăng kí xe mới', showText: true),
         body:
             _isLoading // If loading, show loading indicator, else show content
-                ? Center(child: CircularProgressIndicator())
+                ? LoadingState()
                 : SingleChildScrollView(
                     padding: EdgeInsets.all(18),
                     child: Form(
@@ -126,39 +135,65 @@ class _AddCarScreenState extends State<AddCarScreen> {
                         children: [
                           Text('Thông tin chung', style: titleStyle),
                           Divider(),
-                          TextFormField(
-                            decoration: inputDecoration.copyWith(
-                              icon: Icon(Icons.drive_eta),
-                              labelText: 'Biển số xe',
-                            ),
-                            // validator: (value) {
-                            //   if (value == null || value.trim().isEmpty) {
-                            //     return 'Vui lòng nhập biển số xe';
-                            //   } else if (!RegExp(r'^\d{2}[A-Z]-\d{4,5}$').hasMatch(value)) {
-                            //     return 'Biển số xe không hợp lệ';
-                            //   }
-                            //   return null;
-                            // },
-                            onSaved: (value) {
-                              _licensePlate = value!;
-                            },
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      decoration: inputDecoration.copyWith(
+                                        icon: Icon(Icons.drive_eta),
+                                        labelText: 'Biển số xe',
+                                      ),
+                                      onSaved: (value) {
+                                        _licensePlate = value!;
+                                      },
+                                    ),
+                                    SizedBox(height: 12),
+                                    TextFormField(
+                                      decoration: inputDecoration.copyWith(
+                                        icon: Icon(Icons.drive_eta),
+                                        labelText: 'Hãng xe',
+                                      ),
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Vui lòng nhập hãng xe';
+                                        }
+                                        _isValidate = true;
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _manufacturer = value!;
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                  width:
+                                      12), // Some spacing between the fields and the image button
+                              _buildAvatarField(
+                                imageFile: vehicleImage,
+                                onImageChange: (file) {
+                                  if (file!.lengthSync() > 3 * 1024 * 1024) {
+                                    // 3MB in bytes
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Ảnh quá lớn. Vui lòng tải lên ảnh dưới 3MB.')),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      vehicleImage = file;
+                                    });
+                                  }
+                                },
+                                key: Key('avatar'),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 12),
-                          TextFormField(
-                            decoration: inputDecoration.copyWith(
-                                icon: Icon(Icons.drive_eta),
-                                labelText: 'Hãng xe'),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return 'Vui lòng nhập hãng xe';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _manufacturer = value!;
-                            },
-                          ),
-                          SizedBox(height: 16),
                           Text('Chi tiết kỹ thuật', style: titleStyle),
                           Divider(),
                           TextFormField(
@@ -175,6 +210,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             //   } else if (value.contains(RegExp(r'[IQO]'))) {
                             //     return 'Số khung không được chứa các ký tự I, Q, O';
                             //   }
+                            //   _isValidate = true;
                             //   return null;
                             // },
                             onSaved: (value) {
@@ -182,21 +218,37 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             },
                           ),
                           SizedBox(height: 16),
-                          TextFormField(
+                          DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Loại xe',
                               labelStyle: TextStyle(fontSize: 16),
                             ),
-                            // Set the style of the text value
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Vui lòng nhập loại xe';
+                                return 'Vui lòng chọn loại xe';
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              _type = value!;
+                              _selectedType = value!;
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedType = value!;
+                              });
+                            },
+                            items: <String>[
+                              'Xe kéo',
+                              'Xe cẩu',
+                              'Xe chở'
+                            ] // Replace with your types of xe
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            hint: Text('Chọn loại xe'),
                           ),
                           SizedBox(height: 16),
                           Row(
@@ -214,6 +266,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
+                                      print(value);
                                       return 'Vui lòng nhập màu sắc';
                                     }
                                     return null;
@@ -319,13 +372,13 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             alignment: Alignment
                                 .bottomCenter, // Set the alignment to bottom center
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 _submitForm();
                               },
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        FrontendConfigs.kButtonColor),
+                                        FrontendConfigs.kActiveColor),
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(
                                         Colors.white),
@@ -346,16 +399,92 @@ class _AddCarScreenState extends State<AddCarScreen> {
     ]);
   }
 
-  Widget _buildImageField(
-      {required String label,
-      required File? imageFile,
-      required ValueChanged<File?> onImageChange,
-      required Key key}) {
+  _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận'),
+          content: Text('Bạn đã chắc chắc điền đúng thông tin chưa ? '),
+          actions: [
+            TextButton(
+              child: Text(
+                'Hủy',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the AlertDialog
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Chắc chắn',
+                style: TextStyle(color: FrontendConfigs.kActiveColor),
+              ),
+              onPressed: () {
+                _submitForm();
+                Navigator.of(context)
+                    .pop(); // Close the AlertDialog after submitting
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool _isEmpty(File? imageFile) {
+    return imageFile == null;
+  }
+
+  Widget _buildImageField({
+    required String label,
+    required File? imageFile,
+    required ValueChanged<File?> onImageChange,
+    required Key key,
+    //
+    String validationMessage = 'Ảnh bắt buộc',
+  }) {
+    bool isValid = !_isEmpty(imageFile);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label),
         SizedBox(height: 8),
+        GestureDetector(
+          onTap: () async {
+            final pickedFile =
+                await ImagePicker().pickImage(source: ImageSource.gallery);
+            if (pickedFile != null) {
+              onImageChange(File(pickedFile.path));
+            }
+          },
+          child: _getImageWidget(imageFile, key),
+        ),
+        if (!isValid)
+          Transform.translate(
+            offset: Offset(
+                40, -40), // Set the offset to move the text up by 10 pixels
+            child: imageFile == null
+                ? Text(
+                    validationMessage,
+                    style: TextStyle(color: Colors.red),
+                  )
+                : SizedBox.shrink(),
+          ) // Displaying a mandatory text in red when image is not uploaded
+      ],
+    );
+  }
+
+  Widget _buildAvatarField(
+      {required File? imageFile,
+      required ValueChanged<File?> onImageChange,
+      required Key key}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         GestureDetector(
           onTap: () async {
             final pickedFile =
@@ -372,8 +501,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
                 40, -40), // Set the offset to move the text up by 10 pixels
             child: imageFile == null
                 ? Text(
-                    'Ảnh bắt buộc',
-                    style: TextStyle(color: Colors.red),
+                    'Hình ảnh xe',
                   )
                 : SizedBox.shrink(),
           ) // Displaying a mandatory text in red when image is not uploaded
@@ -387,7 +515,7 @@ class _AddCarScreenState extends State<AddCarScreen> {
       children: [
         Container(
           width: 150,
-          height: 100,
+          height: 108,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
           ),
@@ -405,6 +533,8 @@ class _AddCarScreenState extends State<AddCarScreen> {
                   _carRegistrationFontImage = null;
                 } else if (key == Key('back')) {
                   _carRegistrationBackImage = null;
+                } else if (key == Key('avatar')) {
+                  vehicleImage = null;
                 }
               });
             },

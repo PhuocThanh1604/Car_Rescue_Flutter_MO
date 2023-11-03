@@ -11,7 +11,9 @@ import 'package:intl/intl.dart';
 // Replace with the actual import path for Booking
 
 class BookingCard extends StatelessWidget {
-  final Booking booking; // Pass the Booking object as a parameter
+  final Booking booking;
+  final String userId; // Pass the Booking object as a parameter
+  final String accountId; // Pass the Booking object as a parameter
   final Map<String, String> addressesDepart;
   final Map<String, String> subAddressesDepart;
   final Map<String, String> addressesDesti;
@@ -22,7 +24,9 @@ class BookingCard extends StatelessWidget {
       required this.addressesDepart,
       required this.addressesDesti,
       required this.subAddressesDepart,
-      required this.subAddressesDesti});
+      required this.subAddressesDesti,
+      required this.userId,
+      required this.accountId});
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +128,7 @@ class BookingCard extends StatelessWidget {
                     child: RideSelectionWidget(
                       icon: 'assets/svg/pickup_icon.svg',
                       title: 'abc',
-                      // body: '089 Stark Gateway',
+                      body: '089 Stark Gateway',
                       onPressed: () {},
                     ),
                   ),
@@ -146,7 +150,7 @@ class BookingCard extends StatelessWidget {
                     child: RideSelectionWidget(
                       icon: 'assets/svg/location_icon.svg',
                       title: 'abc',
-                      // body: '92676 Orion Meadows',
+                      body: '92676 Orion Meadows',
                       onPressed: () {},
                     ),
                   ),
@@ -158,6 +162,8 @@ class BookingCard extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BookingDetailsView(
+                                  userId: userId,
+                                  accountId: accountId,
                                   booking: booking,
                                   addressesDepart: addressesDepart,
                                   addressesDesti: addressesDesti,

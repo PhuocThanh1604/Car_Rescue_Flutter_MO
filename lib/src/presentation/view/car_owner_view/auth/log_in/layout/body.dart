@@ -96,10 +96,9 @@ class _CarOwnerLogInBodyState extends State<CarOwnerLogInBody> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => BottomNavBarView(
-                            accountId: result.accountId,
-                            userId: result.userId,
-                            fullname: result.fullname,
-                            avatar: result.avatar),
+                          accountId: result.accountId,
+                          userId: result.userId,
+                        ),
                       ),
                     );
                   } else {

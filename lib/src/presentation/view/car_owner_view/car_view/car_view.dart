@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/models/vehicle_item.dart';
+import 'package:CarRescue/src/presentation/elements/loading_state.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/widgets/add_car_view.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/widgets/car_card.dart';
 
@@ -33,17 +34,17 @@ class _CarListViewState extends State<CarListView> {
     fetchCarOwnerCar(widget.userId).then((data) {
       final carList = (data['data'] as List<dynamic>)
           .map((carData) => Vehicle(
-                id: carData['id'],
-                manufacturer: carData['manufacturer'],
-                licensePlate: carData['licensePlate'],
-                status: carData['status'],
-                vinNumber: carData['vinNumber'],
-                type: carData['type'],
-                color: carData['color'],
-                manufacturingYear: carData['manufacturingYear'],
-                carRegistrationFont: carData['carRegistrationFont'],
-                carRegistrationBack: carData['carRegistrationBack'],
-              ))
+              id: carData['id'],
+              manufacturer: carData['manufacturer'],
+              licensePlate: carData['licensePlate'],
+              status: carData['status'],
+              vinNumber: carData['vinNumber'],
+              type: carData['type'],
+              color: carData['color'],
+              manufacturingYear: carData['manufacturingYear'],
+              carRegistrationFont: carData['carRegistrationFont'],
+              carRegistrationBack: carData['carRegistrationBack'],
+              image: carData['image']))
           .toList();
 
       setState(() {
@@ -156,7 +157,7 @@ class _CarListViewState extends State<CarListView> {
             ),
             Expanded(
               child: isLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? LoadingState()
                   : SingleChildScrollView(
                       child: Column(
                         children: filteredCars
@@ -191,18 +192,19 @@ class _CarListViewState extends State<CarListView> {
       final data = await fetchCarOwnerCar(widget.userId);
       final carList = (data['data'] as List<dynamic>)
           .map((carData) => Vehicle(
-                id: carData['id'],
-                manufacturer: carData['manufacturer'],
-                licensePlate: carData['licensePlate'],
-                status: carData['status'],
-                vinNumber: carData['vinNumber'],
-                type: carData['type'],
-                color: carData['color'],
-                manufacturingYear: carData['manufacturingYear'],
-                carRegistrationFont: carData['carRegistrationFont'],
-                carRegistrationBack: carData['carRegistrationBack'],
+              id: carData['id'],
+              manufacturer: carData['manufacturer'],
+              licensePlate: carData['licensePlate'],
+              status: carData['status'],
+              vinNumber: carData['vinNumber'],
+              type: carData['type'],
+              color: carData['color'],
+              manufacturingYear: carData['manufacturingYear'],
+              carRegistrationFont: carData['carRegistrationFont'],
+              carRegistrationBack: carData['carRegistrationBack'],
+              image: carData['image']
 
-                //... your properties mapping
+              //... your properties mapping
               ))
           .toList();
 

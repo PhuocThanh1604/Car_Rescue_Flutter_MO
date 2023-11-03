@@ -9,7 +9,7 @@ class Vehicle {
   final String status;
   final String? carRegistrationFont;
   final String? carRegistrationBack;
-  // Add the image field
+  final String? image;
 
   Vehicle(
       {required this.id,
@@ -21,7 +21,8 @@ class Vehicle {
       required this.manufacturer,
       required this.status,
       required this.carRegistrationFont,
-      required this.carRegistrationBack});
+      required this.carRegistrationBack,
+      required this.image});
 
   // Include the image in the constructor
 
@@ -37,6 +38,7 @@ class Vehicle {
       status: json['status'],
       carRegistrationFont: json['carRegistrationFont'] as String?,
       carRegistrationBack: json['carRegistrationBack'] as String?,
+      image: json['image'] as String?,
       // Parse other fields from JSON
     );
   }

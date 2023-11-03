@@ -8,12 +8,12 @@ class RideSelectionWidget extends StatelessWidget {
       {Key? key,
       required this.icon,
       required this.title,
-      // required this.body,
+      required this.body,
       required this.onPressed})
       : super(key: key);
   final String icon;
   final String title;
-  // final String body;
+  final String body;
   VoidCallback onPressed;
 
   @override
@@ -65,12 +65,12 @@ class RideSelectionWidget extends StatelessWidget {
                 const SizedBox(
                   height: 3,
                 ),
-                // CustomText(
-                //   text: body,
-                //   color: Colors.black54,
-                //   fontSize: 14,
-                //   fontWeight: FontWeight.w400,
-                // )
+                CustomText(
+                  text: body,
+                  color: Colors.black54,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                )
               ],
             )
           ],

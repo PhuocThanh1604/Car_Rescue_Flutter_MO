@@ -1,11 +1,33 @@
+import 'package:CarRescue/src/models/booking.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/history/layout/history_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../configuration/frontend_configs.dart';
 
-class HistoryView extends StatelessWidget {
-  const HistoryView({Key? key}) : super(key: key);
+class HistoryView extends StatefulWidget {
+  const HistoryView(
+      {Key? key,
+      required this.userId,
+      required this.addressesDepart,
+      required this.subAddressesDepart,
+      required this.addressesDesti,
+      required this.subAddressesDesti,
+      required this.bookings,
+      required this.accountId})
+      : super(key: key);
+  final String userId;
+  final String accountId;
+  final List<Booking> bookings;
+  final Map<String, String> addressesDepart;
+  final Map<String, String> subAddressesDepart;
+  final Map<String, String> addressesDesti;
+  final Map<String, String> subAddressesDesti;
+  @override
+  State<HistoryView> createState() => _HistoryViewState();
+}
 
+class _HistoryViewState extends State<HistoryView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,25 +49,20 @@ class HistoryView extends StatelessWidget {
             "Lịch sử đơn hàng",
             style: TextStyle(
                 color: FrontendConfigs.kPrimaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w400),
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(
-                    "assets/svg/search_icon.svg",
-                    height: 30,
-                    width: 30,
-                  )),
-            )
-          ],
         ),
-        // body: const HistoryBody(),
+        body: HistoryCard(
+          userId: widget.userId,
+          accountId: widget.accountId,
+          addressesDepart: widget.addressesDepart,
+          addressesDesti: widget.addressesDesti,
+          subAddressesDepart: widget.subAddressesDepart,
+          subAddressesDesti: widget.subAddressesDesti,
+        ),
       ),
     );
   }

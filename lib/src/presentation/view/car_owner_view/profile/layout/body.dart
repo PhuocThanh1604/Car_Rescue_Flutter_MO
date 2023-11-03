@@ -88,7 +88,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Color.fromARGB(0, 158, 158, 158),
                       radius: 64,
                       backgroundImage: NetworkImage(
                           avatar), // Use 'backgroundImage' to set the image
@@ -130,7 +130,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       accountId: widget.accountId,
                     ),
                   ),
-                );
+                ).then((value) => {fetchUserProfileData()});
 
                 // Check if the result indicates a successful update
                 if (result == 'Profile updated successfully') {

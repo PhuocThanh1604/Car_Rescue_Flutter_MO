@@ -123,7 +123,7 @@ class BookingCard extends StatelessWidget {
                     child: RideSelectionWidget(
                       icon: 'assets/svg/pickup_icon.svg',
                       title: 'abc',
-                      // body: '089 Stark Gateway',
+                      body: '089 Stark Gateway',
                       onPressed: () {},
                     ),
                   ),
@@ -145,7 +145,7 @@ class BookingCard extends StatelessWidget {
                     child: RideSelectionWidget(
                       icon: 'assets/svg/location_icon.svg',
                       title: 'abc',
-                      // body: '92676 Orion Meadows',
+                      body: '92676 Orion Meadows',
                       onPressed: () {},
                     ),
                   ),

@@ -1,7 +1,13 @@
+import 'package:CarRescue/src/presentation/elements/loading_state.dart';
 import 'package:flutter/material.dart';
 
 class LogInWidget extends StatelessWidget {
-  LogInWidget({Key? key, required this.logo, required this.onPressed, required this.isLoading}) : super(key: key);
+  LogInWidget(
+      {Key? key,
+      required this.logo,
+      required this.onPressed,
+      required this.isLoading})
+      : super(key: key);
   final String logo;
   final VoidCallback onPressed;
   final bool isLoading;
@@ -23,7 +29,7 @@ class LogInWidget extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? CircularProgressIndicator() // Display CircularProgressIndicator when isLoading is true
+              ? LoadingState()
               : Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Image.asset(

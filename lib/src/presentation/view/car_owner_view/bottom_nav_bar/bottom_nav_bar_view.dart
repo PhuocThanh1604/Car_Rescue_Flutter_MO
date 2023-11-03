@@ -11,14 +11,12 @@ class BottomNavBarView extends StatefulWidget {
   const BottomNavBarView({
     Key? key,
     required this.userId,
-    required this.avatar,
     required this.accountId,
-    required this.fullname,
+    this.initialIndex = 0,
   }) : super(key: key);
   final String userId;
   final String accountId;
-  final String fullname;
-  final String avatar;
+  final int initialIndex;
   @override
   _BottomNavBarViewState createState() => _BottomNavBarViewState();
 }
@@ -30,6 +28,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialIndex; // set the initial index here
     _pageController = PageController(initialPage: _currentIndex);
   }
 
@@ -59,11 +58,10 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         // Disable swipe gesture
         children: [
           CarOwnerHomeView(
-              fullname: widget.fullname,
-              userId: widget.userId,
-              accountId: widget.accountId,
-              avatar: widget.avatar),
-          WalletView(),
+            userId: widget.userId,
+            accountId: widget.accountId,
+          ),
+          WalletView(userId: widget.userId),
           ProfileView(userId: widget.userId, accountId: widget.accountId),
         ],
       ),
@@ -71,7 +69,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedItemColor: FrontendConfigs.kIconBackground,
+        selectedItemColor: FrontendConfigs.kActiveColor,
         unselectedItemColor: FrontendConfigs.kIconColor,
         backgroundColor: Colors.white,
         selectedLabelStyle: TextStyle(

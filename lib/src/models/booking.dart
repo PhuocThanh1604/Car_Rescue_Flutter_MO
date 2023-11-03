@@ -6,7 +6,7 @@ class Booking {
   final String? technicianId;
   final String? managerId;
   final String? vehicleId;
-  final String paymentId;
+  final String? paymentId;
   final String rescueType;
   final String? staffNote;
   final String customerNote;
@@ -18,6 +18,8 @@ class Booking {
   final String departure;
   final String destination;
   final int? area;
+  double? rating;
+  String? note;
   Vehicle? vehicleInfo;
   bool isShowDetails = false;
 
@@ -47,7 +49,7 @@ class Booking {
       technicianId: json['technicianId'] as String?,
       managerId: json['managerId'] as String?,
       vehicleId: json['vehicleId'] as String?,
-      paymentId: json['paymentId'],
+      paymentId: json['paymentId'] as String?,
       customerNote: json['customerNote'],
       departure: json['departure'],
       destination: json['destination'],

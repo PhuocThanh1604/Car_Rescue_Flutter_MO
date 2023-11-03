@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class CustomerInfoRow extends StatelessWidget {
   final String name;
   final String phone;
-
+  final String avatar;
   CustomerInfoRow({
     required this.name,
     required this.phone,
+    required this.avatar,
   });
 
   @override
@@ -16,7 +17,7 @@ class CustomerInfoRow extends StatelessWidget {
       child: Row(
         children: <Widget>[
           CircleAvatar(
-            backgroundImage: AssetImage('assets/images/avatars-2.png'),
+            backgroundImage: NetworkImage(avatar),
             radius: 30.0,
           ),
           SizedBox(width: 16.0), // Add spacing between avatar and text
