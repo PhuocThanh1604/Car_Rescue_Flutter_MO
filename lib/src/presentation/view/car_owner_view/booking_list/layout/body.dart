@@ -481,12 +481,6 @@ class _BookingListBodyState extends State<BookingListBody>
                                     color: FrontendConfigs.kAuthColor,
                                     fontSize: 14),
                               ),
-                              Text(
-                                ' | ${booking.vehicleInfo?.manufacturer ?? ''}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: FrontendConfigs.kAuthColor),
-                              ),
                             ],
                           ),
                         ],

@@ -73,7 +73,7 @@ class _CarOwnerHomePageBodyState extends State<CarOwnerHomePageBody> {
   Future<void> displayFeedbackForBooking(String userId) async {
     try {
       FeedbackData? feedbackData =
-          await authService.fetchFeedbackRatingCount(widget.userId);
+          await authService.fetchFeedbackRatingCountofRVO(widget.userId);
       print("Fetched feedbackData: $feedbackData");
 
       if (feedbackData != null) {

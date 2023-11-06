@@ -21,13 +21,9 @@ class _TechnicianLogInBodyState extends State<TechnicianLogInBody> {
   final TextEditingController _passwordController = TextEditingController();
   String errorMessage = ''; // To store the error message
   final AuthService authService = AuthService();
-  
-
-  
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -83,12 +79,11 @@ class _TechnicianLogInBodyState extends State<TechnicianLogInBody> {
               ),
               AppButton(
                 onPressed: () async {
-                  final  token = await authService.getDeviceToken();
+                  final token = await authService.getDeviceToken();
                   final result = await authService.login(
-                    _emailController.text.toString(),
-                    _passwordController.text.toString(),
-                    token?? ''
-                  );
+                      _emailController.text.toString(),
+                      _passwordController.text.toString(),
+                      token ?? '');
 
                   if (result != null) {
                     // Successfully logged in, navigate to the next screen
@@ -109,7 +104,6 @@ class _TechnicianLogInBodyState extends State<TechnicianLogInBody> {
                           'Login failed. Please check your credentials.';
                     });
                   }
-                  
                 },
                 btnLabel: "Đăng nhập",
               ),

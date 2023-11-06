@@ -8,8 +8,11 @@ import '../../../../models/booking.dart';
 import 'dart:convert';
 
 class BookingListView extends StatefulWidget {
-  const BookingListView({Key? key, required this.userId}) : super(key: key);
+  const BookingListView(
+      {Key? key, required this.userId, required this.accountId})
+      : super(key: key);
   final String userId;
+  final String accountId;
   @override
   _BookingListViewState createState() => _BookingListViewState();
 }
@@ -36,9 +39,10 @@ class _BookingListViewState extends State<BookingListView> {
     try {
       final bookingsFromApi = await authService.fetchBookings(
           widget.userId, '97757c05-1a15-4009-a156-e43095dddd81');
-      await _getDestiForBookings(bookingsFromApi);
-      await _getAddressesForBookings(bookingsFromApi);
-
+      await authService.getDestiForBookings(
+          bookingsFromApi, setState, addressesDesti, subAddressesDesti);
+      await authService.getAddressesForBookings(
+          bookingsFromApi, setState, addressesDepart, subAddressesDepart);
       setState(() {
         bookings = bookingsFromApi;
 
@@ -46,59 +50,6 @@ class _BookingListViewState extends State<BookingListView> {
       });
     } catch (error) {
       print('Error loading data: $error');
-    }
-  }
-
-  Future<void> _getAddressesForBookings(List<Booking> bookings) async {
-    for (Booking booking in bookings) {
-      final String departure = booking.departure;
-
-      // Extract latitude and longitude from the departure string
-      final latMatch = RegExp(r'lat:\s?([\-0-9.]+)').firstMatch(departure);
-      final longMatch = RegExp(r'long:\s?([\-0-9.]+)').firstMatch(departure);
-
-      if (latMatch != null && longMatch != null) {
-        final double? lat = double.tryParse(latMatch.group(1) ?? '');
-        final double? long = double.tryParse(longMatch.group(1) ?? '');
-
-        if (lat != null && long != null) {
-          final addressInfo =
-              await authService.getAddressFromCoordinates(lat, long);
-          print(lat);
-          setState(() {
-            addressesDepart[booking.id] =
-                addressInfo['address'] ?? 'Address not found';
-            subAddressesDepart[booking.id] =
-                addressInfo['subAddress'] ?? 'Subaddress not found';
-          });
-        }
-      }
-    }
-  }
-
-  Future<void> _getDestiForBookings(List<Booking> bookings) async {
-    for (Booking booking in bookings) {
-      final String destination = booking.destination;
-
-      // Extract latitude and longitude from the destination string
-      final latMatch = RegExp(r'lat:\s?([\-0-9.]+)').firstMatch(destination);
-      final longMatch = RegExp(r'long:\s?([\-0-9.]+)').firstMatch(destination);
-
-      if (latMatch != null && longMatch != null) {
-        final double? lat = double.tryParse(latMatch.group(1) ?? '');
-        final double? long = double.tryParse(longMatch.group(1) ?? '');
-
-        if (lat != null && long != null) {
-          final addressInfo =
-              await authService.getAddressFromCoordinates(lat, long);
-          setState(() {
-            addressesDesti[booking.id] =
-                addressInfo['address'] ?? 'Address not found';
-            subAddressesDesti[booking.id] =
-                addressInfo['subAddress'] ?? 'Subaddress not found';
-          });
-        }
-      }
     }
   }
 

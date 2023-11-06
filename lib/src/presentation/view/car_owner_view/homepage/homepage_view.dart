@@ -1,4 +1,6 @@
+import 'package:CarRescue/src/presentation/view/car_owner_view/auth/log_in/log_in_view.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/homepage/layout/body.dart';
+import 'package:CarRescue/src/presentation/view/technician_view/auth/log_in/log_in_view.dart';
 import 'package:flutter/material.dart';
 
 class CarOwnerHomeView extends StatefulWidget {
@@ -38,7 +40,11 @@ class _CarOwnerHomeViewState extends State<CarOwnerHomeView> {
           TextButton(
             onPressed: () {
               // Perform logout action here
-              Navigator.of(context).pop(true);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CarOwnerLogInView(),
+                  ));
             },
             child: Text(
               'Đồng ý',

@@ -17,7 +17,7 @@ class LoginResult {
   final String userId;
   final String accountId;
   final String fullname;
-  final String avatar;
+  final String? avatar;
   LoginResult({
     required this.userId,
     required this.accountId,
@@ -36,7 +36,7 @@ class AuthService {
         Uri.parse(
             'https://rescuecapstoneapi.azurewebsites.net/api/Login/Login'),
         body: jsonEncode(
-            {'email': email, 'password': password, 'deviceToken': deviceToken}),
+            {'email': email, 'password': password, 'devicetoken': deviceToken}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -50,7 +50,7 @@ class AuthService {
             final userId = technician['id'];
             final accountId = technician['accountId'];
             final fullname = technician['fullname'];
-            final avatar = technician['avatar'];
+            final avatar = technician['avatar'] ?? '';
             // Fetch user profile information using the user ID
             final userProfile = await fetchTechProfile(userId);
 
@@ -357,6 +357,32 @@ class AuthService {
     }
   }
 
+  Future<List<Booking>> fetchTechBookingByAssigned(String userId) async {
+    try {
+      final apiUrl = Uri.parse(
+          'https://rescuecapstoneapi.azurewebsites.net/api/Order/GetAllOrderAssignedOfTech?id=$userId');
+      final response = await http.get(apiUrl);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+
+        // If 'data' key exists and it's not null
+        if (!jsonData.containsKey('data') || jsonData['data'] == null) {
+          return []; // Return an empty list if 'data' key is missing or null
+        } else {
+          List<dynamic> bookingsData = jsonData['data'];
+          return bookingsData
+              .map((booking) => Booking.fromJson(booking))
+              .toList();
+        }
+      } else {
+        throw Exception('Failed to load bookings');
+      }
+    } catch (e) {
+      throw Exception('Error fetching bookings: $e');
+    }
+  }
+
   Future<List<Booking>> fetchCarOwnerBookingByInprogress(String userId) async {
     try {
       final apiUrl = Uri.parse(
@@ -492,8 +518,8 @@ class AuthService {
         longDestination == null) {
       return {
         'bookingId': booking.id,
-        'address': 'Unknown Address',
-        'subAddress': 'Unknown SubAddress',
+        'address': 'Không xác định',
+        'subAddress': 'Không xác định',
         'destinationAddress': 'Unknown Destination Address',
         'destinationSubAddress': 'Unknown Destination SAddress',
       };
@@ -501,7 +527,7 @@ class AuthService {
 
     // Use Google Geocoding API to fetch addresses
     const String apiKey =
-        'AIzaSyBwq3T_PKOfdGhOCnT58ZqhvAe8qtCmiAo'; // Replace with your actual API key
+        'AIzaSyDj3OfyrPchLv3pa6Y7pA0m5w5MgbZ5arg'; // Replace with your actual API key
     final String urlDeparture =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latDeparture,$longDeparture&key=$apiKey';
     final String urlDestination =
@@ -918,9 +944,32 @@ class AuthService {
     }
   }
 
-  Future<FeedbackData?> fetchFeedbackRatingCount(String userId) async {
+  Future<FeedbackData?> fetchFeedbackRatingCountofRVO(String userId) async {
     final String apiUrl =
         "https://rescuecapstoneapi.azurewebsites.net/api/Feedback/GetFeedbacksOfRVO?id=$userId"; // Replace with your API endpoint
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        var dataField = jsonResponse['data'];
+        FeedbackData feedbackData = FeedbackData.fromJson(dataField);
+        print('Rating: ${feedbackData.rating}, Count: ${feedbackData.count}');
+        return feedbackData;
+      } else {
+        print("Failed to fetch ratings. Status code: ${response.statusCode}");
+        return null;
+      }
+    } catch (error) {
+      print("Error fetching feedback ratings: $error");
+      return null;
+    }
+  }
+
+  Future<FeedbackData?> fetchFeedbackRatingCountofTech(String userId) async {
+    final String apiUrl =
+        "https://rescuecapstoneapi.azurewebsites.net/api/Feedback/GetFeedbacksOfTeachnician?id=$userId"; // Replace with your API endpoint
 
     try {
       final response = await http.get(Uri.parse(apiUrl));

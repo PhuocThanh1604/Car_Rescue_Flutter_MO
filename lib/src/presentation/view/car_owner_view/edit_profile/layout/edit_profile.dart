@@ -44,7 +44,6 @@ class _EditProfileBodyState extends State<EditProfileBody> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
-
   String phoneError = ''; // New
   String? accountId;
   String? _selectedGenderString;
@@ -70,7 +69,6 @@ class _EditProfileBodyState extends State<EditProfileBody> {
 
     if (userProfile != null) {
       final Map<String, dynamic> data = userProfile['data'];
-      imageCache.clear();
       setState(() {
         _nameController.text = data['fullname'] ?? '';
         _phoneController.text = data['phone'] ?? '';
@@ -222,7 +220,8 @@ class _EditProfileBodyState extends State<EditProfileBody> {
                             ? FileImage(_profileImage!)
                             : (_downloadURL != null && _downloadURL!.isNotEmpty)
                                 ? NetworkImage(_downloadURL!)
-                                : AssetImage('') as ImageProvider<Object>,
+                                : AssetImage('assets/images/profile.png')
+                                    as ImageProvider<Object>,
                       ),
                       Positioned(
                         bottom: 60,
@@ -429,7 +428,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
 
                         Navigator.pop(context, true);
                       },
-                      child: Text('Save Profile'),
+                      child: Text('Lưu thông tin'),
                     ),
                   ),
                 ],

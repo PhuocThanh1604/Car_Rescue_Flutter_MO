@@ -23,6 +23,8 @@ import '../widgets/customer_info.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class BookingDetailsBody extends StatefulWidget {
   final String userId;
@@ -69,18 +71,31 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
   }
 
   Future<void> _loadImageUrls() async {
+    setState(() {
+      _isLoading = true; // Start loading
+    });
+
     try {
       final urls = await authService.fetchImageUrls(widget.booking.id);
 
-      setState(() {
-        _imageUrls = urls;
-        _isLoading = false;
-      });
-      print(urls);
+      if (urls.isNotEmpty) {
+        // If URLs are not empty, update the state with these URLs.
+        setState(() {
+          _imageUrls = urls;
+        });
+      } else {
+        // If URLs are empty, you might want to update the state accordingly or show a message.
+        print('No image URLs found');
+      }
     } catch (e) {
       // Handle exception by showing an error or a message to the user.
       print('Failed to fetch image URLs: $e');
-      setState(() => _isLoading = false);
+      // You might want to set _imageUrls to an empty list or handle the error state.
+    } finally {
+      // Stop loading whether the fetch was successful or not.
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -131,6 +146,38 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
     } else {
       print('No image selected.');
     }
+  }
+
+  void _openImageDialog(
+      BuildContext context, int index, List<String> allImages) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: PhotoViewGallery.builder(
+          itemCount: allImages.length,
+          builder: (context, index) {
+            return PhotoViewGalleryPageOptions(
+              imageProvider: allImages[index].startsWith('http')
+                  ? NetworkImage(allImages[index]) as ImageProvider<Object>
+                  : allImages[index].startsWith('assets/')
+                      ? AssetImage(allImages[index]) as ImageProvider<Object>
+                      : FileImage(File(allImages[index]))
+                          as ImageProvider<Object>,
+              minScale: PhotoViewComputedScale.contained * 0.1,
+              maxScale: PhotoViewComputedScale.covered * 2,
+            );
+          },
+          scrollPhysics: const BouncingScrollPhysics(),
+          backgroundDecoration: BoxDecoration(
+            color: const Color.fromARGB(0, 0, 0, 0),
+          ),
+          pageController: PageController(initialPage: index),
+          onPageChanged: (int index) {
+            // You can track page changes if you need to.
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -293,29 +340,27 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
               SizedBox(height: 15.0),
 
               // Image
-
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      _buildImageSection(_imageUrls),
-                      SizedBox(height: 15.0),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      _buildInfoRow(
-                          "Ghi chú NV",
-                          Text(widget.booking.staffNote ?? '',
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                    ],
+              if (_imageUrls.isNotEmpty)
+                Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        _buildImageSection(_imageUrls),
+                        SizedBox(height: 15.0),
+                        Divider(thickness: 1),
+                      ],
+                      // _buildInfoRow(
+                      //     "Ghi chú NV",
+                      //     Text(widget.booking.staffNote ?? '',
+                      //         style: TextStyle(fontWeight: FontWeight.bold))),
+                    ),
                   ),
                 ),
-              ),
               // _buildInfoRow("Lí do huỷ đơn", booking.cancellationReason),
 
               SizedBox(height: 8.0),
@@ -339,11 +384,11 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
                           "Tổng cộng",
                           Text('2',
                               style: TextStyle(fontWeight: FontWeight.bold))),
-                      SizedBox(height: 24.0),
                     ],
                   ),
                 ),
               ),
+              SizedBox(height: 24.0),
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -581,7 +626,13 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
 
                 // Check if the image is an asset or a picked image
 
-                imageProvider = NetworkImage(allImages[index]);
+                if (allImages[index].startsWith('http')) {
+                  imageProvider = NetworkImage(allImages[index]);
+                } else if (allImages[index].startsWith('assets/')) {
+                  imageProvider = AssetImage(allImages[index]);
+                } else {
+                  imageProvider = FileImage(File(allImages[index]));
+                }
 
                 // imageProvider = FileImage(File(allImages[index]));
 
@@ -589,7 +640,7 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
                   padding: EdgeInsets.only(right: 16.0),
                   child: InkWell(
                     onTap: () {
-                      // _showImageDialog(context,allImages);
+                      _openImageDialog(context, index, allImages);
                     },
                     child: Container(
                       width: 200.0,

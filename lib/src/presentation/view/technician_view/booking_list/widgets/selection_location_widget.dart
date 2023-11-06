@@ -51,26 +51,29 @@ class RideSelectionWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                Container(
+                  width: 270,
+                  child: CustomText(
+                    text: title,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(
                   height: 3,
                 ),
-                CustomText(
-                  text: body,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                Container(
+                  width: 270,
+                  child: CustomText(
+                    text: body,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 )
               ],
             )
           ],
         ),
-        IconButton(
-            onPressed: onPressed,
-            icon: SvgPicture.asset('assets/svg/edit_icon.svg'))
       ],
     );
   }

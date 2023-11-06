@@ -1,4 +1,5 @@
 import 'package:CarRescue/src/models/customer.dart';
+import 'package:CarRescue/src/models/customerInfo.dart';
 import 'package:CarRescue/src/presentation/elements/booking_status.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import 'package:CarRescue/src/utils/api.dart';
@@ -22,7 +23,7 @@ class BookingDetailsBody extends StatefulWidget {
 
 class _BookingDetailsBodyState extends State<BookingDetailsBody> {
   AuthService authService = AuthService();
-  Customer? customerInfo;
+  CustomerInfo? customerInfo;
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,7 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
     print('day la ${userProfile}');
     if (userProfile != null) {
       setState(() {
-        customerInfo = Customer.fromJson(userProfile);
+        customerInfo = CustomerInfo.fromJson(userProfile);
       });
     }
   }

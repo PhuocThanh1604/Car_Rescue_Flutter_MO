@@ -74,9 +74,6 @@ class RideSelectionWidget extends StatelessWidget {
             )
           ],
         ),
-        IconButton(
-            onPressed: onPressed,
-            icon: SvgPicture.asset('assets/svg/edit_icon.svg'))
       ],
     );
   }
