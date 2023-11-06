@@ -34,7 +34,7 @@ class ChatDetailsView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ChatBody(),
+      body: OrderList(),
     );
   }
 }

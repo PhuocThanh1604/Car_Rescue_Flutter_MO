@@ -5,7 +5,7 @@ import 'package:CarRescue/src/models/order_booking.dart';
 import 'package:CarRescue/src/models/service.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/bottom_nav_bar/bottom_nav_bar_view.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/home/home_view.dart';
+
 import 'package:CarRescue/src/presentation/view/customer_view/home/layout/home_selection_widget.dart';
 import 'package:CarRescue/src/providers/firebase_storage_provider.dart';
 import 'package:CarRescue/src/providers/order_provider.dart';
@@ -40,8 +40,8 @@ class _RepairBodyState extends State<RepairBody> {
   ];
   bool isImageLoading = false;
   Future<List<Service>>? availableServices;
-  List<String>? selectedServices;
-  List<String>? urlImages;
+  late List<String> selectedServices;
+  late List<String> urlImages;
   late String urlImage;
   late Map<String, dynamic> selectedDropdownItem;
   late String selectedPaymentOption;
@@ -60,14 +60,14 @@ class _RepairBodyState extends State<RepairBody> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    
     super.dispose();
   }
 
   Future<List<Service>> loadService() async {
     final serviceProvider = ServiceProvider();
     try {
-      return serviceProvider.getAllServices();
+      return serviceProvider.getAllServicesFixing();
     } catch (e) {
       // Xử lý lỗi khi tải dịch vụ
       print('Lỗi khi tải danh sách dịch vụ: $e');
@@ -103,40 +103,34 @@ class _RepairBodyState extends State<RepairBody> {
       });
 
       // Bước 1: Xác định thông tin cho đơn hàng
-      String paymentMethod = paymentMethodController.text;
-      String customerNote = customerNoteController.text;
-      String departure = widget.address;
+      String departure = "lat:${widget.latLng.latitude},long:${widget.latLng.longitude}";
       String destination = ""; // Không có thông tin đích đến
-      String rescueType = "repair"; // Loại cứu hộ (ở đây là "repair")
-      String customerId = customer.id; // ID của khách hàng
-      List<String> url = urlImages ?? [];
-      List<String> service = selectedServices ?? [];
-      int area = selectedDropdownItem['value'] ?? 0;
+      String rescueType = "Fixing"; // Loại cứu hộ (ở đây là "repair")
 
       // Bước 2: Tạo đối tượng Order
-      OrderBookService order = OrderBookService(
-        paymentMethod: paymentMethod,
-        customerNote: customerNote,
+      OrderBookServiceFixing order = OrderBookServiceFixing(
+        paymentMethod: paymentMethodController.text,
+        customerNote: customerNoteController.text,
         departure: departure,
         destination: destination,
         rescueType: rescueType,
-        customerId: customerId,
-        url: url,
-        service: service,
-        area: area,
+        customerId: customer.id,
+        url: urlImages,
+        service: selectedServices,
+        area: selectedDropdownItem['value'],
       );
 
       // Bước 3: Gọi phương thức createOrder từ ServiceProvider
       final orderProvider = OrderProvider();
       try {
         // Gửi đơn hàng lên máy chủ
-        final status = await orderProvider.createOrder(order);
+        final status = await orderProvider.createOrderFixing(order);
 
         // Xử lý khi đơn hàng được tạo thành công
         // Ví dụ: Chuyển người dùng đến màn hình khác hoặc hiển thị thông báo
 
         // Dưới đây là một ví dụ chuyển người dùng đến màn hình BottomNavBarView
-        if (status == 201) {
+        if (status == 200) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

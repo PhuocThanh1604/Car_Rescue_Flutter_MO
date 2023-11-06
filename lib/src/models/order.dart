@@ -1,20 +1,20 @@
 class Order {
-  String id;
-  String customerId;
-  String technicianId;
-  String managerId;
-  String vehicleId;
-  String paymentId;
-  String customerNote;
-  String departure;
-  String destination;
-  String rescueType;
-  String staffNote;
-  String cancellationReason;
-  String startTime;
-  String endTime;
-  String createdAt;
-  String status;
+  late String id;
+  late String customerId;
+  late String technicianId;
+  late String managerId;
+  late String vehicleId;
+  late String paymentId;
+  late String customerNote;
+  late String departure;
+  late String destination;
+  late String rescueType;
+  late String staffNote;
+  late String cancellationReason;
+  late String startTime;
+  late String endTime;
+  late String createdAt;
+  late String status;
   int area;
 
   Order({
@@ -41,21 +41,21 @@ class Order {
     return Order(
       id: json['id'],
       customerId: json['customerId'],
-      technicianId: json['technicianId'],
-      managerId: json['managerId'],
-      vehicleId: json['vehicleId'],
-      paymentId: json['paymentId'],
-      customerNote: json['customerNote'],
-      departure: json['departure'],
-      destination: json['destination'],
-      rescueType: json['rescueType'],
-      staffNote: json['staffNote'],
-      cancellationReason: json['cancellationReason'],
-      startTime: json['startTime'],
-      endTime: json['endTime'],
-      createdAt: json['createdAt'],
-      status: json['status'],
-      area: json['area'],
+      technicianId: json['technicianId'] ?? "",
+      managerId: json['managerId']  ?? "",
+      vehicleId: json['vehicleId']  ?? "",
+      paymentId: json['paymentId']  ?? "",
+      customerNote: json['customerNote']  ?? "",
+      departure: json['departure']  ?? "",
+      destination: json['destination']  ?? "",
+      rescueType: json['rescueType']  ?? "",
+      staffNote: json['staffNote']  ?? "",
+      cancellationReason: json['cancellationReason']  ?? "",
+      startTime: json['startTime']  ?? "",
+      endTime: json['endTime']  ?? "",
+      createdAt: json['createdAt']  ?? "",
+      status: json['status']  ?? "",
+      area: json['area']  ?? "",
     );
   }
 

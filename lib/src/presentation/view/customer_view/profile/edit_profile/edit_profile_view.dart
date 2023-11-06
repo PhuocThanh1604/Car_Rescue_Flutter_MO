@@ -3,7 +3,9 @@ import 'package:CarRescue/src/presentation/view/customer_view/profile/edit_profi
 import 'package:flutter/material.dart';
 
 class EditProfileViewCustomer extends StatelessWidget {
-  const EditProfileViewCustomer({Key? key}) : super(key: key);
+  final String id;
+  final String accountId;
+  const EditProfileViewCustomer({Key? key, required this.id, required this.accountId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class EditProfileViewCustomer extends StatelessWidget {
         text: 'Edit Profile',
         showText: true,
       ),
-      body: EditProfileBody(),
+      body: EditProfileBody(userId: this.id, accountId: this.id,),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
       ),

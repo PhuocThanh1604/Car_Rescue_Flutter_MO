@@ -1,23 +1,23 @@
 import 'package:CarRescue/src/models/vehicle_item.dart';
 
 class Booking {
-  final String id;
-  final String customerId;
-  final String? technicianId;
-  final String? managerId;
-  final String? vehicleId;
-  final String paymentId;
-  final String rescueType;
-  final String? staffNote;
-  final String customerNote;
-  final String? cancellationReason;
-  final DateTime? startTime;
-  final DateTime? endTime;
-  final DateTime? createdAt;
-  final String status;
-  final String departure;
-  final String destination;
-  final int? area;
+  late String id;
+  late String customerId;
+  late String? technicianId;
+  late String? managerId;
+  late String? vehicleId;
+  late String paymentId;
+  late String rescueType;
+  late String? staffNote;
+  late String customerNote;
+  late String? cancellationReason;
+  late DateTime? startTime;
+  late DateTime? endTime;
+  late DateTime? createdAt;
+  late String status;
+  late String departure;
+  late String destination;
+  late int? area;
   Vehicle? vehicleInfo;
   bool isShowDetails = false;
 

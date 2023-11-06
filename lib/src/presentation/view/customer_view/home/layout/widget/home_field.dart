@@ -48,7 +48,7 @@ class _HomeFieldState extends State<HomeField> {
             borderRadius: BorderRadius.circular(5),
             borderSide: BorderSide.none,
           ),
-          fillColor: FrontendConfigs.kAuthColor, // Đổi màu nền
+          fillColor: FrontendConfigs.kAuthColorCustomer, // Đổi màu nền
           filled: true,
           suffixIcon: Padding(
             padding: const EdgeInsets.all(15.0),

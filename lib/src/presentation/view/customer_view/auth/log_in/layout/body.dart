@@ -10,7 +10,7 @@ import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:CarRescue/src/presentation/elements/auth_field.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/bottom_nav_bar/bottom_nav_bar_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 
 import 'log_in_widget.dart';
 
@@ -63,6 +63,7 @@ class _LogInBodyState extends State<LogInBody> {
         // Login successful, set loading state to false
         box.write("accessToken", loginResponse.accessToken);
         box.write("refreshToken", loginResponse.refreshToken);
+        box.write("accountId", loginResponse.accountId);
         box.write("customer", customer.toJson());
         setState(() {
           isLoading = false;
@@ -145,7 +146,7 @@ class _LogInBodyState extends State<LogInBody> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BottomNavBarView(page: 0,)));
+                            builder: (context) => const BottomNavBarView(page:2,)));
                   },
                   btnLabel: "Log in"),
               const SizedBox(

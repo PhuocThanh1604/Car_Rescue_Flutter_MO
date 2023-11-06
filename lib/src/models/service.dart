@@ -1,13 +1,13 @@
 class Service {
-  String id;
-  String createdBy;
-  String name;
-  String description;
-  int price;
-  String type;
-  String createdAt;
-  String updatedAt;
-  String status;
+  late String id;
+  late String createdBy;
+  late String name;
+  late String description;
+  late int price;
+  late String type;
+  late String createdAt;
+  late String updatedAt;
+  late String status;
 
   Service({
     required this.id,

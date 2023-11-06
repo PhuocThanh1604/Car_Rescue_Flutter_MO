@@ -1,16 +1,18 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/home/home_view.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/order/layout/repair_layout/body.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/order/layout/tow_layout/body.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderView extends StatelessWidget {
-  final LatLng latLng;
-  final String address;
+  final LatLng latLngPick;
+  final String addressPick;
+  final LatLng latLngDrop;
+  final String addressDrop;
+  final String distance;
   final String serviceType;
-  const OrderView({Key? key, required this.latLng, required this.address, required this.serviceType})
+  const OrderView({Key? key, required this.latLngPick, required this.addressPick, required this.serviceType, required this.latLngDrop, required this.addressDrop, required this.distance})
       : super(key: key);
 
   @override
@@ -18,9 +20,9 @@ class OrderView extends StatelessWidget {
     Widget body;
     
     if (serviceType == "Fixing") {
-      body = RepairBody(latLng: latLng, address: address);
+      body = RepairBody(latLng: latLngPick, address: addressPick);
     } else if (serviceType == "Towing") {
-      body = TowBody(latLng: latLng, address: address);
+      body = TowBody(latLng: latLngPick, address: addressPick, latLngDrop: latLngDrop, addressDrop: addressDrop, distance: distance,);
     } else {
       // Handle other cases or provide a default body.
       body = Text("Invalid service type");

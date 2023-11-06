@@ -17,22 +17,13 @@ class BottomNavBarView extends StatefulWidget {
 
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
+   final List<Widget> _children = [
     const ServiceView(),
     const ChatDetailsView(),
     const ProfileView()
   ];
 
-  // List<GlobalKey<NavigatorState>> _navigatorKeys = [
-  //   GlobalKey<NavigatorState>(),
-  //   GlobalKey<NavigatorState>(),
-  //   GlobalKey<NavigatorState>(),
-  // ];
-
-  // void onTabTapped(int index, BuildContext context) {
-  //   // var bottomIndex = Provider.of<BottomIndexProvider>(context, listen: false);
-  //   bottomIndex.setIndex(index);
-  // }
+  
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -47,12 +38,9 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
 
   @override
   Widget build(BuildContext context) {
-    // var bottomIndex = Provider.of<BottomIndexProvider>(context);
+    
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _children,
-      ), // new
+      body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,

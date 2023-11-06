@@ -1,14 +1,14 @@
 import 'package:CarRescue/src/models/customer.dart';
 
 class LoginResponse {
-  final String role;
-  final String accessToken;
-  final String refreshToken;
-  final String accountId;
-  final String email;
-  final Customer customer;
-  final String message;
-  final int status;
+  late String role;
+  late String accessToken;
+  late String refreshToken;
+  late String accountId;
+  late String email;
+  late Customer customer;
+  late String message;
+  late int status;
 
   LoginResponse({
     required this.role,

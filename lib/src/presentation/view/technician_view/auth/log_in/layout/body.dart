@@ -89,26 +89,35 @@ class _TechnicianLogInBodyState extends State<TechnicianLogInBody> {
                     _passwordController.text.toString(),
                     token?? ''
                   );
-
-                  if (result != null) {
-                    // Successfully logged in, navigate to the next screen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => BottomNavBarView(
-                          accountId: result.accountId,
+                          accountId: result!.accountId,
                           userId: result.userId,
                           fullname: result.fullname,
                         ),
                       ),
                     );
-                  } else {
-                    // Handle login failure or show an error message
-                    setState(() {
-                      errorMessage =
-                          'Login failed. Please check your credentials.';
-                    });
-                  }
+                  // if (result != null) {
+                  //   // Successfully logged in, navigate to the next screen
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => BottomNavBarView(
+                  //         accountId: result.accountId,
+                  //         userId: result.userId,
+                  //         fullname: result.fullname,
+                  //       ),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   // Handle login failure or show an error message
+                  //   setState(() {
+                  //     errorMessage =
+                  //         'Login failed. Please check your credentials.';
+                  //   });
+                  // }
                   
                 },
                 btnLabel: "Đăng nhập",

@@ -15,6 +15,8 @@ class LocationProvider {
 
     var headers = {
       'Content-Type': 'application/json',
+      // 'x-android-package': 'com.infusibleCoder.raido',
+      // 'x-android-cert': 'c3:88:f2:12:85:1e:23:55:dc:17:28:f2:1b:57:8a:4a:a0:9c:c9:6e',
       'X-Goog-Api-Key': key,
       'X-Goog-FieldMask':
           'places.displayName,places.formattedAddress,places.location,places.priceLevel',
@@ -40,13 +42,64 @@ class LocationProvider {
       return newPosition;
     } else {
       print('Error: ${response.statusCode}');
+      print("Body: ${response.body}");
       throw Exception('Failed to fetch location');
     }
   }
 
+  Future<LatLng> getLongLat(String refid) async {
+  final apiKey = 'c3d0f188ff669f89042771a20656579073cffec5a8a69747'; 
+  final url = Uri.parse('https://maps.vietmap.vn/api/place/v3?apikey=$apiKey&refid=$refid');
+
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = convert.json.decode(response.body);
+      final lat = double.parse(data['lat'].toString());
+      final lng = double.parse(data['lng'].toString());
+      return LatLng(lat, lng);
+    } else {
+      // Xử lý lỗi tại đây nếu cần
+      print('Error: ${response.statusCode}');
+      return LatLng(0, 0);
+    }
+  } catch (e) {
+    // Xử lý lỗi mạng tại đây nếu cần
+    print('Network Error: $e');
+    return LatLng(0, 0);
+  }
+}
+  Future<LatLng> getPlaceDetails(String placeId) async {
+  final places = GoogleMapsPlaces(apiKey: key);
+  try{
+  PlacesDetailsResponse placeDetails = await places.getDetailsByPlaceId(placeId);
+
+  if (placeDetails.isOkay) {
+    // Lấy thông tin chi tiết của địa điểm, bao gồm LatLng
+    final latLng = placeDetails.result.geometry!.location;
+    final address = placeDetails.result.formattedAddress;
+
+    // In thông tin lên console
+    print("Location Address: $address");
+    print("Location LatLng: ${latLng.lat}, ${latLng.lng}");
+
+    
+    return LatLng(latLng.lat,latLng.lng);
+  } else {
+    print("Failed to get place details.");
+    return LatLng(0,0);
+  }
+  }catch(e){
+    print(e);
+    return LatLng(0,0);
+  }
+}
+
+
   Future<PlacesAutocompleteResponse> getPlacePredictions(String input) async {
     try {
-      final places = GoogleMapsPlaces(apiKey: keyPredictions,apiHeaders: await const GoogleApiHeaders().getHeaders());
+      final places = GoogleMapsPlaces(apiKey: key,apiHeaders: await const GoogleApiHeaders().getHeaders());
       final response = await places.autocomplete(
         input,
         language: 'vn',
@@ -105,7 +158,7 @@ Future<List<LocationInfo>> getDisplayNamesByVietMap(String searchText) async {
     'cityId': '12',
     'text': searchText,
     'circle_center': '10.8760856947,106.801249981',
-    'circle_radius': '40000',
+    'circle_radius': '50000',
     'layers': 'POI',
   };
 
@@ -137,35 +190,7 @@ Future<List<LocationInfo>> getDisplayNamesByVietMap(String searchText) async {
   }
 }
 
-Future<List<LocationInfo>> getLocationsWithLatLng(String searchText) async {
-  // Gọi API vietmap.vn để lấy địa chỉ (display)
-  final vietMapLocations = await getDisplayNamesByVietMap(searchText);
 
-  // Tạo danh sách mới để lưu các LocationInfo với latitude và longitude
-  final locationsWithLatLng = <LocationInfo>[];
-
-  // Lặp qua danh sách địa chỉ (display) từ API vietmap.vn
-  for (final locationInfo in vietMapLocations) {
-    // Gọi API của Google Maps Places để lấy latitude và longitude dựa trên địa chỉ (display)
-    final latLng = await searchPlaces(locationInfo.display);
-
-    // Tạo một LocationInfo mới với thông tin từ API vietmap.vn và latitude, longitude từ Google Maps Places
-    final locationWithLatLng = LocationInfo(
-      refId: locationInfo.refId,
-      distance: locationInfo.distance,
-      address: locationInfo.address,
-      name: locationInfo.name,
-      display: locationInfo.display,
-      latitude: latLng.latitude,
-      longitude: latLng.longitude,
-    );
-
-    // Thêm LocationInfo mới vào danh sách locationsWithLatLng
-    locationsWithLatLng.add(locationWithLatLng);
-  }
-
-  return locationsWithLatLng;
-}
 
 
 

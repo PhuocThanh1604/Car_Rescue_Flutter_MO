@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class LoginProvider {
-  final String key = Environment.API_LOGIN_GMAIL;
+  final String key = Environment.API_URL + 'api/Login/LoginWithGoogle';
 
   Future<LoginResponse?> loginWithGmail(String accessToken, String deviceToken) async {
     final url = Uri.parse('https://rescuecapstoneapi.azurewebsites.net/api/Login/LoginWithGoogle');

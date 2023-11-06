@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
-import 'package:CarRescue/src/models/enum.dart';
 import 'package:CarRescue/src/models/location_info.dart';
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
 import 'package:CarRescue/src/presentation/view/customer_view/order/layout/order_view.dart';
 import 'package:CarRescue/src/providers/google_map_provider.dart';
@@ -13,11 +13,11 @@ import 'package:CarRescue/src/providers/google_map_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'layout/widget/home_field.dart';
 
@@ -40,16 +40,20 @@ class HomeViewState extends State<HomeView> {
   final TextEditingController _pickUpController = TextEditingController();
   final TextEditingController _dropLocationController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
-  ServiceType selectedService = ServiceType.repair;
+  // ServiceType selectedService = ServiceType.repair;
   PanelController _pc = new PanelController();
   late GoogleMapController controller;
   LocationProvider service = LocationProvider();
   StreamSubscription<Position>? _positionStreamSubscription;
-  late LatLng _latLng;
+  late LatLng _latLng = LatLng(0, 0);
+  LatLng _latLngDrop = LatLng(0, 0);
+  String formattedDistance = "0";
   Position? position;
   BitmapDescriptor? destinationIcon;
   bool _isMounted = false;
+  bool isPickingPickupLocation = false;
   late Future<List<LocationInfo>> predictions;
+  late Future<PlacesAutocompleteResponse> predictionsPlaces;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(10.762622, 106.660172),
@@ -137,7 +141,7 @@ class HomeViewState extends State<HomeView> {
         if (placemarks.isNotEmpty) {
           Placemark placemark = placemarks[0];
           String address =
-              "${placemark.street}, ${placemark.subAdministrativeArea}, ${placemark.administrativeArea}, ${placemark.country}";
+              "${placemark.name},${placemark.street}, ${placemark.subAdministrativeArea}, ${placemark.administrativeArea}, ${placemark.country}";
           setState(() {
             _pickUpController.text = address;
           });
@@ -190,11 +194,24 @@ class HomeViewState extends State<HomeView> {
     print("Stop Listening to Location");
   }
 
+  Future<double> calculateDistance(LatLng from, LatLng to) async {
+    double distanceInMeters = await Geolocator.distanceBetween(
+      from.latitude,
+      from.longitude,
+      to.latitude,
+      to.longitude,
+    );
+
+    // Kết quả sẽ là khoảng cách trong mét
+    return distanceInMeters;
+  }
+
   @override
   void initState() {
     super.initState();
     _isMounted = true;
     predictions = Future.value([]);
+    predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'INIT'));
     requestLocationPermission();
     setSourceAndDestinationIcons();
     // Timer(
@@ -234,69 +251,28 @@ class HomeViewState extends State<HomeView> {
               _controller.complete(controller);
             },
           ),
-          Positioned(
-            top: 0, // Đặt ở phía trên cùng
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
           if (position != null)
             Positioned(
-              bottom: 300,
+              bottom: widget.services == 'Fixing' ? 270 : 400,
               right: 16,
               child: FloatingActionButton(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                heroTag: null, // Set the heroTag property to null
-                mini: true, // Set the mini property to true
+                backgroundColor: FrontendConfigs.kPrimaryColor,
+                mini: true,
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  getCurrentLocation();
+                  startListeningToLocationUpdates();
+                  _updateCameraPosition(LatLng(
+                    position!.latitude,
+                    position!.longitude,
+                  ));
                 },
-                child: Icon(
-                  Icons.arrow_back_sharp,
-                  color: FrontendConfigs.kIconColor,
-                ),
+                child: Icon(Icons.my_location),
               ),
             ),
-          Positioned(
-            bottom: 270,
-            right: 16,
-            child: FloatingActionButton(
-              backgroundColor: FrontendConfigs.kPrimaryColor,
-              mini: true,
-              onPressed: () {
-                getCurrentLocation();
-                startListeningToLocationUpdates();
-                _updateCameraPosition(LatLng(
-                  position!.latitude,
-                  position!.longitude,
-                ));
-              },
-              child: Icon(Icons.my_location),
-            ),
-          ),
           SlidingUpPanel(
             controller: _pc,
-            minHeight: 200,
-            maxHeight: 250,
+            minHeight: widget.services == 'Fixing' ? 200 : 300,
+            maxHeight: widget.services == 'Fixing' ? 250 : 400,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -316,9 +292,51 @@ class HomeViewState extends State<HomeView> {
                     ),
                   ),
                   const SizedBox(height: 18),
+                  if (widget.services == "Towing" &&
+                      _latLngDrop != LatLng(0, 0))
+                    FutureBuilder<double>(
+                      future: calculateDistance(_latLng,
+                          _latLngDrop), // Thay bằng hàm lấy dữ liệu thích hợp
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.hasData) {
+                            double distance = snapshot.data! / 1000;
+                            formattedDistance = distance.toStringAsFixed(3);
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(text: 'Khoảng cách'),
+                                    CustomText(text: '${formattedDistance} Km')
+                                  ],
+                                ),
+                                Divider(
+                                  color: FrontendConfigs.kIconColor,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Text('Không có dữ liệu.');
+                          }
+                        }
+                      },
+                    ),
+                  const SizedBox(height: 12),
                   // Hiển thị trường đầu vào dựa trên dịch vụ được chọn
                   HomeField(
                     onTap: () {
+                      setState(() {
+                        isPickingPickupLocation = true;
+                      });
+
                       if (_pc.isPanelOpen) {
                         _pc.close(); // Đóng panel nếu đã mở
                       } else {
@@ -326,61 +344,91 @@ class HomeViewState extends State<HomeView> {
                       }
                     },
                     svg: 'assets/svg/pickup_icon.svg',
-                    hint: 'Enter your pickup location',
+                    hint: 'Vị trí đang đứng',
                     controller: _pickUpController,
                     inputType: TextInputType.text,
-                    onTextChanged: onSearchTextChanged,
+                    onTextChanged: getListPredictions,
                   ),
-                  FutureBuilder<List<LocationInfo>>(
-                    future: predictions, // query là tham số tìm kiếm
+                  const SizedBox(height: 18),
+                  if (widget.services == "Towing")
+                    HomeField(
+                      onTap: () {
+                        setState(() {
+                          isPickingPickupLocation = false;
+                        });
+                        if (_pc.isPanelOpen) {
+                          _pc.close(); // Đóng panel nếu đã mở
+                        } else {
+                          _pc.open(); // Mở panel nếu đã đóng
+                        }
+                      },
+                      svg: 'assets/svg/setting_location.svg',
+                      hint: 'Vị trí muốn đến',
+                      controller: _dropLocationController,
+                      inputType: TextInputType.text,
+                      onTextChanged: getListPredictions,
+                    ),
+                  FutureBuilder<PlacesAutocompleteResponse>(
+                    future: predictionsPlaces,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        // Trạng thái đang tải dữ liệu
                         return CircularProgressIndicator();
                       } else if (snapshot.hasError) {
-                        // Xử lý lỗi nếu có
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                          // Dữ liệu đã được tải thành công
-                          final predictions = snapshot.data;
+                        if (snapshot.hasData) {
+                          final predictions = snapshot.data!.predictions;
 
                           return Expanded(
-                              child: Column(
-                            children: [
-                              if (predictions!.isNotEmpty)
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: predictions.length,
-                                    itemBuilder: (context, index) {
-                                      final prediction = predictions[index];
-                                      return ListTile(
-                                        title: Text(prediction.display),
-                                        onTap: () {
-                                          _pickUpController.text =
-                                              prediction.display;
-                                          getLatLng(prediction.display);
-                                          // setState(() {
-                                          //   _latLng = LatLng(
-                                          //       prediction.latitude,
-                                          //       prediction.longitude);
-                                          // });
-                                          clearPredictions();
-                                        },
-                                      );
-                                    },
+                            child: Column(
+                              children: [
+                                if (predictions.isNotEmpty)
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: predictions.length,
+                                      itemBuilder: (context, index) {
+                                        final prediction = predictions[index];
+                                        return ListTile(
+                                          title: Text(prediction.description!),
+                                          onTap: () {
+                                            if (isPickingPickupLocation) {
+                                              _pickUpController.text =
+                                                  prediction.description!;
+                                              getLatLngByPlaceDetails(
+                                                  prediction.placeId!, true);
+                                              // Di chuyển camera đến _latLng
+                                            } else {
+                                              _dropLocationController.text =
+                                                  prediction.description!;
+                                              getLatLngByPlaceDetails(
+                                                  prediction.placeId!, false);
+                                              // Di chuyển camera đến _latLngDrop
+                                            }
+
+                                            
+                                          },
+                                          tileColor: Colors.transparent,
+                                          contentPadding: EdgeInsets.zero,
+                                          shape: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.black,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                            ],
-                          ));
+                              ],
+                            ),
+                          );
                         } else {
-                          // Không có dữ liệu hoặc dữ liệu rỗng
                           return Text('');
                         }
                       }
                     },
                   ),
-                  if (predictions == Future.value([]))
+                  if (predictionsPlaces == Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR')))
                     SizedBox(
                       height: 10,
                     ),
@@ -391,9 +439,12 @@ class HomeViewState extends State<HomeView> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => OrderView(
-                                  latLng: _latLng,
-                                  address: _pickUpController.text,
+                                  latLngPick: _latLng,
+                                  addressPick: _pickUpController.text,
                                   serviceType: widget.services,
+                                  latLngDrop: _latLngDrop,
+                                  addressDrop: _dropLocationController.text,
+                                  distance: formattedDistance,
                                 )),
                       );
                     },
@@ -420,70 +471,56 @@ class HomeViewState extends State<HomeView> {
     }
   }
 
-  void getLatLng(String query) async {
+  Future<void> getListPredictions(String query) async {
+    try {
+      final response = await service.getPlacePredictions(query);
+      setState(() {
+        predictionsPlaces =
+            Future.value(response); // Gán danh sách LocationInfo vào Future
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void getLatLngByPlaceDetails(String placeId, bool type) async {
+    try {
+      final response = await service.getPlaceDetails(placeId);
+      final LatLng newLatLng = LatLng(response.latitude, response.longitude);
+      setState(() {
+        if (type) {
+          _latLng = newLatLng;
+        } else {
+          _latLngDrop = newLatLng;
+        }
+        _updateCameraPosition(newLatLng);
+        clearPredictions();
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void getLatLng(String query, bool type) async {
     final response = await service.searchPlaces(query);
-    setState(() {
-      _latLng = LatLng(response.latitude, response.longitude);
-    });
-    _updateCameraPosition(_latLng);
+    if (type) {
+      setState(() {
+        _latLng = LatLng(response.latitude, response.longitude);
+        _updateCameraPosition(_latLng);
+      });
+    } else {
+      setState(() {
+        _latLngDrop = LatLng(response.latitude, response.longitude);
+        _updateCameraPosition(_latLngDrop);
+      });
+    }
   }
 
   void clearPredictions() {
     setState(() {
-      predictions = Future.value([]);
+      predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR'));
     });
   }
 
-  // Future<void> _handlePressButton() async {
-  //   stopListeningToLocationUpdates();
-  //   Prediction? p = await PlacesAutocomplete.show(
-  //       context: context,
-  //       apiKey: _kGoogleApiKey,
-  //       onError: onError,
-  //       mode: _mode,
-  //       language: 'vn',
-  //       strictbounds: false,
-  //       types: [""],
-  //       decoration: InputDecoration(
-  //         hintText: "Location",
-  //         focusedBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(20),
-  //             borderSide: BorderSide(color: Colors.white)),
-  //       ),
-  //       components: [place.Component(place.Component.country, "vn")]);
-  //   if (p != null) {
-  //     displayPrediction(p, homeScaffoldKey.currentState);
-  //   }
-  // }
-
-  // void onError(PlacesAutocompleteResponse response) {
-  //   homeScaffoldKey.currentState!
-  //       .showSnackBar(SnackBar(content: Text(response.errorMessage!)));
-  // }
-
-  // Future<void> displayPrediction(
-  //     Prediction p, ScaffoldMessengerState? currentState) async {
-  //   GoogleMapsPlaces places = GoogleMapsPlaces(
-  //       apiKey: _kGoogleApiKey,
-  //       apiHeaders: await const GoogleApiHeaders().getHeaders());
-
-  //   PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
-
-  //    setState(() {
-  //      _latLng = LatLng(
-  //           detail.result.geometry!.location.lat,
-  //           detail.result.geometry!.location.lng,
-  //         );
-  //    });
-
-  //   updateMarker(_latLng);
-  //   _updateCameraPosition(_latLng);
-
-  //   markers.clear();
-  //   markers.add(Marker(markerId: const MarkerId("0"),position: LatLng(lat,lng),icon: destinationIcon!));
-  //   setState(() {
-  //     if (_isMounted) {
-  //       controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
-  //     }
-  //   });
+  
 }

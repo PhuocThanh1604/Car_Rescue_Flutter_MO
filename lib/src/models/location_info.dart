@@ -1,11 +1,11 @@
 class LocationInfo {
-  final String refId;
-  final int distance;
-  final String address;
-  final String name;
-  final String display;
-  final double latitude;
-  final double longitude;
+  late String refId;
+  late int distance;
+  late String address;
+  late String name;
+  late String display;
+  late double latitude;
+  late double longitude;
 
   LocationInfo({
     required this.refId,
