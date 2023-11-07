@@ -1,20 +1,20 @@
 class Order {
-  late String id;
-  late String customerId;
-  late String technicianId;
-  late String managerId;
-  late String vehicleId;
-  late String paymentId;
-  late String customerNote;
-  late String departure;
-  late String destination;
-  late String rescueType;
-  late String staffNote;
-  late String cancellationReason;
-  late String startTime;
-  late String endTime;
-  late String createdAt;
-  late String status;
+  final String id;
+  final String customerId;
+  final String? technicianId;
+  final String? managerId;
+  final String? vehicleId;
+  final String paymentId;
+  final String? customerNote;
+  final String? departure;
+  final String? destination;
+  final String? rescueType;
+  final String? staffNote;
+  final String? cancellationReason;
+  final DateTime? startTime;
+  final DateTime? endTime;
+  final DateTime? createdAt;
+  final String status;
   int area;
 
   Order({
@@ -51,9 +51,15 @@ class Order {
       rescueType: json['rescueType']  ?? "",
       staffNote: json['staffNote']  ?? "",
       cancellationReason: json['cancellationReason']  ?? "",
-      startTime: json['startTime']  ?? "",
-      endTime: json['endTime']  ?? "",
-      createdAt: json['createdAt']  ?? "",
+      startTime: json['startTime']  != null
+          ? DateTime.parse(json['startTime'])
+          : null,
+      endTime: json['endTime']  != null
+          ? DateTime.parse(json['endTime'])
+          : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : null,
       status: json['status']  ?? "",
       area: json['area']  ?? "",
     );

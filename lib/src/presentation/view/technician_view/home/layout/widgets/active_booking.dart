@@ -1,10 +1,16 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/models/customer.dart';
+import 'package:CarRescue/src/models/customerInfo.dart';
+import 'package:CarRescue/src/presentation/elements/booking_status.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import 'package:CarRescue/src/utils/api.dart';
 import 'package:CarRescue/src/presentation/view/technician_view/booking_details/booking_details_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../models/booking.dart';
+import 'package:url_launcher_android/url_launcher_android.dart';
 
 class ActiveBookingCard extends StatefulWidget {
   final String userId;
@@ -28,9 +34,9 @@ class _ActiveBookingCardState extends State<ActiveBookingCard> {
   Map<String, String> addressesDesti = {};
   Map<String, String> subAddressesDesti = {};
 
-  Customer? customerInfo;
+  CustomerInfo? customerInfo;
 
-  late Future<Customer?>
+  late Future<CustomerInfo?>
       customerInfoFuture; // Add a Future for customerInfo
 
   @override
@@ -43,18 +49,18 @@ class _ActiveBookingCardState extends State<ActiveBookingCard> {
         [widget.booking], setState, addressesDesti, subAddressesDesti);
   }
 
-  Future<Customer?> loadCustomerInfo(String customerId) async {
+  Future<CustomerInfo?> loadCustomerInfo(String customerId) async {
     Map<String, dynamic>? userProfile =
         await authService.fetchCustomerInfo(customerId);
     if (userProfile != null) {
-      return Customer.fromJson(userProfile);
+      return CustomerInfo.fromJson(userProfile);
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Customer?>(
+    return FutureBuilder<CustomerInfo?>(
       future: customerInfoFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -66,6 +72,15 @@ class _ActiveBookingCardState extends State<ActiveBookingCard> {
       },
     );
   }
+
+  // void _launchCaller(String phoneNumber) async {
+  //   String url = "tel:$phoneNumber";
+  //   if (await canLaunch(url)
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   Widget buildCard() {
     return InkWell(
@@ -85,143 +100,154 @@ class _ActiveBookingCardState extends State<ActiveBookingCard> {
         print('day la: ${addressesDesti}');
       },
       child: Container(
-        color: FrontendConfigs.kBackgrColor,
         child: Card(
-          elevation: 2.0,
-          margin: EdgeInsets.all(15),
+          elevation: 5.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
                 15.0), // Adjust the border radius as needed
           ),
           child: Stack(children: [
-            Positioned(
-              right: 30, // Adjust the position as needed
-              bottom: 55, // Adjust the position as needed
-              child: Icon(Icons.arrow_forward),
-            ),
             Padding(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Avatar
-                  CircleAvatar(
-                    radius: 32.0,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: AssetImage(widget.avatar),
-                  ),
-
-                  SizedBox(width: 16.0),
-
-                  // User Info
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, // Align children vertically centered
+                  // CustomText(
+                  //   text: 'Đơn đang thực hiện',
+                  //   fontSize: 18,
+                  //   fontWeight: FontWeight.bold,
+                  // ),
+                  // Divider(),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Pro Name
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          customerInfo?.fullname ??
-                              '', // Use customerInfo.fullname or 'Tom' as a fallback
-                          style: TextStyle(
-                            fontSize: 18.0,
+                      // Avatar
+                      CircleAvatar(
+                        radius: 32.0,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: customerInfo?.avatar != null
+                            ? NetworkImage(customerInfo!.avatar)
+                            : const AssetImage('assets/images/profile.png')
+                                as ImageProvider,
+                      ),
+
+                      SizedBox(width: 16.0),
+
+                      // User Info
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Align children vertically centered
+                        children: [
+                          // Pro Name
+                          Text(
+                            customerInfo?.fullname ??
+                                '', // Use customerInfo.fullname or 'Tom' as a fallback
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          CustomText(
+                            text: customerInfo?.phone ?? 'Chưa thêm SĐT',
+                            fontSize: 16.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
                           ),
-                        ),
-                      ),
-
-                      // Premium Badge
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/pickup_icon.svg', // Replace with the path to your SVG file
-                            color: FrontendConfigs.kIconColor,
-                            width: 20.0,
-                            height: 20.0,
+                          SizedBox(
+                            height: 5,
                           ),
-                          SizedBox(width: 9.5),
-                          Text(
-                            '${addressesDepart[widget.booking.id]}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 3.0), // Add spacing
-
-                      Row(
-                        children: [
-                          SizedBox(width: 2.5),
-                          SvgPicture.asset(
-                            'assets/svg/location_icon.svg',
-                            // Replace with the path to your SVG file
-                            color: FrontendConfigs.kIconColor,
-                            width: 10.0,
-                            height: 20.0,
-                          ),
-                          SizedBox(width: 12.5),
-                          Text(
-                            '${addressesDesti[widget.booking.id]}',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey, // Slate-dark color
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 3.0), // Add spacing
-
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.work_rounded, // Premium badge icon
-                            color: FrontendConfigs.kIconColor,
-                            size: 20.0,
-                          ),
-                          SizedBox(width: 10.0),
-                          Text(
-                            widget.booking.rescueType,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey, // Slate-dark color
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 3.0), // Add spacing
-
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color:
-                                  Color(0xffc9e5fb), // Status background color
-                              borderRadius: BorderRadius.circular(
-                                  5.0), // Adjust the radius as needed
-                            ),
-                            child: Text(
-                              widget.booking.status, // Display the status text
-                              style: TextStyle(
-                                color: Color(0xff276fdb),
-                                fontWeight: FontWeight
-                                    .bold, // Text color for 'Completed'
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/pickup_icon.svg', // Replace with the path to your SVG file
+                                color: FrontendConfigs.kIconColor,
+                                width: 20.0,
+                                height: 20.0,
                               ),
-                            ),
-                          )
+                              SizedBox(width: 9.5),
+                              CustomText(
+                                text: '${addressesDepart[widget.booking.id]}',
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3.0), // Add spacing
+
+                          Row(
+                            children: [
+                              SizedBox(width: 2.5),
+                              SvgPicture.asset(
+                                'assets/svg/location_icon.svg',
+                                // Replace with the path to your SVG file
+                                color: FrontendConfigs.kIconColor,
+                                width: 10.0,
+                                height: 20.0,
+                              ),
+                              SizedBox(width: 12.5),
+                              CustomText(
+                                text: '${addressesDesti[widget.booking.id]}',
+
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                // Slate-dark color
+                              ),
+                            ],
+                          ),
+                          // Add spacing
+
+                          SizedBox(height: 10.0), // Add spacing
+
+                          Row(
+                            children: [
+                              BookingStatus(status: widget.booking.status)
+                            ],
+                          ),
                         ],
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: FrontendConfigs.kActiveColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    onPressed: () async {
+                      try {
+                        final Uri telUri = Uri(
+                            scheme: 'tel',
+                            path:
+                                '${customerInfo?.phone ?? ''}'); // Replace with actual number
+                        if (await canLaunchUrl(telUri)) {
+                          await launchUrl(telUri);
+                        } else {
+                          print('Could not launch $telUri');
+                        }
+                      } catch (e) {
+                        print('Failed to make a call because: $e');
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(CupertinoIcons.phone_arrow_down_left),
+                        SizedBox(width: 5),
+                        Text('Gọi khách hàng'),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

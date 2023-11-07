@@ -1,3 +1,5 @@
+import 'package:CarRescue/src/presentation/view/car_owner_view/wallet/layout/widgets/wallet_statistics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
@@ -7,8 +9,8 @@ import 'widgets/debit_card.dart';
 import 'widgets/wallet_driver_widget.dart';
 
 class WalletBody extends StatelessWidget {
-  const WalletBody({Key? key}) : super(key: key);
-
+  const WalletBody({Key? key, required this.userId}) : super(key: key);
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,305 +23,63 @@ class WalletBody extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              const WalletCardWidget(),
+              WalletCardWidget(userId: userId),
               const SizedBox(
                 height: 18,
               ),
-              CustomText(
-                text: 'Transaction History',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const WalletDriverWidget(
-                profileImage: 'assets/images/profile_one.png',
-                name: 'Harry potter',
-                details: 'Jun 20, 2022 | 10:00AM',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TopUpView()));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 51,
-                          width: 51,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: const Color(0xff252525).withOpacity(0.20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Container(
-                              height: 39,
-                              width: 39,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: Color(0xff2DBB54)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: SvgPicture.asset(
-                                  'assets/svg/wallet_icon.svg',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 11,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                              text: "Top Up Wallet",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            CustomText(
-                              text: 'Jun 20, 2022 | 10:00AM',
-                              fontSize: 12,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            CustomText(
-                              text: "\$120.00",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            CustomText(
-                              text: 'Top up',
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            SvgPicture.asset('assets/svg/green_arrow.svg')
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const WalletDriverWidget(
-                profileImage: 'assets/images/profile_one.png',
-                name: 'Harry potter',
-                details: 'Jun 20, 2022 | 10:00AM',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              WalletStatisticsCard(),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: 51,
-                        width: 51,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: const Color(0xff252525).withOpacity(0.20)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            height: 39,
-                            width: 39,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Color(0xff2DBB54)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/svg/wallet_icon.svg',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
+                      CustomText(
+                        text: 'Lịch sử giao dịch',
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(
-                        width: 11,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: "Top Up Wallet",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          CustomText(
-                            text: 'Jun 20, 2022 | 10:00AM',
-                            fontSize: 12,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(
-                            text: "\$120.00",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(
-                            text: 'Top up',
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset('assets/svg/green_arrow.svg')
-                        ],
+                      Icon(
+                        CupertinoIcons.arrow_right_circle,
+                        color: FrontendConfigs.kPrimaryColor,
                       )
                     ],
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              const WalletDriverWidget(
-                profileImage: 'assets/images/profile_one.png',
-                name: 'Harry potter',
-                details: 'Jun 20, 2022 | 10:00AM',
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 51,
-                        width: 51,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: const Color(0xff252525).withOpacity(0.20)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Container(
-                            height: 39,
-                            width: 39,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Color(0xff2DBB54)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/svg/wallet_icon.svg',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 11,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: "Top Up Wallet",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          CustomText(
-                            text: 'Jun 20, 2022 | 10:00AM',
-                            fontSize: 12,
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(
-                            text: "\$120.00",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(
-                            text: 'Top up',
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset('assets/svg/green_arrow.svg')
-                        ],
-                      )
-                    ],
-                  )
+
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  const WalletDriverWidget(
+                    profileImage: 'assets/images/profile_one.png',
+                    name: 'Lionel Messi',
+                    details: 'Jun 20, 2022 | 10:00AM',
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  //
+
+                  const WalletDriverWidget(
+                    profileImage: 'assets/images/profile_one.png',
+                    name: 'Harry Kane',
+                    details: 'Jun 20, 2022 | 10:00AM',
+                  ),
+
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  const WalletDriverWidget(
+                    profileImage: 'assets/images/profile_one.png',
+                    name: 'Kylian',
+                    details: 'Jun 20, 2022 | 10:00AM',
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
                 ],
-              )
+              ),
+              //
             ],
           ),
         ),

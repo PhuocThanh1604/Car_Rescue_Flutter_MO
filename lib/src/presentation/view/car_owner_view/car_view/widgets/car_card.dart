@@ -2,8 +2,6 @@ import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/widgets/car_status.dart';
 import 'package:flutter/material.dart';
 import '../../../../../models/vehicle_item.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class CarCard extends StatelessWidget {
   final Vehicle vehicle;
@@ -36,17 +34,7 @@ class CarCard extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/towtruck2-removebg-preview.png', // Replace with your car icon image asset
-                          width: 300, // Adjust the width as needed
-                          height: 300, // Adjust the height as needed
-                          // Set the color of the image
-                        ),
-                      ],
-                    ),
+                    child: Image(image: NetworkImage(vehicle.image ?? '')),
                   ),
                 ),
                 SizedBox(height: 16),
@@ -86,8 +74,7 @@ class CarCard extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Center(
-                  child: vehicle.status.toUpperCase() ==
-                          'ACTIVE' // Check if the status is 'active'
+                  child: vehicle.status.toUpperCase() == 'ACTIVE'
                       ? TextButton(
                           onPressed: () {
                             // Navigator.push(
@@ -101,31 +88,42 @@ class CarCard extends StatelessWidget {
                           },
                           child: Text(
                             'Chọn',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           style: TextButton.styleFrom(
-                            backgroundColor: FrontendConfigs
-                                .kIconColor, // Change the button background color
-                            minimumSize: Size(double.infinity,
-                                48), // Set minimum width and height
+                            backgroundColor: FrontendConfigs.kIconColor,
+                            minimumSize: Size(double.infinity, 48),
                           ),
                         )
-                      : IgnorePointer(
-                          ignoring: true, // Set the ignoring property to true
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Chọn',
-                              style: TextStyle(color: Colors.white),
+                      : vehicle.status.toUpperCase() == 'WAITING_APPROVAL'
+                          ? TextButton(
+                              onPressed: () {
+                                // Do something
+                              },
+                              child: Text(
+                                'Cập nhật',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: FrontendConfigs.kIconColor,
+                                minimumSize: Size(double.infinity, 48),
+                              ),
+                            )
+                          : IgnorePointer(
+                              ignoring: true,
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'Chọn',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.grey,
+                                  minimumSize: Size(double.infinity, 48),
+                                ),
+                              ),
                             ),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors
-                                  .grey, // Change the button background color
-                              minimumSize: Size(double.infinity,
-                                  48), // Set minimum width and height
-                            ),
-                          ),
-                        ),
                 )
               ],
             ),
@@ -155,7 +153,7 @@ class CarCard extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/towtruck2.jpg'),
+                  image: NetworkImage(vehicle.image ?? ''),
                   fit: BoxFit.cover,
                 ),
               ),

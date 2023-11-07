@@ -3,11 +3,14 @@ import 'package:CarRescue/src/presentation/view/car_owner_view/edit_profile/layo
 import 'package:flutter/material.dart';
 
 class EditProfileView extends StatelessWidget {
-  const EditProfileView(
-      {Key? key, required this.userId, required this.accountId})
-      : super(key: key);
+  const EditProfileView({
+    Key? key,
+    required this.userId,
+    required this.accountId,
+  }) : super(key: key);
   final String userId;
   final String accountId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

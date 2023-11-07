@@ -1,7 +1,7 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/order/layout/repair_layout/body.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/order/layout/tow_layout/body.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/service_details/layout/repair_layout/body.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/service_details/layout/tow_layout/body.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

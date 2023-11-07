@@ -39,6 +39,13 @@ class BookingStatus extends StatelessWidget {
           fontWeight: FontWeight.bold,
         );
         break;
+      case 'inprogress':
+        statusColor = Color.fromARGB(255, 251, 247, 201);
+        statusTextStyle = TextStyle(
+          color: Color.fromARGB(255, 228, 203, 10),
+          fontWeight: FontWeight.bold,
+        );
+        break;
       default:
         statusColor = Colors.blue;
         statusTextStyle = TextStyle(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/chat_details/chat_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/orders/orders_view.dart';
 
 class ProfileCardWidget extends StatelessWidget {
   ProfileCardWidget(

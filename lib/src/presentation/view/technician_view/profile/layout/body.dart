@@ -1,3 +1,4 @@
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/technician_view/auth/log_in/log_in_view.dart';
 import 'package:CarRescue/src/presentation/view/technician_view/edit_profile/edit_profile_view.dart';
 import 'package:CarRescue/src/utils/api.dart';
@@ -49,11 +50,12 @@ class _ProfileBodyState extends State<ProfileBody> {
         // Extract 'fullname' and 'phone' values from the 'data' map
         final String fullName = data['fullname'];
         final String phone = data['phone'];
-
+        final String avatar = data['avatar'];
         // Update the state with the extracted values or 'N/A' if they are null
         setState(() {
           userName = fullName;
           phoneNumber = phone;
+          avatarTech = avatar;
         });
       } else {
         // Handle the case where the userProfile is null
@@ -87,25 +89,25 @@ class _ProfileBodyState extends State<ProfileBody> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 37,
+                      backgroundColor: Color.fromARGB(0, 158, 158, 158),
+                      radius: 64,
                       backgroundImage: NetworkImage(
-                          'https://firebasestorage.googleapis.com/v0/b/car-rescue-399511.appspot.com/o/images%2Favatars-2.png?alt=media&token=ebea458f-13c0-4c20-9d52-15eca7f652ac&_gl=1*1fo3xxj*_ga*NDA4Mjk5NjgwLjE2OTc4OTc1Nzc.*_ga_CW55HF8NVT*MTY5NzkxMDU5MC41LjEuMTY5NzkxMDYwMi40OC4wLjA.'), // Use 'backgroundImage' to set the image
+                          avatarTech), // Use 'backgroundImage' to set the image
                     ),
                     SizedBox(
                       height: 18,
                     ),
                     CustomText(
                       text: userName,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                     SizedBox(
-                      height: 7,
+                      height: 8,
                     ),
                     CustomText(
                       text: phoneNumber,
-                      fontSize: 14,
+                      fontSize: 20,
                       fontWeight: FontWeight.w500,
                     )
                   ],
@@ -118,7 +120,7 @@ class _ProfileBodyState extends State<ProfileBody> {
             SettingWidget(
               icon: "assets/svg/user.svg",
               title: "John_wick",
-              name: 'Chỉnh sửa thông tin',
+              name: ' Chỉnh sửa thông tin',
               onTap: () async {
                 // Navigate to EditProfileView
                 final result = await Navigator.push(
@@ -129,7 +131,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       accountId: widget.accountId,
                     ),
                   ),
-                );
+                ).then((value) => {fetchUserProfileData()});
 
                 // Check if the result indicates a successful update
                 if (result == 'Profile updated successfully') {
@@ -143,6 +145,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             ),
             SettingWidget(
               icon: "assets/svg/privacy.svg",
+              height: 30,
+              weight: 30,
               title: "John_wick",
               name: 'Chính sách riêng tư',
               onTap: () {},
@@ -175,8 +179,8 @@ class _ProfileBodyState extends State<ProfileBody> {
                 children: [
                   SvgPicture.asset(
                     "assets/svg/exit.svg",
-                    height: 20,
-                    width: 20,
+                    height: 30,
+                    width: 30,
                   ),
                   const SizedBox(
                     width: 18,
@@ -185,8 +189,8 @@ class _ProfileBodyState extends State<ProfileBody> {
                     "Đăng xuất",
                     style: TextStyle(
                       color: redColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   )
                 ],

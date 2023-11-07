@@ -1,4 +1,9 @@
 import 'package:CarRescue/src/configuration/show_toast_notify.dart';
+import 'package:CarRescue/src/presentation/elements/booking_status.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/chat_with_driver/chat_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/select_service/widget/selection_location_widget.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
@@ -9,6 +14,7 @@ import 'package:CarRescue/src/providers/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:CarRescue/src/providers/google_map_provider.dart';
 
 class ServiceBody extends StatefulWidget {
   const ServiceBody({super.key});
@@ -21,6 +27,7 @@ class _ServiceBodyState extends State<ServiceBody> {
   Customer customer = Customer.fromJson(GetStorage().read('customer') ?? {});
   NotifyMessage notifyMessage = NotifyMessage();
   TextEditingController _reasonCacelController = TextEditingController();
+
   bool isConfirmed = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -28,6 +35,20 @@ class _ServiceBodyState extends State<ServiceBody> {
   void initState() {
     getAllOrders("NEW");
     super.initState();
+  }
+
+  Future<String> getPlaceDetails(String latLng) async {
+    try {
+      final locationProvider = LocationProvider();
+      String address = await locationProvider.getAddressDetail(latLng);
+      // Sau khi có được địa chỉ, bạn có thể xử lý nó tùy ý ở đây
+      print("Địa chỉ từ tọa độ: $address");
+      return address;
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      print("Lỗi khi lấy địa chỉ: $e");
+      return "Không tìm thấy";
+    }
   }
 
   @override
@@ -196,60 +217,224 @@ class _ServiceBodyState extends State<ServiceBody> {
 
                     return Column(
                       children: orders.map((order) {
+                        String formattedStartTime =
+                            DateFormat('dd/MM/yyyy | HH:mm')
+                                .format(order.createdAt ?? DateTime.now());
+
                         return Card(
-                          child: ListTile(
-                            title: Column(
+                            child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ListTile(
+                              leading: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Color.fromARGB(86, 115, 115, 115),
+                                    width: 2.0,
+                                  ),
+                                  color: Color.fromARGB(0, 255, 255, 255),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                      Color.fromARGB(115, 47, 47, 47),
+                                  backgroundImage: AssetImage(
+                                      'assets/images/logocarescue.png'),
+                                  radius: 20,
+                                ),
+                              ),
+                              title: CustomText(
+                                text: formattedStartTime,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              subtitle: Text(order.rescueType!),
+                              trailing: BookingStatus(
+                                  status: order
+                                      .status), // Use the BookingStatusWidget here
+                            ),
+                            Divider(
+                              color: FrontendConfigs.kIconColor,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    // Hình ảnh ở đầu
-                                    Padding(
-                                      padding: EdgeInsets.all(1.0),
-                                      child: Image.asset(
-                                        'assets/images/logo-color.png',
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit
-                                            .cover, // Optional, you can adjust the BoxFit as needed
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 2),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              "assets/svg/location_icon.svg",
+                                              color: FrontendConfigs
+                                                  .kPrimaryColor),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomText(
+                                            text: "6.5 km",
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                    // ListTile (nội dung)
-                                    Expanded(
-                                      child: ListTile(
-                                        title: Text("Ngày: ${order.createdAt}"),
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              "assets/svg/watch_icon.svg"),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomText(
+                                            text: "15 mins",
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                        ],
                                       ),
-                                    ),
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/svg/wallet_icon.svg",
+                                            color:
+                                                FrontendConfigs.kPrimaryColor,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomText(
+                                            text: "\$56.00",
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  color: FrontendConfigs.kIconColor,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                FutureBuilder<String>(
+                                  future: getPlaceDetails(order.departure!),
+                                  builder: (context, addressSnapshot) {
+                                    if (addressSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      // Display loading indicator or placeholder text
+                                      return CircularProgressIndicator();
+                                    } else if (addressSnapshot.hasError) {
+                                      // Handle error
+                                      return Text(
+                                          'Error: ${addressSnapshot.error}');
+                                    } else {
+                                      String departureAddress =
+                                          addressSnapshot.data ?? '';
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: RideSelectionWidget(
+                                          icon: 'assets/svg/pickup_icon.svg',
+                                          title:
+                                              "Địa điểm hiện tại", // Add your title here
+                                          body: departureAddress,
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                if(order.destination != '')
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 29),
+                                  child: DottedLine(
+                                    direction: Axis.vertical,
+                                    lineLength: 30,
+                                    lineThickness: 1.0,
+                                    dashLength: 4.0,
+                                    dashColor: Colors.black,
+                                    dashRadius: 2.0,
+                                    dashGapLength: 4.0,
+                                    dashGapRadius: 0.0,
+                                  ),
+                                ),
+                                if(order.destination != '')
+                                FutureBuilder<String>(
+                                  future: getPlaceDetails(order.destination!),
+                                  builder: (context, addressSnapshot) {
+                                    if (addressSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      // Display loading indicator or placeholder text
+                                      return CircularProgressIndicator();
+                                    } else if (addressSnapshot.hasError) {
+                                      // Handle error
+                                      return Text(
+                                          'Error: ${addressSnapshot.error}');
+                                    } else {
+                                      String destinationAddress =
+                                          addressSnapshot.data ?? '';
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: RideSelectionWidget(
+                                          icon: 'assets/svg/location_icon.svg',
+                                          title: "Địa điểm muốn đến",
+                                          body: destinationAddress,
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                ButtonBar(
+                                  children: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChatView(),
+                                          ),
+                                        );
+                                      },
+                                      child: CustomText(
+                                        text: 'Chi tiết',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    )
                                   ],
                                 ),
-                                Container(
-                                  width: double.infinity,
-                                  child: SliderButton(
-                                    alignLabel: Alignment.center,
-                                    shimmer: true,
-                                    baseColor: Colors.white,
-                                    buttonSize: 45,
-                                    height: 60,
-                                    backgroundColor:
-                                        FrontendConfigs.kActiveColor,
-                                    action: () {
-                                      showCancelOrderDialog(context, order.id);
-                                    },
-                                    label: const Text(
-                                      "Hủy đơn",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                    icon: SvgPicture.asset(
-                                        "assets/svg/cancel_icon.svg"),
-                                  ),
-                                )
                               ],
                             ),
-                          ),
-                        );
+                            Container(
+                              width: double.infinity,
+                              child: SliderButton(
+                                alignLabel: Alignment.center,
+                                shimmer: true,
+                                baseColor: Colors.white,
+                                buttonSize: 45,
+                                height: 60,
+                                backgroundColor: FrontendConfigs.kActiveColor,
+                                action: () {
+                                  showCancelOrderDialog(context, order.id);
+                                },
+                                label: const Text(
+                                  "Hủy đơn",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                                icon: SvgPicture.asset(
+                                    "assets/svg/cancel_icon.svg"),
+                              ),
+                            )
+                          ],
+                        ));
                       }).toList(),
                     );
                   }

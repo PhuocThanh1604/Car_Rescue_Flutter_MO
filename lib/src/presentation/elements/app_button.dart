@@ -24,7 +24,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: FrontendConfigs.kPrimaryColor,
+          primary: FrontendConfigs.kIconColor,
           fixedSize: Size(width, height),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: borderColor!),
@@ -37,7 +37,7 @@ class AppButton extends StatelessWidget {
           Text(
             btnLabel,
             style: TextStyle(
-              color: FrontendConfigs.kTextButton,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),

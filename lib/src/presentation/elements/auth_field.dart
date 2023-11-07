@@ -43,7 +43,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
-          fillColor: FrontendConfigs.kButtonColor,
+          fillColor: FrontendConfigs.kIconColor,
           suffixIcon: widget.isPassword
               ? InkWell(
                   onTap: () {
@@ -54,10 +54,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   },
                   child: widget.isSecure
                       ? Icon(Icons.visibility_off_outlined,
-                          color: FrontendConfigs.kTextButton, size: 20)
+                          color: FrontendConfigs.kAuthColor, size: 20)
                       : Icon(
                           Icons.remove_red_eye_outlined,
-                          color: FrontendConfigs.kTextButton,
+                          color: FrontendConfigs.kAuthColor,
                           size: 20,
                         ))
               : null,

@@ -7,7 +7,7 @@ import 'package:CarRescue/src/models/location_info.dart';
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
-import 'package:CarRescue/src/presentation/view/customer_view/order/layout/order_view.dart';
+import 'package:CarRescue/src/presentation/view/customer_view/service_details/layout/order_view.dart';
 import 'package:CarRescue/src/providers/google_map_provider.dart';
 
 import 'package:flutter/material.dart';

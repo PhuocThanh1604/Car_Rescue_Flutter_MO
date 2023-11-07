@@ -10,8 +10,8 @@ class SettingWidget extends StatelessWidget {
       required this.icon,
       required this.title,
       this.isShow = false,
-      this.height = 20,
-      this.weight = 20,
+      this.height = 30,
+      this.weight = 30,
       required this.onTap,
       required this.name})
       : super(key: key);
@@ -41,7 +41,7 @@ class SettingWidget extends StatelessWidget {
                 width: 18,
               ),
               Text(name,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
             ],
           ),
           isShow
@@ -49,8 +49,8 @@ class SettingWidget extends StatelessWidget {
                   title,
                   style: TextStyle(
                       color: FrontendConfigs.kAuthColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900),
                 )
               : const Icon(
                   Icons.arrow_forward_ios,

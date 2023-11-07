@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
-import '../chat_details/chat_view.dart';
+import '../orders/orders_view.dart';
 
 
 class BottomNavBarView extends StatefulWidget {

@@ -1,177 +1,366 @@
-import 'package:CarRescue/src/configuration/frontend_configs.dart';
-import 'package:CarRescue/src/models/work_shift.dart';
-import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+// // Copyright 2019 Aleksander Woźniak
+// // SPDX-License-Identifier: Apache-2.0
 
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
+// import 'dart:collection';
 
-class MyCalendarPage extends StatefulWidget {
-  @override
-  _MyCalendarPageState createState() => _MyCalendarPageState();
-}
+// import 'package:CarRescue/src/configuration/frontend_configs.dart';
+// import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+// import 'package:flutter/material.dart';
+// import 'package:table_calendar/table_calendar.dart';
+// import 'package:intl/intl.dart';
+// import 'package:intl/date_symbol_data_local.dart';
 
-class _MyCalendarPageState extends State<MyCalendarPage> {
-  CalendarFormat _calendarFormat = CalendarFormat.week;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  late ShiftDetails _selectedShift; // Declare as non-nullable
+// class CalendarScreen extends StatefulWidget {
+//   @override
+//   _CalendarScreenState createState() => _CalendarScreenState();
+// }
 
-  // Sample shift data, replace this with your actual data source
-  final List<ShiftDetails> _shifts = [
-    ShiftDetails(
-      date: DateTime(2023, 10, 5),
-      time: '9:00 AM - 5:00 PM',
-      numberOfSlots: 8,
-      managerName: 'John Doe',
-    ),
-    // Add more shift details here
-  ];
+// class _CalendarScreenState extends State<CalendarScreen> {
+//   DateTime? _selectedDay;
+//   late LinkedHashMap<DateTime, List<Event>> events;
 
-  @override
-  void initState() {
-    super.initState();
-    initializeDateFormattingVietnamese();
-    // Initialize _selectedShift with default values
-    _selectedShift = ShiftDetails(
-      date: DateTime.now(), // Provide a default date or other default values
-      time: DateFormat('HH:mm').format(DateTime.now()),
-      numberOfSlots: 0,
-      managerName: 'N/A',
-    );
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     initializeDateFormattingVietnamese();
+//     _selectedDay = DateTime.now();
+//     events = LinkedHashMap(
+//       equals: isSameDay,
+//       hashCode: (dt) => dt.day,
+//     )..addAll({
+//         DateTime.now().subtract(Duration(days: 3)): [
+//           Event(
+//               time: "10:00AM - 11:00AM",
+//               caregiver: "Ronaldo, Messi",
+//               client: "Huff, Emma",
+//               isScheduled: true,
+//               date: DateTime.now().subtract(Duration(days: 3))),
+//         ],
+//         DateTime.now().subtract(Duration(days: 2)): [
+//           Event(
+//               time: "8:00PM - 8:00AM",
+//               caregiver: "Ronaldo, Messi",
+//               client: "Huff, Emma",
+//               isScheduled: true,
+//               date: DateTime.now().subtract(Duration(days: 2))),
+//           Event(
+//               time: "8:00PM - 8:00AM",
+//               caregiver: "Ronaldo, Messi",
+//               client: "Huff, Emma",
+//               isScheduled: true,
+//               date: DateTime.now().subtract(Duration(days: 2))),
+//           Event(
+//               time: "8:00PM - 8:00AM",
+//               caregiver: "Ronaldo, Messi",
+//               client: "Huff, Emma",
+//               isScheduled: true,
+//               date: DateTime.now().subtract(Duration(days: 2))),
+//           Event(
+//               time: "8:00PM - 8:00AM",
+//               caregiver: "Ronaldo, Messi",
+//               client: "Huff, Emma",
+//               isScheduled: true,
+//               date: DateTime.now().subtract(Duration(days: 2))),
+//         ],
+//       });
+//   }
+// Color primaryColor = Colors.lightBlue[300]!;
+// Color secondaryColor = Colors.yellow[200]!;
 
-  void initializeDateFormattingVietnamese() async {
-    await initializeDateFormatting('vi_VN', null);
-  }
+// // Hàm hiển thị modal bottom sheet
+// void showRegisterShiftModal(BuildContext context) {
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(context, text: 'Lịch làm việc', showText: true),
-      // Background color
-      body: SingleChildScrollView(
-        // Wrap your column with a SingleChildScrollView
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // App Bar
+//   showModalBottomSheet(
+//     context: context,
+//     builder: (context) {
+    
+//       return Container(
+//         height: 400,
+//         padding: EdgeInsets.all(20),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+          
+//           // Tiêu đề modal
+//           children: [
+//             Text('Đăng Ký Ca Làm Việc', 
+//               style: TextStyle(
+//                 fontSize: 22,
+//                 fontWeight: FontWeight.bold,
+//                 color: primaryColor
+//               )
+//             ),
+            
+//             SizedBox(height: 20),
+            
+//             // Lịch chọn ngày
+//             Text('Chọn Ngày',
+//               style: TextStyle(
+//                 fontSize: 16, 
+//                 color: secondaryColor
+//               ),
+//             ),
+            
+//             // Sử dụng lịch xoay hình tròn
+//             DatePickerWidget(
+//               onDateSelected: (datetime) {
+//                 // Xử lý ngày được chọn
+//               }  
+//             ),
+              
+//             // Chọn khung giờ làm việc          
+//             Text('Chọn Giờ Làm Việc',
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 color: secondaryColor  
+//               ), 
+//             ),
+            
+//             // Cho phép chọn giờ linh hoạt
+//             TimeRangePicker(),
+            
+//             // Hiển thị lịch sử đã đăng ký
+//             Text('Lịch Sử Đăng Ký',
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 color: secondaryColor
+//               ),
+//             ),
+            
+//             // Dạng timeline
+//             RegisteredShiftsTimeline(),
+            
+//             // Button đăng ký
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 primary: primaryColor,
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(20)
+//                 )  
+//               ),
+              
+//               child: Text('Xác Nhận'),
+//               onPressed: () {
+//                 // Xử lý đăng ký ca làm
+//               },
+//             ),
+//           ],
+//         ),
+//       );
+      
+//     }
+//   );
+  
+// }
 
-            // Table Calendar
-            Container(
-              color: Colors.white,
-              child: TableCalendar(
-                locale: 'vi_VN',
-                calendarFormat: _calendarFormat,
-                focusedDay: _focusedDay,
-                firstDay: DateTime(2000),
-                lastDay: DateTime(2050),
-                startingDayOfWeek: StartingDayOfWeek.sunday,
-                onFormatChanged: (format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
+//   void initializeDateFormattingVietnamese() async {
+//     await initializeDateFormatting('vi_VN', null);
+//   }
 
-                    // Find the shift details for the selected date
-                    _selectedShift = _shifts.firstWhere(
-                      (shift) => shift.date == selectedDay,
-                      orElse: () => ShiftDetails(
-                        date: selectedDay,
-                        time: 'N/A',
-                        numberOfSlots: 0,
-                        managerName: 'N/A',
-                      ),
-                    );
+//   List<Event> _getEventsForDay(DateTime day) {
+//     return events[day] ?? [];
+//   }
 
-                    // Display the shift details as a modal bottom sheet
-                  });
-                },
-                calendarStyle: CalendarStyle(
-                  todayDecoration: BoxDecoration(
-                    color: FrontendConfigs.kIconColor,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedTextStyle: TextStyle(color: Colors.white),
-                  todayTextStyle: TextStyle(color: Colors.white),
-                ),
-                daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                    color: Colors.black,
-                  ),
-                  weekendStyle: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-                headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true,
-                  titleTextStyle: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+//   List<Event> _getEventsForWeek(DateTime startDay) {
+//     List<Event> weeklyEvents = [];
+//     for (int i = 0; i < 7; i++) {
+//       DateTime currentDay = startDay.add(Duration(days: i));
+//       weeklyEvents.addAll(events[currentDay] ?? []);
+//     }
+//     return weeklyEvents;
+//   }
 
-            // Shift Details
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(
-                    thickness: 2,
-                    height: 2,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Shift Details',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  ListTile(
-                    title: Text('Date'),
-                    subtitle: _selectedDay != null
-                        ? Text(DateFormat('dd/MM/yyyy').format(_selectedDay!))
-                        : Text(DateFormat('dd/MM/yyyy').format(DateTime.now())),
-                  ),
-                  ListTile(
-                    title: Text('Time'),
-                    subtitle: Text(_selectedShift.time),
-                  ),
-                  ListTile(
-                    title: Text('Slots'),
-                    subtitle: Text(_selectedShift.numberOfSlots.toString()),
-                  ),
-                  ListTile(
-                    title: Text('Manager'),
-                    subtitle: Text(_selectedShift.managerName),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         centerTitle: true,
+//         backgroundColor: Colors.transparent,
+//         elevation: 0,
+//         title: Text(
+//           'Lịch làm việc',
+//           style: TextStyle(
+//               color: FrontendConfigs.kPrimaryColor,
+//               fontSize: 16,
+//               fontWeight: FontWeight.bold),
+//         ),
+//         leading: IconButton(
+//           icon: const Icon(Icons.arrow_back, color: Colors.black, size: 20),
+//           onPressed: () => Navigator.pop(context),
+//         ),
+//         actions: [
+//           IconButton(
+//             color: FrontendConfigs.kPrimaryColor,
+//             icon: Icon(Icons.add),
+//             onPressed: () {
+//               _showRegisterShiftModal(context);
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           TableCalendar(
+//             locale: 'vi_VN',
+//             firstDay: DateTime.utc(2010, 10, 16),
+//             lastDay: DateTime.utc(2030, 3, 14),
+//             focusedDay: DateTime.now(),
+//             eventLoader: _getEventsForDay,
+//             calendarFormat: CalendarFormat.twoWeeks,
+//             onDaySelected: (selectedDay, focusedDay) {
+//               setState(() {
+//                 _selectedDay = selectedDay;
+//               });
+//             },
+//           ),
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: _getEventsForWeek(DateTime.now()
+//                       .subtract(Duration(days: DateTime.now().weekday - 1)))
+//                   .length,
+//               itemBuilder: (context, index) {
+//                 final event = _getEventsForWeek(DateTime.now().subtract(
+//                     Duration(days: DateTime.now().weekday - 1)))[index];
+//                 return Card(
+//                   margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+//                   shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(10)),
+//                   elevation: 3,
+//                   child: Stack(
+//                     children: [
+//                       // The "10 SEP" column
+//                       Positioned(
+//                         left: 0,
+//                         top: 0,
+//                         bottom: 0,
+//                         child: Container(
+//                           width: 50,
+//                           decoration: BoxDecoration(
+//                             color: FrontendConfigs.kActiveColor,
+//                             borderRadius: BorderRadius.only(
+//                               topLeft: Radius.circular(10),
+//                               bottomLeft: Radius.circular(10),
+//                             ),
+//                           ),
+//                           child: Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               Text(
+//                                 DateFormat('MMM')
+//                                     .format(event.date)
+//                                     .toUpperCase(),
+//                                 style: TextStyle(
+//                                   fontSize: 16,
+//                                   fontWeight: FontWeight.bold,
+//                                   color: Colors.white,
+//                                 ),
+//                               ),
+//                               Text(
+//                                 DateFormat('d').format(event.date),
+//                                 style: TextStyle(
+//                                   fontSize: 24,
+//                                   fontWeight: FontWeight.bold,
+//                                   color: Colors.white,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
 
-  // Function to show the shift details as a modal bottom sheet
-}
+//                       // The rest of the content
+//                       Padding(
+//                         padding: const EdgeInsets.all(8.0),
+//                         child: Row(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             SizedBox(
+//                                 width:
+//                                     60), // Adjusted to accommodate the "10 SEP" column
+//                             Expanded(
+//                               child: Column(
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   Text(
+//                                     event.time,
+//                                     style: TextStyle(
+//                                       fontSize: 20,
+//                                       fontWeight: FontWeight.bold,
+//                                     ),
+//                                   ),
+//                                   SizedBox(height: 5),
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                         MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       Text(
+//                                         'Manager',
+//                                         style:
+//                                             TextStyle(color: Colors.grey[600]),
+//                                       ),
+//                                       Text('Client',
+//                                           style: TextStyle(
+//                                               color: Colors.grey[600])),
+//                                     ],
+//                                   ),
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                         MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       Text(
+//                                         event.caregiver,
+//                                         style: TextStyle(
+//                                             fontSize: 16,
+//                                             fontWeight: FontWeight.bold),
+//                                       ),
+//                                       Text(
+//                                         event.client,
+//                                         style: TextStyle(
+//                                             fontSize: 16,
+//                                             fontWeight: FontWeight.bold),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                   if (event.isScheduled)
+//                                     Align(
+//                                       alignment: Alignment.centerLeft,
+//                                       child: Chip(
+//                                         padding: EdgeInsets.zero,
+//                                         label: Text("SCHEDULED"),
+//                                         backgroundColor: Colors.green,
+//                                         labelStyle: TextStyle(
+//                                             color: Colors.white,
+//                                             fontWeight: FontWeight.bold),
+//                                       ),
+//                                     ),
+//                                 ],
+//                               ),
+//                             )
+//                           ],
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class Event {
+//   final String time;
+//   final String caregiver;
+//   final String client;
+//   final bool isScheduled;
+//   final DateTime date; // Add this line
+
+//   Event(
+//       {required this.time,
+//       required this.caregiver,
+//       required this.client,
+//       required this.isScheduled,
+//       required this.date}); // Modify this line
+// }

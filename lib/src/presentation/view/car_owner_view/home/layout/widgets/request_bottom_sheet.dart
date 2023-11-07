@@ -72,7 +72,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               RideSelectionWidget(
                 icon: 'assets/svg/pickup_icon.svg',
                 title: 'Pick up Location',
-                // body: '089 Stark Gateway',
+                body: '089 Stark Gateway',
                 onPressed: () {},
               ),
               const Padding(
@@ -91,7 +91,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               RideSelectionWidget(
                 icon: 'assets/svg/location_icon.svg',
                 title: 'Drop off Location',
-                // body: '92676 Orion Meadows',
+                body: '92676 Orion Meadows',
                 onPressed: () {},
               ),
               const SizedBox(
