@@ -14,7 +14,7 @@ class SelectCityView extends StatelessWidget {
         padding: const EdgeInsets.only(right: 18.0, left: 18, bottom: 10),
         child: AppButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const SelectModeView()));

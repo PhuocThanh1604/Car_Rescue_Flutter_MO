@@ -1,0 +1,11 @@
+/.vscode
+/build
+/.dart_tool
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.metadata
+/pubspec.lock
+/README.md
+/pubspec.yaml
+/analysis_options.yaml
+/android

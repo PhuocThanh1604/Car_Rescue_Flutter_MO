@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
   CustomTextField({
     Key? key,
@@ -20,7 +21,7 @@ class CustomTextField extends StatefulWidget {
 
   bool isPassword;
   TextEditingController? controller;
-  final VoidCallback onTap;
+  final Function onTap;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -38,14 +39,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           hintText: widget.text,
           hintStyle: TextStyle(
-              color: FrontendConfigs.kIconColor,
-              fontSize: 14,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w400),
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide.none),
-          fillColor: FrontendConfigs.kAuthColor,
+          fillColor: FrontendConfigs.kIconColor,
           suffixIcon: widget.isPassword
               ? InkWell(
                   onTap: () {
@@ -56,16 +54,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   },
                   child: widget.isSecure
                       ? Icon(Icons.visibility_off_outlined,
-                          color: FrontendConfigs.kIconColor, size: 20)
+                          color: FrontendConfigs.kAuthColor, size: 20)
                       : Icon(
                           Icons.remove_red_eye_outlined,
-                          color: FrontendConfigs.kIconColor,
+                          color: FrontendConfigs.kAuthColor,
                           size: 20,
                         ))
               : null,
           filled: true,
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
             child: SvgPicture.asset(
               widget.icon,
             ),

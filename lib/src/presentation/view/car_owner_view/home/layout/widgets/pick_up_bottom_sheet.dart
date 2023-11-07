@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:dotted_line/dotted_line.dart';
@@ -7,9 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../../../../elements/custom_text.dart';
 import '../../../../../elements/round_button.dart';
-import '../../../layout/driver_profile_widget.dart';
 import '../../../layout/selection_location_widget.dart';
-import 'going_to_bottom_sheet.dart';
 
 Future<void> pickUpBottomSheetSheet(context) {
   return showModalBottomSheet(
@@ -21,9 +18,9 @@ Future<void> pickUpBottomSheetSheet(context) {
       ),
       context: context,
       builder: (dialogContext) {
-        Timer(const Duration(seconds: 3),(){
+        Timer(const Duration(seconds: 3), () {
           Navigator.pop(dialogContext);
-          goingTOPickingUpSheet(context);
+          // goingTOPickingUpSheet(context);
         });
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -68,7 +65,7 @@ Future<void> pickUpBottomSheetSheet(context) {
               const SizedBox(
                 height: 8,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              // DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 8,
               ),
@@ -117,8 +114,8 @@ Future<void> pickUpBottomSheetSheet(context) {
                 children: [
                   RoundButton(
                     icon: 'assets/svg/cancel_icon.svg',
-                    height:16,
-                    widht:16,
+                    height: 16,
+                    widht: 16,
                     color: FrontendConfigs.kAuthColor,
                     svgColor: Colors.white,
                     onPressed: () {},
@@ -143,7 +140,6 @@ Future<void> pickUpBottomSheetSheet(context) {
                   )
                 ],
               )
-
             ],
           ),
         );

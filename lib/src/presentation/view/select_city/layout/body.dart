@@ -17,40 +17,21 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 60,
               ),
-              Transform.translate(
-                offset: const Offset(-12, 0),
+              Center(
                 child: Image.asset(
-                  "assets/images/logo.png",
-                  height: 100,
-                  width: 100,
+                  "assets/images/logocarescue.png",
+                  height: 200,
+                  width: 500,
                 ),
               ),
               const SizedBox(
                 height: 18,
               ),
-              RichText(
-                  text: const TextSpan(
-                      text: "  Be your own ",
-                      style: TextStyle(
-                          color: Color(0xff2F2E41),
-                          fontWeight: FontWeight.w400,
-                          // letterSpacing: 2,
-                          fontSize: 15),
-                      children: [
-                    TextSpan(
-                      text: "Concierge.",
-                      style: TextStyle(
-                          color: Color(0xFF2DBB54),
-                          fontWeight: FontWeight.w600,
-                          // letterSpacing: 2,
-                          fontSize: 15),
-                    )
-                  ])),
               const SizedBox(
                 height: 44,
               ),
               CustomText(
-                text: "Select your city",
+                text: "Chọn thành phố bạn đang sống",
                 fontSize: 21,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -58,15 +39,15 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              CityButton(btnLabel: "Ibiza"),
+
+              CityButton(btnLabel: "TP Hồ Chí Minh"),
               const SizedBox(
                 height: 18,
               ),
-              CityButton(btnLabel: "Santorini"),
-              const SizedBox(
-                height: 18,
+              CityButton(
+                btnLabel: "Hà Nội (Sớm ra mắt)",
+                isDisabled: true,
               ),
-              CityButton(btnLabel: "Dubai"),
             ],
           ),
         ),

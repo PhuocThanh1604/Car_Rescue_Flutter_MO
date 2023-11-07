@@ -1,9 +1,8 @@
-
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../../../../elements/custom_text.dart';
-import '../../../layout/driver_profile_widget.dart';
+// import '../../../layout/driver_profile_widget.dart';
 import '../../../layout/selection_location_widget.dart';
 import 'pick_up_bottom_sheet.dart';
 
@@ -60,7 +59,7 @@ Future<void> requestBottomSheet(BuildContext context) {
               const SizedBox(
                 height: 8,
               ),
-              DriverProfileWidget(onTapped: (){}),
+              // DriverProfileWidget(onTapped: () {}),
               const SizedBox(
                 height: 8,
               ),
@@ -108,7 +107,7 @@ Future<void> requestBottomSheet(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -125,21 +124,22 @@ Future<void> requestBottomSheet(BuildContext context) {
                     ),
                   ),
                   InkWell(
-                    onTap:(){
+                    onTap: () {
                       Navigator.pop(dialogContext);
-                pickUpBottomSheetSheet(context);
+                      pickUpBottomSheetSheet(context);
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Color(0xFF2DBB54),),
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFF2DBB54),
+                      ),
                       child: Center(
                           child: CustomText(
-                            text: 'Accept',
-                            color: Colors.white,
-                          )),
+                        text: 'Accept',
+                        color: Colors.white,
+                      )),
                     ),
                   )
                 ],

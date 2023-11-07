@@ -1,13 +1,15 @@
+import 'package:CarRescue/src/presentation/view/customer_view/select_service/select_service_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
-import 'package:CarRescue/src/presentation/view/customer_view/wallet/wallet_view.dart';
-import '../chat_details/chat_view.dart';
-import '../home/home_view.dart';
+import '../orders/orders_view.dart';
+
 
 class BottomNavBarView extends StatefulWidget {
-  const BottomNavBarView({Key? key}) : super(key: key);
+  final int page;
+
+  const BottomNavBarView({Key? key, required this.page}) : super(key: key);
 
   @override
   _BottomNavBarViewState createState() => _BottomNavBarViewState();
@@ -15,17 +17,13 @@ class BottomNavBarView extends StatefulWidget {
 
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    HomeView(),
+   final List<Widget> _children = [
+    const ServiceView(),
     const ChatDetailsView(),
-    const WalletView(),
     const ProfileView()
   ];
 
-  // void onTabTapped(int index, BuildContext context) {
-  //   // var bottomIndex = Provider.of<BottomIndexProvider>(context, listen: false);
-  //   bottomIndex.setIndex(index);
-  // }
+  
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -33,10 +31,16 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   }
 
   @override
+  void initState() {
+    _currentIndex = widget.page;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // var bottomIndex = Provider.of<BottomIndexProvider>(context);
+    
     return Scaffold(
-      body: _children[_currentIndex], // new
+      body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
@@ -47,13 +51,13 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         selectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 10,
-          fontFamily: "Poppins",
+          fontFamily: "Montserrat",
           color: FrontendConfigs.kPrimaryColor,
         ),
         unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 10,
-          fontFamily: "Poppins",
+          fontFamily: "Montserrat",
           color: FrontendConfigs.kIconColor,
         ),
         onTap: onTabTapped,
@@ -73,7 +77,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                       : FrontendConfigs.kIconColor,
                 ),
               ),
-              label: "Home"),
+              label: "Trang chủ"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
@@ -87,28 +91,15 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                       : FrontendConfigs.kIconColor,
                 ),
               ),
-              label: "Chat"),
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  height: 16,
-                  width: 16,
-                  'assets/svg/wallet_icon.svg',
-                  // ignore: deprecated_member_use
-                  color: _currentIndex == 2
-                      ? Colors.green
-                      : FrontendConfigs.kIconColor,
-                ),
-              ),
-              label: "Wallet"),
+              label: "Đơn hàng"),
+          
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
                 child: SvgPicture.asset(
                   'assets/svg/person_icon.svg',
                   // ignore: deprecated_member_use
-                  color: _currentIndex == 3
+                  color: _currentIndex == 2
                       ? Colors.green
                       : FrontendConfigs.kIconColor,
                   height: 18,

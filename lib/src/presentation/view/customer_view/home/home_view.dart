@@ -1,39 +1,60 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'dart:ui' as ui;
+import 'package:CarRescue/src/configuration/frontend_configs.dart';
+import 'package:CarRescue/src/models/location_info.dart';
+import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
+import 'package:CarRescue/src/presentation/elements/custom_text.dart';
+
+import 'package:CarRescue/src/presentation/view/customer_view/service_details/layout/order_view.dart';
+import 'package:CarRescue/src/providers/google_map_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
+
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:CarRescue/src/presentation/elements/app_button.dart';
-import 'package:CarRescue/src/providers/location_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'layout/bottom_sheets/pick_up_sheet.dart';
-import 'layout/widget/home_field.dart';
-import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'layout/widget/home_field.dart';
+
+// import 'package:google_api_headers/google_api_headers.dart';
+// import 'package:google_maps_webservice/places.dart';
 
 class HomeView extends StatefulWidget {
+  final String services;
+
+  HomeView({required this.services});
+
   @override
   State<HomeView> createState() => HomeViewState();
 }
 
-const _kGoogleApiKey = 'AIzaSyB2fhukchi90Nc1P1i-9s2kJRjlEpw4r0k';
 final GlobalKey<ScaffoldMessengerState> homeScaffoldKey =
     GlobalKey<ScaffoldMessengerState>();
 
 class HomeViewState extends State<HomeView> {
   final TextEditingController _pickUpController = TextEditingController();
-  // final TextEditingController _dropLocationController = TextEditingController();
+  final TextEditingController _dropLocationController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
+  // ServiceType selectedService = ServiceType.repair;
+  PanelController _pc = new PanelController();
   late GoogleMapController controller;
-  LocationService service = LocationService();
-  // final Mode _mode = Mode.overlay;
+  LocationProvider service = LocationProvider();
   StreamSubscription<Position>? _positionStreamSubscription;
-  late LatLng _latLng;
+  late LatLng _latLng = LatLng(0, 0);
+  LatLng _latLngDrop = LatLng(0, 0);
+  String formattedDistance = "0";
   Position? position;
   BitmapDescriptor? destinationIcon;
   bool _isMounted = false;
+  bool isPickingPickupLocation = false;
+  late Future<List<LocationInfo>> predictions;
+  late Future<PlacesAutocompleteResponse> predictionsPlaces;
+
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(10.762622, 106.660172),
     zoom: 10,
@@ -112,6 +133,22 @@ class HomeViewState extends State<HomeView> {
       currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
       );
+      if (currentPosition != null) {
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          currentPosition.latitude,
+          currentPosition.longitude,
+        );
+        if (placemarks.isNotEmpty) {
+          Placemark placemark = placemarks[0];
+          String address =
+              "${placemark.name},${placemark.street}, ${placemark.subAdministrativeArea}, ${placemark.administrativeArea}, ${placemark.country}";
+          setState(() {
+            _pickUpController.text = address;
+          });
+        } else {
+          print("No placemark found.");
+        }
+      }
     } catch (e) {
       print("Lỗi khi lấy vị trí: $e");
     }
@@ -157,21 +194,37 @@ class HomeViewState extends State<HomeView> {
     print("Stop Listening to Location");
   }
 
+  Future<double> calculateDistance(LatLng from, LatLng to) async {
+    double distanceInMeters = await Geolocator.distanceBetween(
+      from.latitude,
+      from.longitude,
+      to.latitude,
+      to.longitude,
+    );
+
+    // Kết quả sẽ là khoảng cách trong mét
+    return distanceInMeters;
+  }
+
   @override
   void initState() {
     super.initState();
     _isMounted = true;
+    predictions = Future.value([]);
+    predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'INIT'));
     requestLocationPermission();
     setSourceAndDestinationIcons();
-    Timer(
-      const Duration(seconds: 5),
-      () => piUpLocationBottomSheet(context),
-    );
+    // Timer(
+    //   const Duration(seconds: 5),
+    //   () => piUpLocationBottomSheet(context),
+    // );
   }
 
   @override
   void dispose() {
     _isMounted = false;
+    _pickUpController.dispose();
+    _dropLocationController.dispose();
     super.dispose();
     // Cancel sự kiện async trong dispose
     _positionStreamSubscription?.cancel();
@@ -180,6 +233,11 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(
+        context,
+        text: 'Map Location',
+        showText: true,
+      ),
       key: homeScaffoldKey,
       body: Stack(
         children: [
@@ -195,9 +253,11 @@ class HomeViewState extends State<HomeView> {
           ),
           if (position != null)
             Positioned(
-              bottom: 250,
+              bottom: widget.services == 'Fixing' ? 270 : 400,
               right: 16,
               child: FloatingActionButton(
+                backgroundColor: FrontendConfigs.kPrimaryColor,
+                mini: true,
                 onPressed: () {
                   getCurrentLocation();
                   startListeningToLocationUpdates();
@@ -210,7 +270,9 @@ class HomeViewState extends State<HomeView> {
               ),
             ),
           SlidingUpPanel(
-            minHeight: 200,
+            controller: _pc,
+            minHeight: widget.services == 'Fixing' ? 200 : 300,
+            maxHeight: widget.services == 'Fixing' ? 250 : 400,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -230,26 +292,164 @@ class HomeViewState extends State<HomeView> {
                     ),
                   ),
                   const SizedBox(height: 18),
+                  if (widget.services == "Towing" &&
+                      _latLngDrop != LatLng(0, 0))
+                    FutureBuilder<double>(
+                      future: calculateDistance(_latLng,
+                          _latLngDrop), // Thay bằng hàm lấy dữ liệu thích hợp
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.hasData) {
+                            double distance = snapshot.data! / 1000;
+                            formattedDistance = distance.toStringAsFixed(3);
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(text: 'Khoảng cách'),
+                                    CustomText(text: '${formattedDistance} Km')
+                                  ],
+                                ),
+                                Divider(
+                                  color: FrontendConfigs.kIconColor,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Text('Không có dữ liệu.');
+                          }
+                        }
+                      },
+                    ),
+                  const SizedBox(height: 12),
+                  // Hiển thị trường đầu vào dựa trên dịch vụ được chọn
                   HomeField(
+                    onTap: () {
+                      setState(() {
+                        isPickingPickupLocation = true;
+                      });
+
+                      if (_pc.isPanelOpen) {
+                        _pc.close(); // Đóng panel nếu đã mở
+                      } else {
+                        _pc.open(); // Mở panel nếu đã đóng
+                      }
+                    },
                     svg: 'assets/svg/pickup_icon.svg',
-                    hint: 'Enter your pickup location',
+                    hint: 'Vị trí đang đứng',
                     controller: _pickUpController,
                     inputType: TextInputType.text,
+                    onTextChanged: getListPredictions,
                   ),
                   const SizedBox(height: 18),
-                  // HomeField(
-                  //   svg: 'assets/svg/location_icon.svg',
-                  //   hint: 'Where you want to go?',
-                  //   controller: _dropLocationController,
-                  //   inputType: TextInputType.text,
-                  // ),
-                  AppButton(
-                      onPressed: () {
-                        // _handlePressButton();
-                        stopListeningToLocationUpdates();
-                        searchAndMoveCamera(_pickUpController.text);
+                  if (widget.services == "Towing")
+                    HomeField(
+                      onTap: () {
+                        setState(() {
+                          isPickingPickupLocation = false;
+                        });
+                        if (_pc.isPanelOpen) {
+                          _pc.close(); // Đóng panel nếu đã mở
+                        } else {
+                          _pc.open(); // Mở panel nếu đã đóng
+                        }
                       },
-                      btnLabel: "Confirm Location"),
+                      svg: 'assets/svg/setting_location.svg',
+                      hint: 'Vị trí muốn đến',
+                      controller: _dropLocationController,
+                      inputType: TextInputType.text,
+                      onTextChanged: getListPredictions,
+                    ),
+                  FutureBuilder<PlacesAutocompleteResponse>(
+                    future: predictionsPlaces,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        if (snapshot.hasData) {
+                          final predictions = snapshot.data!.predictions;
+
+                          return Expanded(
+                            child: Column(
+                              children: [
+                                if (predictions.isNotEmpty)
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: predictions.length,
+                                      itemBuilder: (context, index) {
+                                        final prediction = predictions[index];
+                                        return ListTile(
+                                          title: Text(prediction.description!),
+                                          onTap: () {
+                                            if (isPickingPickupLocation) {
+                                              _pickUpController.text =
+                                                  prediction.description!;
+                                              getLatLngByPlaceDetails(
+                                                  prediction.placeId!, true);
+                                              // Di chuyển camera đến _latLng
+                                            } else {
+                                              _dropLocationController.text =
+                                                  prediction.description!;
+                                              getLatLngByPlaceDetails(
+                                                  prediction.placeId!, false);
+                                              // Di chuyển camera đến _latLngDrop
+                                            }
+
+                                            
+                                          },
+                                          tileColor: Colors.transparent,
+                                          contentPadding: EdgeInsets.zero,
+                                          shape: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.black,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Text('');
+                        }
+                      }
+                    },
+                  ),
+                  if (predictionsPlaces == Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR')))
+                    SizedBox(
+                      height: 10,
+                    ),
+                  AppButton(
+                    onPressed: () {
+                      // _handlePressButton();
+                      // stopListeningToLocationUpdates();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => OrderView(
+                                  latLngPick: _latLng,
+                                  addressPick: _pickUpController.text,
+                                  serviceType: widget.services,
+                                  latLngDrop: _latLngDrop,
+                                  addressDrop: _dropLocationController.text,
+                                  distance: formattedDistance,
+                                )),
+                      );
+                    },
+                    btnLabel: "Xác nhận địa điểm",
+                  ),
                 ],
               ),
             ),
@@ -259,57 +459,68 @@ class HomeViewState extends State<HomeView> {
     );
   }
 
-  // Future<void> _handlePressButton() async {
-  //   stopListeningToLocationUpdates();
-  //   Prediction? p = await PlacesAutocomplete.show(
-  //       context: context,
-  //       apiKey: _kGoogleApiKey,
-  //       onError: onError,
-  //       mode: _mode,
-  //       language: 'en',
-  //       strictbounds: false,
-  //       types: [""],
-  //       decoration: InputDecoration(
-  //         hintText: "Location",
-  //         focusedBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(20),
-  //             borderSide: BorderSide(color: Colors.white)),
-  //       ),
-  //       components: [Component(Component.country, "vn")]);
-  //   if (p != null) {
-  //     displayPrediction(p, homeScaffoldKey.currentState);
-  //   }
-  // }
+  Future<void> onSearchTextChanged(String query) async {
+    try {
+      final response = await service.getDisplayNamesByVietMap(query);
+      setState(() {
+        predictions =
+            Future.value(response); // Gán danh sách LocationInfo vào Future
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
-  // void onError(PlacesAutocompleteResponse response) {
-  //   homeScaffoldKey.currentState!
-  //       .showSnackBar(SnackBar(content: Text(response.errorMessage!)));
-  // }
+  Future<void> getListPredictions(String query) async {
+    try {
+      final response = await service.getPlacePredictions(query);
+      setState(() {
+        predictionsPlaces =
+            Future.value(response); // Gán danh sách LocationInfo vào Future
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
-  // Future<void> displayPrediction(
-  //     Prediction p, ScaffoldMessengerState? currentState) async {
-  //   GoogleMapsPlaces places = GoogleMapsPlaces(
-  //       apiKey: _kGoogleApiKey,
-  //       apiHeaders: await const GoogleApiHeaders().getHeaders());
+  void getLatLngByPlaceDetails(String placeId, bool type) async {
+    try {
+      final response = await service.getPlaceDetails(placeId);
+      final LatLng newLatLng = LatLng(response.latitude, response.longitude);
+      setState(() {
+        if (type) {
+          _latLng = newLatLng;
+        } else {
+          _latLngDrop = newLatLng;
+        }
+        _updateCameraPosition(newLatLng);
+        clearPredictions();
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
-  //   PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
+  void getLatLng(String query, bool type) async {
+    final response = await service.searchPlaces(query);
+    if (type) {
+      setState(() {
+        _latLng = LatLng(response.latitude, response.longitude);
+        _updateCameraPosition(_latLng);
+      });
+    } else {
+      setState(() {
+        _latLngDrop = LatLng(response.latitude, response.longitude);
+        _updateCameraPosition(_latLngDrop);
+      });
+    }
+  }
 
-  //    setState(() {
-  //      _latLng = LatLng(
-  //           detail.result.geometry!.location.lat,
-  //           detail.result.geometry!.location.lng,
-  //         );
-  //    });
+  void clearPredictions() {
+    setState(() {
+      predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR'));
+    });
+  }
 
-  //   updateMarker(_latLng);
-  //   _updateCameraPosition(_latLng);
-
-  //   // markers.clear();
-  //   // markers.add(Marker(markerId: const MarkerId("0"),position: LatLng(lat,lng),icon: destinationIcon!));
-  //   // setState(() {
-  //   //   if (_isMounted) {
-  //   //     controller.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
-  //   //   }
-  //   // });
-  // }
+  
 }

@@ -19,7 +19,7 @@ class VerifiedView extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const BottomNavBarView()));
+                    builder: (context) => const BottomNavBarView(page: 0,)));
           },
           btnLabel: 'Got it!',
         ),

@@ -51,16 +51,23 @@ class RideSelectionWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  softWrap: false, // Set softWrap to false
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                 ),
                 const SizedBox(
                   height: 3,
                 ),
                 CustomText(
                   text: body,
+                  color: Colors.black54,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 )
