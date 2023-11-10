@@ -20,20 +20,24 @@ class QuickAccessButton extends StatelessWidget {
           width: 45, // Adjust the container width as needed
           height: 45, // Adjust the container height as needed
           decoration: BoxDecoration(
-            color: FrontendConfigs.kIconColor, // Background color
+            // Background color
             borderRadius: BorderRadius.circular(10), // Rounded corners
           ),
           child: IconButton(
-            icon: Icon(icon, color: Colors.white), // Icon with white color
+            icon: Icon(icon,
+                color: FrontendConfigs.kPrimaryColor,
+                size: 32), // Icon with white color
             onPressed: onPressed,
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(
+          height: 3,
+        ),
         Text(
           label,
           style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
               color: FrontendConfigs.kAuthColor), // Adjust the label size
         ),
       ],

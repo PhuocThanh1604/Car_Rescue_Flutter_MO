@@ -26,7 +26,8 @@ class TowBody extends StatefulWidget {
       required this.latLng,
       required this.address,
       required this.latLngDrop,
-      required this.addressDrop, required this.distance});
+      required this.addressDrop,
+      required this.distance});
 
   @override
   State<TowBody> createState() => _TowBodyState();
@@ -55,7 +56,8 @@ class _TowBodyState extends State<TowBody> {
   late String selectedPaymentOption;
   int totalPrice = 0;
   bool isLoading = false;
-
+  bool isMomoSelected = false;
+  bool isCashSelected = false;
   @override
   void initState() {
     selectedDropdownItem = dropdownItems[0];
@@ -107,14 +109,16 @@ class _TowBodyState extends State<TowBody> {
       // Bước 1: Xác định thông tin cho đơn hàng
       String paymentMethod = paymentMethodController.text;
       String customerNote = customerNoteController.text;
-      String departure = "lat:${widget.latLng.latitude},long:${widget.latLng.longitude}";
-      String destination = "lat:${widget.latLngDrop.latitude},long:${widget.latLngDrop.longitude}"; // Không có thông tin đích đến
+      String departure =
+          "lat:${widget.latLng.latitude},long:${widget.latLng.longitude}";
+      String destination =
+          "lat:${widget.latLngDrop.latitude},long:${widget.latLngDrop.longitude}"; // Không có thông tin đích đến
       String rescueType = "Towing"; // Loại cứu hộ (ở đây là "repair")
       String customerId = customer.id; // ID của khách hàng
       List<String> url = urlImages ?? [];
       List<String> service = selectedServices ?? [];
       int area = selectedDropdownItem['value'] ?? 0;
-      double  distance = double .parse(widget.distance);
+      double distance = double.parse(widget.distance);
 
       // Bước 2: Tạo đối tượng Order
       OrderBookServiceTowing order = OrderBookServiceTowing(
@@ -126,7 +130,7 @@ class _TowBodyState extends State<TowBody> {
         customerId: customerId,
         url: url,
         service: service,
-        distance:distance,
+        distance: distance,
         area: area,
       );
 
@@ -146,15 +150,13 @@ class _TowBodyState extends State<TowBody> {
           notifier.showToast("Tạo đơn thành công");
         } else if (status == 500) {
           notifier.showToast("External error");
-        } else if(status == 201){
+        } else if (status == 201) {
           notifier.showToast("Hết xe cứu hộ");
-        }else{
+        } else {
           notifier.showToast("Lỗi đơn hàng");
         }
       } catch (e) {
-    
         print('Lỗi khi tạo đơn hàng: $e');
-        
       } finally {
         setState(() {
           isLoading = false;
@@ -177,69 +179,113 @@ class _TowBodyState extends State<TowBody> {
               const SizedBox(
                 height: 12,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: [
-                  CustomText(text: 'Khoảng cách'),
-                  CustomText(text: '${widget.distance} Km')
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Khoảng cách',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      CustomText(
+                        text: '${widget.distance} Km',
+                        fontSize: 16,
+                      )
+                    ],
+                  ),
+                  Divider(
+                    color: FrontendConfigs.kIconColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding:
+                        EdgeInsets.only(top: 12, right: 0, bottom: 12, left: 7),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Color.fromARGB(34, 158, 158, 158),
+                    ),
+                    child: Column(
+                      children: [
+                        HomeSelectionWidget(
+                            icon: 'assets/svg/pickup_icon.svg',
+                            title: 'Điểm bắt đầu',
+                            body: widget.address,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }),
+                        Divider(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        HomeSelectionWidget(
+                            icon: 'assets/svg/setting_location.svg',
+                            title: 'Điểm kết thúc',
+                            body: widget.addressDrop,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              Divider(
-                color: FrontendConfigs.kIconColor,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              HomeSelectionWidget(
-                  icon: 'assets/svg/pickup_icon.svg',
-                  title: 'Pick up Location',
-                  body: widget.address,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
 
               const SizedBox(
                 height: 10,
               ),
-              HomeSelectionWidget(
-                  icon: 'assets/svg/setting_location.svg',
-                  title: 'Pick up Location',
-                  body: widget.addressDrop,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-
+              CustomText(
+                  text: 'Khu vực hỗ trợ gần bạn',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+              Column(
+                children: [
+                  Wrap(
+                    spacing: 32.0, // Horizontal space between chips.
+                    runSpacing: 8.0, // Vertical space between lines.
+                    children: dropdownItems.map((item) {
+                      return ChoiceChip(
+                        labelPadding: EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ), // Add padding inside the chip.
+                        label: Text(
+                          item["name"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16, // Increase the font size.
+                          ),
+                        ),
+                        selected: selectedDropdownItem == item,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              selectedDropdownItem = item;
+                            }
+                          });
+                        },
+                        selectedColor: FrontendConfigs
+                            .kActiveColor, // Optional: Changes the color when selected.
+                        backgroundColor: FrontendConfigs.kIconColor,
+                        shape:
+                            StadiumBorder(), // Optional: Creates a stadium-shaped border.
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(width: 16.0),
+                ],
+              ),
               const SizedBox(
                 height: 10,
               ),
-              DropdownButtonFormField<Map<String, dynamic>>(
-                value: selectedDropdownItem,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedDropdownItem = newValue!;
-                  });
-                },
-                items: dropdownItems.map((item) {
-                  return DropdownMenuItem<Map<String, dynamic>>(
-                    value: item,
-                    child: Text(item["name"]),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Khu vực hỗ trợ',
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Hãy chọn một mục trong dropdown';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () async {
+              CustomText(
+                  text: 'Hình ảnh hiện trường (nếu có)',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+              ElevatedButton(
+                onPressed: () async {
                   if (!isImageLoading) {
                     setState(() {
                       isImageLoading = true;
@@ -249,13 +295,28 @@ class _TowBodyState extends State<TowBody> {
                   // Chuyển qua camera ở đây
                   captureImage();
                 },
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    labelText: 'Hình ảnh chứng thực (nếu có)',
-                    prefixIcon: isImageLoading
-                        ? CircularProgressIndicator() // Hiển thị biểu tượng xoay khi đang tải
-                        : Icon(Icons.add_box), // Biểu tượng dấu '+'
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   ),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    FrontendConfigs.kIconColor, // Màu nền của nút
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add_box), // Biểu tượng dấu '+'
+                    SizedBox(
+                        width: 8.0), // Khoảng cách giữa biểu tượng và văn bản
+                    Text(
+                      'Thêm', // Văn bản bên cạnh biểu tượng
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16, // Kích thước văn bản
+                      ),
+                    ),
+                  ],
                 ),
               ),
               if (urlImages!.isNotEmpty)
@@ -305,58 +366,118 @@ class _TowBodyState extends State<TowBody> {
               const SizedBox(
                 height: 10,
               ),
-              TextFormField(
-                controller: customerNoteController,
-                decoration: InputDecoration(
-                  labelText: 'Ghi chú',
-                ),
-                maxLines: 3,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Hãy ghi chú';
-                  }
-                  return null;
-                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ghi chú', // Nhãn cho ô nhập liệu
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  SizedBox(height: 8.0), // Khoảng cách giữa nhãn và ô nhập liệu
+                  TextFormField(
+                    controller: customerNoteController,
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Hãy ghi chú';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Nhập ghi chú của bạn', // Gợi ý cho ô nhập liệu
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Định dạng bo tròn viền ô nhập liệu
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
               ),
-              RadioListTile<String>(
-                  title: Row(
+              CustomText(
+                text: 'Phương thức thanh toán',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isMomoSelected = !isMomoSelected;
+                    if (isMomoSelected) {
+                      isCashSelected = false;
+                    }
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    border: isMomoSelected
+                        ? Border.all(
+                            color: FrontendConfigs.kActiveColor,
+                            width: 2.0,
+                          )
+                        : null, // Loại bỏ viền khi không được chọn
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Row(
                     children: [
                       Image.asset('assets/images/momo.png'),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(width: 10.0),
+                      CustomText(
+                        text: "Momo",
+                        fontWeight: isMomoSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        fontSize: 18,
                       ),
-                      const Text("Trả bằng momo"),
                     ],
                   ),
-                  value: "MOMO",
-                  groupValue: selectedPaymentOption,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedPaymentOption = value!;
-                    });
-                  },
-                  activeColor: Color(0xFF5BB85D)),
-              RadioListTile<String>(
-                  title: Row(
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isCashSelected = !isCashSelected;
+                    if (isCashSelected) {
+                      isMomoSelected = false;
+                    }
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    border: isCashSelected
+                        ? Border.all(
+                            color: FrontendConfigs.kActiveColor,
+                            width: 2.0,
+                          )
+                        : null, // Loại bỏ viền khi không được chọn
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Row(
                     children: [
                       Image.asset('assets/images/money.png'),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(width: 10.0),
+                      CustomText(
+                        text: "Tiền mặt",
+                        fontWeight: isCashSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        fontSize: 18,
                       ),
-                      const Text("Trả bằng tiền mặt"),
                     ],
                   ),
-                  value: "Tiền mặt",
-                  groupValue: selectedPaymentOption,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedPaymentOption = value!;
-                    });
-                  },
-                  activeColor: Color(0xFF5BB85D)),
+                ),
+              ),
+
               const SizedBox(
                 height: 10,
               ),
@@ -374,48 +495,80 @@ class _TowBodyState extends State<TowBody> {
   }
 
   Widget buildServiceList(List<Service> availableServices) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Dịch vụ hiện có", // Tiêu đề
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
-        if (selectedServices?.isNotEmpty != true)
-          Text(
-            "Hãy chọn ít nhất 1 dịch vụ",
-            style: TextStyle(
-              color: Colors.red,
+    // A map of icons for each service, for example purposes
+    final Map<String, IconData> serviceIcons = {
+      'Thay Bình': Icons.local_gas_station,
+      'Hỗ Trợ Đẩy Xe': Icons.build_circle,
+      'Mainbroad': Icons.compress,
+      'Sạc ắc quy': Icons.battery_charging_full,
+      'Kích bình': Icons.power,
+      'Thay bình': Icons.autorenew,
+      // Add more mappings of service names to icons
+    };
+
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              "Chọn dịch vụ", // Title
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ...availableServices.map((service) {
-          return Row(
-            children: [
-              Checkbox(
-                value: selectedServices?.contains(service.name),
-                onChanged: (value) {
+          if (selectedServices?.isEmpty ?? true)
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Text(
+                "Hãy chọn ít nhất 1 dịch vụ",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          Wrap(
+            spacing: 10, // Horizontal space between chips
+            runSpacing: 10, // Vertical space between chips
+            children: availableServices.map((service) {
+              bool isSelected =
+                  selectedServices?.contains(service.name) ?? false;
+              return ChoiceChip(
+                label: Text('${service.name} (${service.price}vnd)'),
+                avatar: Icon(
+                  serviceIcons[service
+                      .name], // Use the corresponding icon for each service
+                  color: isSelected ? Colors.white : Colors.black54,
+                ),
+                selected: isSelected,
+                onSelected: (value) {
                   setState(() {
-                    if (value == true) {
+                    if (value) {
                       selectedServices?.add(service.name);
-                      setState(() {
-                        totalPrice += service.price;
-                      });
+                      totalPrice += service.price;
                     } else {
                       selectedServices?.remove(service.name);
-                      setState(() {
-                        totalPrice -= service.price;
-                      });
+                      totalPrice -= service.price;
                     }
                   });
                 },
-              ),
-              Text('${service.name} (Giá: ${service.price}vnd)'),
-            ],
-          );
-        }).toList(),
-      ],
+                backgroundColor: Colors.grey[200],
+                selectedColor: Theme.of(context).primaryColor,
+                labelStyle: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }

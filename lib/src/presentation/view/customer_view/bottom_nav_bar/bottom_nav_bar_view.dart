@@ -5,7 +5,6 @@ import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/customer_view/profile/profile_view.dart';
 import '../orders/orders_view.dart';
 
-
 class BottomNavBarView extends StatefulWidget {
   final int page;
 
@@ -17,13 +16,12 @@ class BottomNavBarView extends StatefulWidget {
 
 class _BottomNavBarViewState extends State<BottomNavBarView> {
   int _currentIndex = 0;
-   final List<Widget> _children = [
+  final List<Widget> _children = [
     const ServiceView(),
-    const ChatDetailsView(),
+    const OrderView(),
     const ProfileView()
   ];
 
-  
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -38,7 +36,6 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -92,7 +89,6 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                 ),
               ),
               label: "Đơn hàng"),
-          
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),

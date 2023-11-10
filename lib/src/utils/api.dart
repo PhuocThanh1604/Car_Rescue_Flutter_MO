@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:CarRescue/src/models/feedback.dart';
+import 'package:CarRescue/src/models/service_detailed.dart';
 import 'package:CarRescue/src/models/vehicle_item.dart';
 
 import 'package:CarRescue/src/models/booking.dart';
@@ -437,6 +438,53 @@ class AuthService {
     }
   }
 
+  Future<void> fetchServiceData(String orderId) async {
+    final apiUrl =
+        'https://rescuecapstoneapi.azurewebsites.net/api/OrderDetail/GetDetailsOfOrder?id=$orderId';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final List<Map<String, dynamic>> responseData =
+          json.decode(response.body);
+
+      for (var orderDetail in responseData) {
+        // Get the serviceId from each order detail
+        final String serviceId = orderDetail['serviceId'];
+
+        // Fetch service detail
+        final Map<String, dynamic> serviceDetail =
+            await fetchServiceDetail(serviceId);
+
+        // Access the 'name' field from the service detail
+        if (serviceDetail.containsKey('name')) {
+          final String serviceName = serviceDetail['name'];
+          print('Service Name: $serviceName');
+        }
+
+        // Now, you can work with the service detail data as needed
+      }
+    } else {
+      throw Exception('Failed to load data from API');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchServiceDetail(String serviceId) async {
+    final apiUrl =
+        'https://rescuecapstoneapi.azurewebsites.net/api/Service/Get?id=$serviceId';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey('data') && data['data'] is Map<String, dynamic>) {
+        final Map<String, dynamic> responseData = data['data'];
+        return responseData;
+      }
+    }
+    throw Exception('Failed to load data from API');
+  }
+
   Future<Map<String, String>> getAddressFromCoordinates(
     double latitude,
     double longitude,
@@ -527,7 +575,7 @@ class AuthService {
 
     // Use Google Geocoding API to fetch addresses
     const String apiKey =
-        'AIzaSyDj3OfyrPchLv3pa6Y7pA0m5w5MgbZ5arg'; // Replace with your actual API key
+        'AIzaSyBD-XWuT_W1Mx98xPV7hQEjSSeGHGnm2mY'; // Replace with your actual API key
     final String urlDeparture =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latDeparture,$longDeparture&key=$apiKey';
     final String urlDestination =
@@ -804,6 +852,67 @@ class AuthService {
       },
       body: json.encode({
         'id': id,
+        'rvoid': rvoid,
+        'licensePlate': licensePlate,
+        'manufacturer': manufacturer,
+        'status': status,
+        'vinNumber': vinNumber,
+        'type': type,
+        'color': color,
+        'manufacturingYear': manufacturingYear,
+        "carRegistrationFont": frontImageUrl,
+        "carRegistrationBack": backImageUrl,
+        'image': vehicleUrl
+        // Note: Handling image uploads would require a multipart request.
+        // For simplicity, this example does not cover image uploads.
+        // You might need a separate API or endpoint to handle the image upload.
+      }),
+    );
+    final List userImage = [frontImageUrl, backImageUrl, vehicleUrl];
+    print(userImage);
+    if (response.statusCode == 200) {
+      print('Successfully created the car ${response.body}');
+      return true; //
+    } else {
+      print('Failed to create the car: ${response.body}');
+      return false; // Failed to create the car
+    }
+  }
+
+  Future<bool> updateCarApproval(
+      {required String rvoid,
+      required String licensePlate,
+      required String manufacturer,
+      required String status,
+      required String vinNumber,
+      required String type,
+      required String color,
+      required int manufacturingYear,
+      required File carRegistrationFontImage,
+      required File carRegistrationBackImage,
+      required File vehicleImage}) async {
+    String? frontImageUrl = await uploadImageToFirebase(
+        carRegistrationFontImage, 'vehicle_verify/images');
+    String? backImageUrl = await uploadImageToFirebase(
+        carRegistrationBackImage, 'vehicle_verify/images');
+    String? vehicleUrl =
+        await uploadImageToFirebase(vehicleImage, 'vehicle/images');
+
+    if (frontImageUrl == null || backImageUrl == null || vehicleUrl == null) {
+      // Hiển thị lỗi
+      print('ko co hinh');
+      return false;
+    } // If id is null, generate a random UUID
+    final String apiUrl =
+        "https://rescuecapstoneapi.azurewebsites.net/api/Vehicle/UpdateApproval"; // Replace with your endpoint URL
+
+    final response = await http.put(
+      Uri.parse(apiUrl),
+      headers: {
+        "Content-Type": "application/json",
+        // Add other headers if needed, like authorization headers
+      },
+      body: json.encode({
         'rvoid': rvoid,
         'licensePlate': licensePlate,
         'manufacturer': manufacturer,

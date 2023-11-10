@@ -4,35 +4,53 @@ import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 import 'layout/body.dart';
 
-class ChatDetailsView extends StatelessWidget {
-  const ChatDetailsView({Key? key}) : super(key: key);
+class OrderView extends StatelessWidget {
+  const OrderView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding:
-              const EdgeInsets.only(left: 18.0, top: 11, bottom: 11, right: 4),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: const Color(0xFF2DBB54),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset('assets/svg/car_icon.svg'),
-            ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          "Đơn của tôi",
+          style: TextStyle(
+            color: FrontendConfigs.kPrimaryColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        title: CustomText(
-          text: 'Đơn hàng',
-          fontSize: 16,
-          color: FrontendConfigs.kPrimaryColor,
-        ),
-        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          // if (!isLoading) // Only show the sorting option button when data is loaded
+          //   IconButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         selectedSortingOption =
+          //             selectedSortingOption == SortingOption.byName
+          //                 ? SortingOption.defaultSort
+          //                 : SortingOption.byName;
+          //         // Toggle the sorting order
+          //         isAscending = !isAscending;
+          //       });
+          //     },
+          //     icon: Icon(
+          //       Icons.sort_by_alpha,
+          //       color: FrontendConfigs.kIconColor,
+          //     ),
+          //   ),
+        ],
       ),
       body: OrderList(),
     );

@@ -93,10 +93,11 @@ class _OrderListState extends State<OrderList> {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
+          automaticallyImplyLeading: false,
           pinned: true, // Để cố định SliverAppBar
           expandedHeight: 50,
           backgroundColor:
-              FrontendConfigs.kAuthColorCustomer, // Điều chỉnh độ cao tùy ý
+              FrontendConfigs.kBackgrColor, // Điều chỉnh độ cao tùy ý
           flexibleSpace: FlexibleSpaceBar(
             background: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,203 +121,217 @@ class _OrderListState extends State<OrderList> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
                     final orders = snapshot.data ?? [];
-                    return Column(
-                      children: orders.map((order) {
-                        String formattedStartTime =
-                            DateFormat('dd/MM/yyyy | HH:mm')
-                                .format(order.createdAt ?? DateTime.now());
-                        return Card(
-                          child:
-                              Column(mainAxisSize: MainAxisSize.max, children: [
-                            ListTile(
-                              leading: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Color.fromARGB(86, 115, 115, 115),
-                                    width: 2.0,
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: orders.map((order) {
+                          String formattedStartTime =
+                              DateFormat('dd/MM/yyyy | HH:mm')
+                                  .format(order.createdAt ?? DateTime.now());
+                          return Card(
+                            child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ListTile(
+                                    leading: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color:
+                                              Color.fromARGB(86, 115, 115, 115),
+                                          width: 2.0,
+                                        ),
+                                        color: Color.fromARGB(0, 255, 255, 255),
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            Color.fromARGB(115, 47, 47, 47),
+                                        backgroundImage: AssetImage(
+                                            'assets/images/logocarescue.png'),
+                                        radius: 20,
+                                      ),
+                                    ),
+                                    title: CustomText(
+                                      text: formattedStartTime,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                    subtitle: Text(order.rescueType!),
+                                    trailing: BookingStatus(
+                                        status: order
+                                            .status), // Use the BookingStatusWidget here
                                   ),
-                                  color: Color.fromARGB(0, 255, 255, 255),
-                                ),
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromARGB(115, 47, 47, 47),
-                                  backgroundImage: AssetImage(
-                                      'assets/images/logocarescue.png'),
-                                  radius: 20,
-                                ),
-                              ),
-                              title: CustomText(
-                                text: formattedStartTime,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                              subtitle: Text(order.rescueType!),
-                              trailing: BookingStatus(
-                                  status: order
-                                      .status), // Use the BookingStatusWidget here
-                            ),
-                            Divider(
-                              color: FrontendConfigs.kIconColor,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 2),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Divider(
+                                    color: FrontendConfigs.kIconColor,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/svg/location_icon.svg",
-                                              color: FrontendConfigs
-                                                  .kPrimaryColor),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          CustomText(
-                                            text: "6.5 km",
-                                            fontWeight: FontWeight.w600,
-                                          )
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 2),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    "assets/svg/location_icon.svg",
+                                                    color: FrontendConfigs
+                                                        .kPrimaryColor),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                CustomText(
+                                                  text: "6.5 km",
+                                                  fontWeight: FontWeight.w600,
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    "assets/svg/watch_icon.svg"),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                CustomText(
+                                                  text: "15 mins",
+                                                  fontWeight: FontWeight.w600,
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "assets/svg/wallet_icon.svg",
+                                                  color: FrontendConfigs
+                                                      .kPrimaryColor,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                CustomText(
+                                                  text: "\$56.00",
+                                                  fontWeight: FontWeight.w600,
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/svg/watch_icon.svg"),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          CustomText(
-                                            text: "15 mins",
-                                            fontWeight: FontWeight.w600,
-                                          )
-                                        ],
+                                      Divider(
+                                        color: FrontendConfigs.kIconColor,
                                       ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/svg/wallet_icon.svg",
-                                            color:
-                                                FrontendConfigs.kPrimaryColor,
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      FutureBuilder<String>(
+                                        future:
+                                            getPlaceDetails(order.departure!),
+                                        builder: (context, addressSnapshot) {
+                                          if (addressSnapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            // Display loading indicator or placeholder text
+                                            return CircularProgressIndicator();
+                                          } else if (addressSnapshot.hasError) {
+                                            // Handle error
+                                            return Text(
+                                                'Error: ${addressSnapshot.error}');
+                                          } else {
+                                            String departureAddress =
+                                                addressSnapshot.data ?? '';
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12.0),
+                                              child: RideSelectionWidget(
+                                                icon:
+                                                    'assets/svg/pickup_icon.svg',
+                                                title:
+                                                    "Địa điểm hiện tại", // Add your title here
+                                                body: departureAddress,
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                      if (type == "Towing")
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 31),
+                                          child: DottedLine(
+                                            direction: Axis.vertical,
+                                            lineLength: 30,
+                                            lineThickness: 1.0,
+                                            dashLength: 4.0,
+                                            dashColor: Colors.black,
+                                            dashRadius: 2.0,
+                                            dashGapLength: 4.0,
+                                            dashGapRadius: 0.0,
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          CustomText(
-                                            text: "\$56.00",
-                                            fontWeight: FontWeight.w600,
+                                        ),
+                                      if (type == "Towing")
+                                        FutureBuilder<String>(
+                                          future: getPlaceDetails(
+                                              order.destination!),
+                                          builder: (context, addressSnapshot) {
+                                            if (addressSnapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              // Display loading indicator or placeholder text
+                                              return CircularProgressIndicator();
+                                            } else if (addressSnapshot
+                                                .hasError) {
+                                              // Handle error
+                                              return Text(
+                                                  'Error: ${addressSnapshot.error}');
+                                            } else {
+                                              String destinationAddress =
+                                                  addressSnapshot.data ?? '';
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12.0),
+                                                child: RideSelectionWidget(
+                                                  icon:
+                                                      'assets/svg/location_icon.svg',
+                                                  title: "Địa điểm muốn đến",
+                                                  body: destinationAddress,
+                                                  onPressed: () {},
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ButtonBar(
+                                        children: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ChatView(),
+                                                ),
+                                              );
+                                            },
+                                            child: CustomText(
+                                              text: 'Chi tiết',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           )
                                         ],
                                       ),
                                     ],
                                   ),
-                                ),
-                                Divider(
-                                  color: FrontendConfigs.kIconColor,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                FutureBuilder<String>(
-                                  future: getPlaceDetails(order.departure!),
-                                  builder: (context, addressSnapshot) {
-                                    if (addressSnapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      // Display loading indicator or placeholder text
-                                      return CircularProgressIndicator();
-                                    } else if (addressSnapshot.hasError) {
-                                      // Handle error
-                                      return Text(
-                                          'Error: ${addressSnapshot.error}');
-                                    } else {
-                                      String departureAddress =
-                                          addressSnapshot.data ?? '';
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12.0),
-                                        child: RideSelectionWidget(
-                                          icon: 'assets/svg/pickup_icon.svg',
-                                          title:
-                                              "Địa điểm hiện tại", // Add your title here
-                                          body: departureAddress,
-                                          onPressed: () {},
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                                if (type == "Towing")
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 29),
-                                    child: DottedLine(
-                                      direction: Axis.vertical,
-                                      lineLength: 30,
-                                      lineThickness: 1.0,
-                                      dashLength: 4.0,
-                                      dashColor: Colors.black,
-                                      dashRadius: 2.0,
-                                      dashGapLength: 4.0,
-                                      dashGapRadius: 0.0,
-                                    ),
-                                  ),
-                                if (type == "Towing")
-                                  FutureBuilder<String>(
-                                    future: getPlaceDetails(order.destination!),
-                                    builder: (context, addressSnapshot) {
-                                      if (addressSnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        // Display loading indicator or placeholder text
-                                        return CircularProgressIndicator();
-                                      } else if (addressSnapshot.hasError) {
-                                        // Handle error
-                                        return Text(
-                                            'Error: ${addressSnapshot.error}');
-                                      } else {
-                                        String destinationAddress =
-                                            addressSnapshot.data ?? '';
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12.0),
-                                          child: RideSelectionWidget(
-                                            icon:
-                                                'assets/svg/location_icon.svg',
-                                            title: "Địa điểm muốn đến",
-                                            body: destinationAddress,
-                                            onPressed: () {},
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ButtonBar(
-                                  children: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ChatView(),
-                                          ),
-                                        );
-                                      },
-                                      child: CustomText(
-                                        text: 'Chi tiết',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ]),
-                        );
-                      }).toList(),
+                                ]),
+                          );
+                        }).toList(),
+                      ),
                     );
                   }
                 },

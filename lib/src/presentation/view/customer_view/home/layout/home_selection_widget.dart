@@ -20,7 +20,7 @@ class HomeSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
           children: [
@@ -55,18 +55,24 @@ class HomeSelectionWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomText(
-                      text: title,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                    Container(
+                      width: 200,
+                      child: CustomText(
+                        text: title,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(
                       height: 3,
                     ),
-                    CustomText(
-                      text: body,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                    Container(
+                      width: 300,
+                      child: CustomText(
+                        text: body,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     )
                   ],
                 ))

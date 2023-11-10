@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-// ... other necessary imports ...
 
 class AddCarScreen extends StatefulWidget {
   final String userId;

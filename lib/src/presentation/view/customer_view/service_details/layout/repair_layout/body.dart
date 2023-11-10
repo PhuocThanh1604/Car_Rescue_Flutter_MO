@@ -60,7 +60,6 @@ class _RepairBodyState extends State<RepairBody> {
 
   @override
   void dispose() {
-    
     super.dispose();
   }
 
@@ -103,7 +102,8 @@ class _RepairBodyState extends State<RepairBody> {
       });
 
       // Bước 1: Xác định thông tin cho đơn hàng
-      String departure = "lat:${widget.latLng.latitude},long:${widget.latLng.longitude}";
+      String departure =
+          "lat:${widget.latLng.latitude},long:${widget.latLng.longitude}";
       String destination = ""; // Không có thông tin đích đến
       String rescueType = "Fixing"; // Loại cứu hộ (ở đây là "repair")
 

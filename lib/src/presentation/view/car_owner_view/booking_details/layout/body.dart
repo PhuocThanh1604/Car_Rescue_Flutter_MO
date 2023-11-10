@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/models/booking.dart';
 import 'package:CarRescue/src/models/customerInfo.dart';
+import 'package:CarRescue/src/models/service_detailed.dart';
 import 'package:CarRescue/src/models/vehicle_item.dart';
 import 'package:CarRescue/src/presentation/elements/booking_status.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
@@ -25,6 +27,7 @@ import 'package:intl/intl.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:http/http.dart' as http;
 
 class BookingDetailsBody extends StatefulWidget {
   final String userId;
@@ -61,6 +64,53 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
   List<String> _imageUrls = [];
   List<String> pickedImages = [];
   Booking? _currentBooking;
+  ServiceData? serviceData;
+  List<Map<String, dynamic>> orderDetails = [];
+  num totalQuantity = 0;
+  num totalAmount = 0.0;
+
+  Future<void> fetchServiceData(String orderId) async {
+    final apiUrl =
+        'https://rescuecapstoneapi.azurewebsites.net/api/OrderDetail/GetDetailsOfOrder?id=$orderId';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      if (responseData.containsKey('data') && responseData['data'] is List) {
+        setState(() {
+          orderDetails = List<Map<String, dynamic>>.from(responseData['data']);
+        });
+      } else {
+        throw Exception('API response does not contain a valid list of data.');
+      }
+    } else {
+      throw Exception('Failed to load data from API');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchServiceNameAndQuantity(
+      String serviceId) async {
+    final apiUrl =
+        'https://rescuecapstoneapi.azurewebsites.net/api/Service/Get?id=$serviceId';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey('data') && data['data'] is Map<String, dynamic>) {
+        final Map<String, dynamic> responseData = data['data'];
+        final String name = responseData['name'];
+        final int quantity = orderDetails
+            .firstWhere((order) => order['serviceId'] == serviceId)['quantity'];
+
+        return {'name': name, 'quantity': quantity};
+      }
+    }
+    throw Exception('Failed to load service name and quantity from API');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -68,6 +118,26 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
     _loadCustomerInfo(widget.booking.customerId);
     _loadVehicleInfo(widget.booking.vehicleId ?? '');
     _loadImageUrls();
+    fetchServiceData(widget.booking.id);
+  }
+
+  void _calculateTotalQuantityAndAmount() {
+    // Initialize the total quantity and total amount to 0
+    totalQuantity = 0;
+    totalAmount = 0.0;
+
+    // Loop through order details to calculate totals
+    for (var orderDetail in orderDetails) {
+      final serviceId = orderDetail['serviceId'];
+      final quantity = orderDetail['quantity'] as int?;
+      final total = orderDetail['total'] as num?;
+
+      // Check if quantity and total are not null before adding to totals
+      if (quantity != null && total != null) {
+        totalQuantity += quantity;
+        totalAmount += total;
+      }
+    }
   }
 
   Future<void> _loadImageUrls() async {
@@ -130,6 +200,7 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
     if (customerInfo != null && vehicleInfo != null) {
       setState(() {
         _isLoading = false;
+        _calculateTotalQuantityAndAmount();
       });
     }
   }
@@ -374,17 +445,7 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    children: [
-                      _buildOrderItemSection(),
-                      _buildInfoRow(
-                          "Số lượng",
-                          Text('2',
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                      _buildInfoRow(
-                          "Tổng cộng",
-                          Text('2',
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                    ],
+                    children: [_buildSummarySection()],
                   ),
                 ),
               ),
@@ -533,7 +594,8 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.green, // color for accept button
+                          backgroundColor:
+                              Colors.green, // color for accept button
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -570,7 +632,8 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red, // color for cancel button
+                          backgroundColor:
+                              Colors.red, // color for cancel button
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -685,20 +748,21 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
     );
   }
 
-  Widget _buildAddImageSection() {
+  Widget _buildSummarySection() {
+    final currencyFormat = NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
+
     return Column(
       children: [
-        _buildSectionTitle("Hình ảnh"),
-        Center(
-          child: Column(
-            children: [
-              Icon(Icons.camera_alt, size: 60.0, color: Colors.grey[400]),
-              TextButton(
-                onPressed: _addImage,
-                child: Text("Add Image"),
-              ),
-            ],
-          ),
+        _buildOrderItemSection(),
+        _buildInfoRow(
+          "Số lượng",
+          Text(totalQuantity.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        _buildInfoRow(
+          "Tổng cộng",
+          Text(currencyFormat.format(totalAmount),
+              style: TextStyle(fontWeight: FontWeight.bold)),
         ),
       ],
     );
@@ -707,21 +771,38 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
   Widget _buildOrderItemSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildInfoRow(
-            "Sửa bánh xe",
-            Text(
-              "\$200.00",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-        _buildInfoRow("Bơm bánh xe",
-            Text("\$5", style: TextStyle(fontWeight: FontWeight.bold))),
-        // Add more order item details as needed
-        Divider(thickness: 1),
-        SizedBox(
-          height: 6,
-        ),
-      ],
+      children: orderDetails.map((orderDetail) {
+        return FutureBuilder<Map<String, dynamic>>(
+          future: fetchServiceNameAndQuantity(
+              orderDetail['serviceId']), // Fetch service name and quantity
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              final name = snapshot.data?['name'] ?? 'Name not available';
+              final quantity = snapshot.data?['quantity'] ?? 0;
+              final total = orderDetail['tOtal'] ?? 0.0;
+              // Accumulate the total quantity and total amount
+              totalQuantity += quantity as int;
+
+              totalAmount += total;
+              final formatter =
+                  NumberFormat.currency(symbol: '₫', locale: 'vi_VN');
+              final formattedTotal = formatter.format(total);
+
+              return _buildInfoRow(
+                '$name (Số lượng: $quantity)',
+                Text(
+                  '$formattedTotal',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('Error fetching service name and quantity');
+            } else {
+              return CircularProgressIndicator(); // Show a loading indicator
+            }
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -732,87 +813,21 @@ class _BookingDetailsBodyState extends State<BookingDetailsBody> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Flexible(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(width: 8.0), // Add spacing between label and value
           value
         ],
       ),
-    );
-  }
-
-  Widget _buildCustomerInfoSection(CustomerInfo? customerInfo) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10.0),
-        Row(
-          children: [
-            Icon(Icons.person, color: Colors.grey[600], size: 20.0),
-            SizedBox(width: 8.0),
-            Expanded(
-              child: Text(
-                customerInfo?.fullname ?? '',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8.0),
-        Row(
-          children: [
-            Icon(Icons.phone, color: Colors.grey[600], size: 20.0),
-            SizedBox(width: 8.0),
-            Expanded(
-              child: Text(
-                customerInfo?.phone ?? 'Chưa thêm số điện thoại',
-                style: TextStyle(fontSize: 15.0),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8.0),
-        Row(
-          children: [
-            Icon(Icons.image,
-                color: Colors.grey[600],
-                size: 20.0), // Assuming this is an avatar icon
-            SizedBox(width: 8.0),
-            Expanded(
-              child: Text(
-                customerInfo?.avatar ?? '',
-                style: TextStyle(fontSize: 15.0),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10.0),
-      ],
-    );
-  }
-
-  Widget _buildBookingInfoSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10.0),
-        _buildInfoRow(
-            "Trạng thái", BookingStatus(status: _currentBooking?.status ?? '')),
-        _buildInfoRow(
-            "Điểm đi", Text('${widget.addressesDepart[widget.booking.id]}')),
-        _buildInfoRow(
-            "Điểm đến", Text('${widget.addressesDesti[widget.booking.id]}')),
-        _buildInfoRow("Loại xe", Text(vehicleInfo!.type)),
-        _buildInfoRow("Biển số xe", Text(vehicleInfo!.licensePlate)),
-        _buildInfoRow("Loại dịch vụ", Text(widget.booking.rescueType)),
-        _buildInfoRow("Ghi chú", Text(widget.booking.customerNote)),
-        SizedBox(height: 10.0),
-      ],
     );
   }
 }

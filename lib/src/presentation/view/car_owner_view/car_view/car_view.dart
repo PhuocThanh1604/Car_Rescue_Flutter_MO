@@ -19,14 +19,21 @@ class CarListView extends StatefulWidget {
   _CarListViewState createState() => _CarListViewState();
 }
 
-enum SortingOption { byName, defaultSort }
+enum SortingOption { byName, byStatus, defaultSort }
 
 class _CarListViewState extends State<CarListView> {
   List<Vehicle> carData = [];
   SortingOption selectedSortingOption = SortingOption.defaultSort;
+  String selectedStatus = 'ACTIVE'; // default selected status
   String searchQuery = '';
   bool isLoading = true;
   bool isAscending = true;
+  PopupMenuItem<String> buildItem(String value) {
+    return PopupMenuItem(
+      value: value,
+      child: Text(value),
+    );
+  }
 
   @override
   void initState() {
@@ -52,6 +59,10 @@ class _CarListViewState extends State<CarListView> {
         isLoading = false;
       });
     });
+  }
+
+  List<Vehicle> sortCarsByStatus(List<Vehicle> cars, String status) {
+    return cars.where((car) => car.status == status).toList();
   }
 
   Future<Map<String, dynamic>> fetchCarOwnerCar(String userId) async {
@@ -85,6 +96,13 @@ class _CarListViewState extends State<CarListView> {
     }).toList();
   }
 
+  List<PopupMenuItem<String>> get statusMenuItems => [
+        buildItem('ACTIVE'),
+        buildItem('ASSIGNED'),
+        buildItem('WAITING_APPROVAL'),
+        buildItem('REJECTED'),
+      ];
+
   @override
   Widget build(BuildContext context) {
     List<Vehicle> filteredCars = searchCars(carData, searchQuery);
@@ -92,6 +110,9 @@ class _CarListViewState extends State<CarListView> {
     // Apply sorting when the user selects "Sort by Name"
     if (selectedSortingOption == SortingOption.byName) {
       filteredCars = sortCarsByName(filteredCars, isAscending);
+    }
+    if (selectedSortingOption == SortingOption.byStatus) {
+      filteredCars = sortCarsByStatus(filteredCars, selectedStatus);
     }
 
     return Scaffold(
@@ -135,6 +156,18 @@ class _CarListViewState extends State<CarListView> {
                 color: FrontendConfigs.kIconColor,
               ),
             ),
+          PopupMenuButton<String>(
+            onSelected: (String newValue) {
+              setState(() {
+                selectedStatus = newValue;
+                selectedSortingOption = SortingOption.byStatus;
+              });
+            },
+            itemBuilder: (BuildContext context) => statusMenuItems,
+            icon: Icon(Icons.more_vert,
+                color: FrontendConfigs
+                    .kIconColor), // Change to your preferred icon
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -158,13 +191,28 @@ class _CarListViewState extends State<CarListView> {
             Expanded(
               child: isLoading
                   ? LoadingState()
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: filteredCars
-                            .map((vehicle) => CarCard(vehicle: vehicle))
-                            .toList(),
-                      ),
-                    ),
+                  : filteredCars.isNotEmpty
+                      ? SingleChildScrollView(
+                          child: Column(
+                            children: filteredCars
+                                .map((vehicle) => CarCard(
+                                      vehicle: vehicle,
+                                      userId: widget.userId,
+                                    ))
+                                .toList(),
+                          ),
+                        )
+                      : Center(
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.car_crash, size: 60),
+                            Text(
+                              'Danh sách xe đang trống.',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        )), // Show this when filteredCars is empty
             ),
           ],
         ),

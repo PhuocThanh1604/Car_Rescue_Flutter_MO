@@ -1,12 +1,13 @@
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/widgets/car_status.dart';
+import 'package:CarRescue/src/presentation/view/car_owner_view/car_view/widgets/update_car_view.dart';
 import 'package:flutter/material.dart';
 import '../../../../../models/vehicle_item.dart';
 
 class CarCard extends StatelessWidget {
   final Vehicle vehicle;
-
-  CarCard({required this.vehicle});
+  final String userId;
+  CarCard({required this.vehicle, required this.userId});
 
   void _showCarDetails(BuildContext context, String id) {
     // Assuming that you have properly initialized the 'car' object
@@ -98,7 +99,15 @@ class CarCard extends StatelessWidget {
                       : vehicle.status.toUpperCase() == 'WAITING_APPROVAL'
                           ? TextButton(
                               onPressed: () {
-                                // Do something
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UpdateCarScreen(
+                                      userId: userId,
+                                      vehicle: vehicle,
+                                    ),
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Cập nhật',

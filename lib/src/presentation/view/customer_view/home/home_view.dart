@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:CarRescue/src/configuration/frontend_configs.dart';
 import 'package:CarRescue/src/models/location_info.dart';
+import 'package:CarRescue/src/models/vehicle_item.dart';
 import 'package:CarRescue/src/presentation/elements/custom_appbar.dart';
 import 'package:CarRescue/src/presentation/elements/custom_text.dart';
 
@@ -54,7 +55,7 @@ class HomeViewState extends State<HomeView> {
   bool isPickingPickupLocation = false;
   late Future<List<LocationInfo>> predictions;
   late Future<PlacesAutocompleteResponse> predictionsPlaces;
-
+  bool _showPlaceDirection = false;
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(10.762622, 106.660172),
     zoom: 10,
@@ -211,7 +212,8 @@ class HomeViewState extends State<HomeView> {
     super.initState();
     _isMounted = true;
     predictions = Future.value([]);
-    predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'INIT'));
+    predictionsPlaces = Future.value(
+        PlacesAutocompleteResponse(predictions: [], status: 'INIT'));
     requestLocationPermission();
     setSourceAndDestinationIcons();
     // Timer(
@@ -306,7 +308,7 @@ class HomeViewState extends State<HomeView> {
                         } else {
                           if (snapshot.hasData) {
                             double distance = snapshot.data! / 1000;
-                            formattedDistance = distance.toStringAsFixed(3);
+                            formattedDistance = distance.toStringAsFixed(1);
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -380,46 +382,59 @@ class HomeViewState extends State<HomeView> {
                           final predictions = snapshot.data!.predictions;
 
                           return Expanded(
-                            child: Column(
-                              children: [
-                                if (predictions.isNotEmpty)
-                                  Expanded(
-                                    child: ListView.builder(
-                                      itemCount: predictions.length,
-                                      itemBuilder: (context, index) {
-                                        final prediction = predictions[index];
-                                        return ListTile(
-                                          title: Text(prediction.description!),
-                                          onTap: () {
-                                            if (isPickingPickupLocation) {
-                                              _pickUpController.text =
-                                                  prediction.description!;
-                                              getLatLngByPlaceDetails(
-                                                  prediction.placeId!, true);
-                                              // Di chuyển camera đến _latLng
-                                            } else {
-                                              _dropLocationController.text =
-                                                  prediction.description!;
-                                              getLatLngByPlaceDetails(
-                                                  prediction.placeId!, false);
-                                              // Di chuyển camera đến _latLngDrop
-                                            }
-
-                                            
-                                          },
-                                          tileColor: Colors.transparent,
-                                          contentPadding: EdgeInsets.zero,
-                                          shape: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.black,
-                                              width: 1.0,
+                            child: Card(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  children: [
+                                    predictions.isNotEmpty
+                                        ? Expanded(
+                                            child: ListView.builder(
+                                              itemCount: predictions.length,
+                                              itemBuilder: (context, index) {
+                                                final prediction =
+                                                    predictions[index];
+                                                return ListTile(
+                                                  title: Text(
+                                                      prediction.description!),
+                                                  onTap: () {
+                                                    if (isPickingPickupLocation) {
+                                                      _pickUpController.text =
+                                                          prediction
+                                                              .description!;
+                                                      getLatLngByPlaceDetails(
+                                                          prediction.placeId!,
+                                                          true);
+                                                      // Di chuyển camera đến _latLng
+                                                    } else {
+                                                      _dropLocationController
+                                                              .text =
+                                                          prediction
+                                                              .description!;
+                                                      getLatLngByPlaceDetails(
+                                                          prediction.placeId!,
+                                                          false);
+                                                      // Di chuyển camera đến _latLngDrop
+                                                    }
+                                                  },
+                                                  tileColor: Colors.transparent,
+                                                  contentPadding:
+                                                      EdgeInsets.zero,
+                                                  shape: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.black,
+                                                      width: .5,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                              ],
+                                          )
+                                        : Container()
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         } else {
@@ -428,7 +443,9 @@ class HomeViewState extends State<HomeView> {
                       }
                     },
                   ),
-                  if (predictionsPlaces == Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR')))
+                  if (predictionsPlaces ==
+                      Future.value(PlacesAutocompleteResponse(
+                          predictions: [], status: 'CLEAR')))
                     SizedBox(
                       height: 10,
                     ),
@@ -518,9 +535,8 @@ class HomeViewState extends State<HomeView> {
 
   void clearPredictions() {
     setState(() {
-      predictionsPlaces = Future.value(PlacesAutocompleteResponse(predictions: [], status: 'CLEAR'));
+      predictionsPlaces = Future.value(
+          PlacesAutocompleteResponse(predictions: [], status: 'CLEAR'));
     });
   }
-
-  
 }
