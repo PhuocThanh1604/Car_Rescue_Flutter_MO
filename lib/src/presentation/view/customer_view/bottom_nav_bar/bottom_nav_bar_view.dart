@@ -42,7 +42,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedItemColor: Colors.green,
+        selectedItemColor: FrontendConfigs.kPrimaryColor,
         unselectedItemColor: FrontendConfigs.kIconColor,
         backgroundColor: Colors.white,
         selectedLabelStyle: TextStyle(
@@ -70,7 +70,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                   'assets/svg/home_icon.svg',
                   // ignore: deprecated_member_use
                   color: _currentIndex == 0
-                      ? Colors.green
+                      ? FrontendConfigs.kPrimaryColor
                       : FrontendConfigs.kIconColor,
                 ),
               ),
@@ -78,13 +78,13 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
           BottomNavigationBarItem(
               icon: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
-                child: SvgPicture.asset(
-                  height: 18,
-                  width: 18,
-                  'assets/svg/message.svg',
+                child: Image.asset(
+                  height: 25,
+                  width: 25,
+                  'assets/icons/order.png',
                   // ignore: deprecated_member_use
                   color: _currentIndex == 1
-                      ? Colors.green
+                      ? FrontendConfigs.kPrimaryColor
                       : FrontendConfigs.kIconColor,
                 ),
               ),
@@ -96,13 +96,13 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
                   'assets/svg/person_icon.svg',
                   // ignore: deprecated_member_use
                   color: _currentIndex == 2
-                      ? Colors.green
+                      ? FrontendConfigs.kPrimaryColor
                       : FrontendConfigs.kIconColor,
                   height: 18,
                   width: 18,
                 ),
               ),
-              label: "Profile"),
+              label: "Cá nhân"),
         ],
       ),
     );

@@ -95,7 +95,7 @@ class HomeViewState extends State<HomeView> {
 
   Future setSourceAndDestinationIcons() async {
     final Uint8List icon1 =
-        await getBytesFromAsset('assets/images/driver_marker.png', 240);
+        await getBytesFromAsset('assets/images/profile.png', 100);
 
     destinationIcon = BitmapDescriptor.fromBytes(icon1);
   }
@@ -237,7 +237,7 @@ class HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: customAppBar(
         context,
-        text: 'Map Location',
+        text: 'Bản đồ',
         showText: true,
       ),
       key: homeScaffoldKey,
@@ -255,7 +255,7 @@ class HomeViewState extends State<HomeView> {
           ),
           if (position != null)
             Positioned(
-              bottom: widget.services == 'Fixing' ? 270 : 400,
+              bottom: widget.services == 'Fixing' ? 230 : 320,
               right: 16,
               child: FloatingActionButton(
                 backgroundColor: FrontendConfigs.kPrimaryColor,
@@ -274,7 +274,7 @@ class HomeViewState extends State<HomeView> {
           SlidingUpPanel(
             controller: _pc,
             minHeight: widget.services == 'Fixing' ? 200 : 300,
-            maxHeight: widget.services == 'Fixing' ? 250 : 400,
+            maxHeight: widget.services == 'Fixing' ? 350 : 300,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -380,63 +380,60 @@ class HomeViewState extends State<HomeView> {
                       } else {
                         if (snapshot.hasData) {
                           final predictions = snapshot.data!.predictions;
-
-                          return Expanded(
-                            child: Card(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: Column(
-                                  children: [
-                                    predictions.isNotEmpty
-                                        ? Expanded(
-                                            child: ListView.builder(
-                                              itemCount: predictions.length,
-                                              itemBuilder: (context, index) {
-                                                final prediction =
-                                                    predictions[index];
-                                                return ListTile(
-                                                  title: Text(
-                                                      prediction.description!),
-                                                  onTap: () {
-                                                    if (isPickingPickupLocation) {
-                                                      _pickUpController.text =
-                                                          prediction
-                                                              .description!;
-                                                      getLatLngByPlaceDetails(
-                                                          prediction.placeId!,
-                                                          true);
-                                                      // Di chuyển camera đến _latLng
-                                                    } else {
-                                                      _dropLocationController
-                                                              .text =
-                                                          prediction
-                                                              .description!;
-                                                      getLatLngByPlaceDetails(
-                                                          prediction.placeId!,
-                                                          false);
-                                                      // Di chuyển camera đến _latLngDrop
-                                                    }
-                                                  },
-                                                  tileColor: Colors.transparent,
-                                                  contentPadding:
-                                                      EdgeInsets.zero,
-                                                  shape: UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color: Colors.black,
-                                                      width: .5,
-                                                    ),
-                                                  ),
-                                                );
+                          if (predictions.isEmpty) {
+                            return Container();
+                          } else {
+                            return Expanded(
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ListView.builder(
+                                          itemCount: predictions.length,
+                                          itemBuilder: (context, index) {
+                                            final prediction =
+                                                predictions[index];
+                                            return ListTile(
+                                              title:
+                                                  Text(prediction.description!),
+                                              onTap: () {
+                                                if (isPickingPickupLocation) {
+                                                  _pickUpController.text =
+                                                      prediction.description!;
+                                                  getLatLngByPlaceDetails(
+                                                      prediction.placeId!,
+                                                      true);
+                                                  // Di chuyển camera đến _latLng
+                                                } else {
+                                                  _dropLocationController.text =
+                                                      prediction.description!;
+                                                  getLatLngByPlaceDetails(
+                                                      prediction.placeId!,
+                                                      false);
+                                                  // Di chuyển camera đến _latLngDrop
+                                                }
                                               },
-                                            ),
-                                          )
-                                        : Container()
-                                  ],
+                                              tileColor: Colors.transparent,
+                                              contentPadding: EdgeInsets.zero,
+                                              shape: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.black,
+                                                  width: .5,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         } else {
                           return Text('');
                         }

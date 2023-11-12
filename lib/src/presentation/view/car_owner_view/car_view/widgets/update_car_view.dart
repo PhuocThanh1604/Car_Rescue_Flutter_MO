@@ -50,7 +50,6 @@ class _UpdateCarScreenState extends State<UpdateCarScreen> {
     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
   );
   Future<bool> updateCarApproval({
-    required String id,
     required String rvoid,
     required String licensePlate,
     required String manufacturer,
@@ -78,24 +77,20 @@ class _UpdateCarScreenState extends State<UpdateCarScreen> {
       'manufacturingYear': manufacturingYear.toString(),
       'status': status
     };
-
-    // Handle images
-    // For local files, you might need to upload them first and get a URL in response
-    // For network URLs, you can directly use them
     payload['carRegistrationFont'] = carRegistrationFontImage != null
         ? await authService.uploadImageToFirebase(
             carRegistrationFontImage, 'RVOvehicle_images/')
-        : carRegistrationFontImageUrl;
+        : widget.vehicle?.carRegistrationFont;
 
     payload['carRegistrationBack'] = carRegistrationBackImage != null
         ? await authService.uploadImageToFirebase(
             carRegistrationBackImage, 'RVOvehicle_images/')
-        : carRegistrationBackImageUrl;
+        : widget.vehicle?.carRegistrationBack;
 
     payload['image'] = vehicleImage != null
         ? await authService.uploadImageToFirebase(
             vehicleImage, 'RVOvehicle_images/')
-        : vehicleImageUrl;
+        : widget.vehicle?.image;
     print(payload);
     // Make the API call
     var response = await http.put(
@@ -123,7 +118,6 @@ class _UpdateCarScreenState extends State<UpdateCarScreen> {
 
       try {
         bool isSuccess = await updateCarApproval(
-            id: id,
             rvoid: widget.userId,
             licensePlate: _licensePlate,
             manufacturer: _manufacturer,
@@ -139,17 +133,22 @@ class _UpdateCarScreenState extends State<UpdateCarScreen> {
         if (isSuccess) {
           setState(() {
             _isLoading = false;
-            Navigator.pop(context, true);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarListView(userId: widget.userId),
+                ));
           });
 
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Thành công',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(
+                  'Thành công',
+                ),
                 content: Text(
-                  'Đã lưu thông tin thành công.Vui lòng chờ quản lí xác nhận',
+                  'Đã lưu thông tin thành công\n.Vui lòng chờ quản lí xác nhận',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 actions: [

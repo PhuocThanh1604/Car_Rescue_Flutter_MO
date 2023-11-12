@@ -23,7 +23,7 @@ customAppBar(
             text!,
             style: TextStyle(
                 color: FrontendConfigs.kPrimaryColor,
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.bold),
           )
         : const SizedBox(),

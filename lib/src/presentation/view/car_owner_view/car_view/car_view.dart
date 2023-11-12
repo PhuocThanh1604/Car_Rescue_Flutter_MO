@@ -28,6 +28,8 @@ class _CarListViewState extends State<CarListView> {
   String searchQuery = '';
   bool isLoading = true;
   bool isAscending = true;
+  final TextEditingController _controller = TextEditingController();
+
   PopupMenuItem<String> buildItem(String value) {
     return PopupMenuItem(
       value: value,
@@ -35,6 +37,8 @@ class _CarListViewState extends State<CarListView> {
     );
   }
 
+  @override
+  @override
   @override
   void initState() {
     super.initState();
@@ -53,6 +57,21 @@ class _CarListViewState extends State<CarListView> {
               carRegistrationBack: carData['carRegistrationBack'],
               image: carData['image']))
           .toList();
+
+      // Sort the list to prioritize vehicles with status 'ACTIVE', 'ASSIGNED', and then 'WAITING_APPROVAL'
+      carList.sort((a, b) {
+        const statusPriority = {
+          'ACTIVE': 1,
+          'ASSIGNED': 2,
+          'WAITING_APPROVAL': 3
+          // other statuses implicitly have lower priority
+        };
+
+        int priorityA = statusPriority[a.status] ?? 4;
+        int priorityB = statusPriority[b.status] ?? 4;
+
+        return priorityA.compareTo(priorityB);
+      });
 
       setState(() {
         carData = carList;
@@ -174,15 +193,42 @@ class _CarListViewState extends State<CarListView> {
         onRefresh: _handleRefresh,
         child: Column(
           children: [
-            TextField(
-              onChanged: (query) {
-                setState(() {
-                  searchQuery = query;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Tìm kiếm bằng tên hoặc biển số',
-                prefixIcon: Icon(Icons.search),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), // Slightly more rounded
+                border: Border.all(
+                  color:
+                      const Color.fromARGB(255, 154, 180, 225), // Changed color
+                  width: 1,
+                ),
+                color: Colors.white, // Added background color
+              ),
+              child: TextField(
+                controller: _controller,
+                onChanged: (query) {
+                  setState(() {
+                    searchQuery = query;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Tìm kiếm tên hoặc biển số',
+
+                  prefixIcon: Icon(Icons.search), // Added search icon
+                  suffixIcon: searchQuery.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              _controller.clear();
+                              searchQuery = '';
+                            });
+                          },
+                        )
+                      : null,
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
               ),
             ),
             SizedBox(

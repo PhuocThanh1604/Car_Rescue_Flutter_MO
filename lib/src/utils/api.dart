@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:CarRescue/src/models/feedback.dart';
+<<<<<<< Updated upstream
 import 'package:CarRescue/src/models/service_detailed.dart';
+=======
+import 'package:CarRescue/src/models/service.dart';
+>>>>>>> Stashed changes
 import 'package:CarRescue/src/models/vehicle_item.dart';
 
 import 'package:CarRescue/src/models/booking.dart';
@@ -1130,5 +1134,68 @@ class AuthService {
       // throw an exception.
       throw Exception('Failed to load data from the API');
     }
+  }
+
+  Future<List<String>> getServiceIdInOrderDetails(String orderId) async {
+    final String apiUrl =
+        'https://rescuecapstoneapi.azurewebsites.net/api/OrderDetail/GetDetailsOfOrder?id=$orderId';
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+
+        if (jsonData['data'] != null && jsonData['data'] is List) {
+          final List<dynamic> data = jsonData['data'];
+          final List<String> serviceIdList = data
+              .where((item) => item is Map && item['serviceId'] is String)
+              .map((item) => item['serviceId'].toString())
+              .toList();
+
+          if (serviceIdList.isNotEmpty) {
+            print("ServiceId: ${serviceIdList[0]}");
+            return serviceIdList;
+          }
+        }
+      } else {
+        print("Body: ${response.body}");
+      }
+    } catch (e) {
+      print("getServiceIdInOrderDetails");
+      print('Error: $e');
+    }
+
+    return [];
+  }
+
+  Future<List<Service>> getServiceById(List<String> idService) async {
+    final List<Service> serviceList = [];
+
+    for (String id in idService) {
+      final String apiUrl =
+          'https://rescuecapstoneapi.azurewebsites.net/api/Service/Get?id=$id';
+      try {
+        final response = await http.get(Uri.parse(apiUrl));
+
+        if (response.statusCode == 200) {
+          final dynamic jsonData = json.decode(response.body);
+          final dynamic data = jsonData['data'];
+          print("Data for $id: $data");
+          if (data is Map<String, dynamic>) {
+            // Kiểm tra kiểu dữ liệu
+            Service service = Service.fromJson(data);
+            serviceList.add(service);
+          }
+        }
+      } catch (e) {
+        print('Error: $e');
+      }
+    }
+    print("${serviceList.length}");
+    for (int i = 0; i < serviceList.length; i++) {
+      print(
+          "Service $i: ${serviceList[i].name}, Price: ${serviceList[i].price}");
+    }
+    return serviceList;
   }
 }
