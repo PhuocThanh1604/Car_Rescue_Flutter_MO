@@ -20,7 +20,11 @@ class HomeSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+<<<<<<< HEAD
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+=======
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+>>>>>>> origin/MinhAndHieu6
       children: [
         Row(
           children: [
@@ -49,6 +53,7 @@ class HomeSelectionWidget extends StatelessWidget {
             const SizedBox(
               width: 11,
             ),
+<<<<<<< HEAD
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,6 +72,35 @@ class HomeSelectionWidget extends StatelessWidget {
                 )
               ],
             )
+=======
+            Container(
+                // Sử dụng Container cho phần body
+                width: 250,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 200,
+                      child: CustomText(
+                        text: title,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Container(
+                      width: 300,
+                      child: CustomText(
+                        text: body,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ))
+>>>>>>> origin/MinhAndHieu6
           ],
         ),
         IconButton(

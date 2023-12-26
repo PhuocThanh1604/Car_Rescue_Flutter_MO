@@ -10,6 +10,7 @@ class WalletView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar:AppBar(
         backgroundColor:Colors.transparent,
         elevation:0,
@@ -19,16 +20,40 @@ class WalletView extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 color:const Color(0xFF2DBB54),),
+=======
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding:
+              const EdgeInsets.only(left: 18.0, top: 11, bottom: 11, right: 4),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: const Color(0xFF2DBB54),
+            ),
+>>>>>>> origin/MinhAndHieu6
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: SvgPicture.asset('assets/svg/car_icon.svg'),
             ),
           ),
         ),
+<<<<<<< HEAD
         title:CustomText(text: 'My Wallet',fontSize:16,color:FrontendConfigs.kPrimaryColor,),
         centerTitle:true,
       ),
       body:WalletBody(),
+=======
+        title: CustomText(
+          text: 'Ví của tôi',
+          fontSize: 16,
+          color: FrontendConfigs.kPrimaryColor,
+        ),
+        centerTitle: true,
+      ),
+      body: WalletBody(),
+>>>>>>> origin/MinhAndHieu6
     );
   }
 }

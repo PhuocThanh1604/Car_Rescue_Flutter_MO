@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/MinhAndHieu6
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../../../../elements/custom_text.dart';
+<<<<<<< HEAD
 import '../../../layout/driver_profile_widget.dart';
+=======
+// import '../../../layout/driver_profile_widget.dart';
+>>>>>>> origin/MinhAndHieu6
 import '../../../layout/selection_location_widget.dart';
 import 'pick_up_bottom_sheet.dart';
 
@@ -60,7 +67,11 @@ Future<void> requestBottomSheet(BuildContext context) {
               const SizedBox(
                 height: 8,
               ),
+<<<<<<< HEAD
               DriverProfileWidget(onTapped: (){}),
+=======
+              // DriverProfileWidget(onTapped: () {}),
+>>>>>>> origin/MinhAndHieu6
               const SizedBox(
                 height: 8,
               ),
@@ -108,7 +119,11 @@ Future<void> requestBottomSheet(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
+<<<<<<< HEAD
                     onTap:(){
+=======
+                    onTap: () {
+>>>>>>> origin/MinhAndHieu6
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -125,14 +140,21 @@ Future<void> requestBottomSheet(BuildContext context) {
                     ),
                   ),
                   InkWell(
+<<<<<<< HEAD
                     onTap:(){
                       Navigator.pop(dialogContext);
                 pickUpBottomSheetSheet(context);
+=======
+                    onTap: () {
+                      Navigator.pop(dialogContext);
+                      pickUpBottomSheetSheet(context);
+>>>>>>> origin/MinhAndHieu6
                     },
                     child: Container(
                       height: 45,
                       width: 150,
                       decoration: BoxDecoration(
+<<<<<<< HEAD
                           borderRadius: BorderRadius.circular(6),
                           color: Color(0xFF2DBB54),),
                       child: Center(
@@ -140,6 +162,16 @@ Future<void> requestBottomSheet(BuildContext context) {
                             text: 'Accept',
                             color: Colors.white,
                           )),
+=======
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFF2DBB54),
+                      ),
+                      child: Center(
+                          child: CustomText(
+                        text: 'Accept',
+                        color: Colors.white,
+                      )),
+>>>>>>> origin/MinhAndHieu6
                     ),
                   )
                 ],
@@ -148,4 +180,8 @@ Future<void> requestBottomSheet(BuildContext context) {
           ),
         );
       });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/MinhAndHieu6

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/MinhAndHieu6
 import 'dart:async';
 
 import 'package:dotted_line/dotted_line.dart';
@@ -7,9 +10,13 @@ import 'package:flutter/material.dart';
 import '../../../../../../configuration/frontend_configs.dart';
 import '../../../../../elements/custom_text.dart';
 import '../../../../../elements/round_button.dart';
+<<<<<<< HEAD
 import '../../../layout/driver_profile_widget.dart';
 import '../../../layout/selection_location_widget.dart';
 import 'going_to_bottom_sheet.dart';
+=======
+import '../../../layout/selection_location_widget.dart';
+>>>>>>> origin/MinhAndHieu6
 
 Future<void> pickUpBottomSheetSheet(context) {
   return showModalBottomSheet(
@@ -21,9 +28,15 @@ Future<void> pickUpBottomSheetSheet(context) {
       ),
       context: context,
       builder: (dialogContext) {
+<<<<<<< HEAD
         Timer(const Duration(seconds: 3),(){
           Navigator.pop(dialogContext);
           goingTOPickingUpSheet(context);
+=======
+        Timer(const Duration(seconds: 3), () {
+          Navigator.pop(dialogContext);
+          // goingTOPickingUpSheet(context);
+>>>>>>> origin/MinhAndHieu6
         });
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -68,7 +81,11 @@ Future<void> pickUpBottomSheetSheet(context) {
               const SizedBox(
                 height: 8,
               ),
+<<<<<<< HEAD
               DriverProfileWidget(onTapped: (){}),
+=======
+              // DriverProfileWidget(onTapped: () {}),
+>>>>>>> origin/MinhAndHieu6
               const SizedBox(
                 height: 8,
               ),
@@ -117,8 +134,13 @@ Future<void> pickUpBottomSheetSheet(context) {
                 children: [
                   RoundButton(
                     icon: 'assets/svg/cancel_icon.svg',
+<<<<<<< HEAD
                     height:16,
                     widht:16,
+=======
+                    height: 16,
+                    widht: 16,
+>>>>>>> origin/MinhAndHieu6
                     color: FrontendConfigs.kAuthColor,
                     svgColor: Colors.white,
                     onPressed: () {},
@@ -143,9 +165,16 @@ Future<void> pickUpBottomSheetSheet(context) {
                   )
                 ],
               )
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/MinhAndHieu6
             ],
           ),
         );
       });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/MinhAndHieu6

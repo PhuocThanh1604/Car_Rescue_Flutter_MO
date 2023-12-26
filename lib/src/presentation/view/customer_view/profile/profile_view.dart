@@ -1,13 +1,27 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+=======
+
+import 'package:CarRescue/src/models/customer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get_storage/get_storage.dart';
+>>>>>>> origin/MinhAndHieu6
 
 import '../../../../configuration/frontend_configs.dart';
 import '../../../elements/custom_text.dart';
 import 'layout/body.dart';
 
+<<<<<<< HEAD
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
+=======
+
+class ProfileView extends StatelessWidget {
+  const ProfileView({Key? key}) : super(key: key);
+>>>>>>> origin/MinhAndHieu6
   @override
   Widget build(BuildContext context) {
     return Scaffold(

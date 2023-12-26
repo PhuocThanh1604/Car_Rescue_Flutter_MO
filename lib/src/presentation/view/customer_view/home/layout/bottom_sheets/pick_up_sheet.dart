@@ -7,7 +7,11 @@ import '../../../../../elements/custom_text.dart';
 import '../../../select_car/select_car_view.dart';
 import '../home_selection_widget.dart';
 
+<<<<<<< HEAD
 Future<void> piUpLocationBottomSheet(context) {
+=======
+Future<void> piUpLocationBottomSheet(context, String location, String? desLocation) {
+>>>>>>> origin/MinhAndHieu6
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -68,7 +72,11 @@ Future<void> piUpLocationBottomSheet(context) {
               HomeSelectionWidget(
                 icon: 'assets/svg/pickup_icon.svg',
                 title: 'Pick up Location',
+<<<<<<< HEAD
                 body: '089 Stark Gateway', onPressed: () { Navigator.pop(context); },),
+=======
+                body: '$location', onPressed: () { Navigator.pop(context); },),
+>>>>>>> origin/MinhAndHieu6
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: DottedLine(
@@ -85,7 +93,11 @@ Future<void> piUpLocationBottomSheet(context) {
               HomeSelectionWidget(
                 icon: 'assets/svg/location_icon.svg',
                 title: 'Drop off Location',
+<<<<<<< HEAD
                 body: '92676 Orion Meadows', onPressed: () { Navigator.pop(context); },),
+=======
+                body: '$desLocation', onPressed: () { Navigator.pop(context); },),
+>>>>>>> origin/MinhAndHieu6
               const SizedBox(
                 height: 34,
               ),

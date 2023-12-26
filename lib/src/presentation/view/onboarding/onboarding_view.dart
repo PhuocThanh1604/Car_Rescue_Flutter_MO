@@ -18,6 +18,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   final List<SliderPage> _pageList = [
     SliderPage(
       svg: 'assets/svg/onboarding_one.svg',
+<<<<<<< HEAD
       body: 'We provide easy cab booking solutuin with ',
       title: 'Easy booking',
       subBody: ' reasonable price. ',
@@ -32,6 +33,23 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       svg: 'assets/svg/onboarding_three.svg',
       body: 'Lets make your day great wth GILAR right now',
       title: 'Lets Get Started',
+=======
+      body: 'Chúng tôi cung cấp một dịch vụ ',
+      title: 'Đặt đơn nhanh chóng',
+      subBody: ' với giá cả phải chăng và xử lí nhanh chóng. ',
+    ),
+    SliderPage(
+      svg: 'assets/svg/onboarding_two.svg',
+      body: 'Những kĩ thuật viên đã được huấn luyện  ',
+      title: 'Kĩ thuật viên chuyên nghiệp',
+      subBody: ' chuyên nghiệp để xử lí các tình huống ',
+    ),
+    SliderPage(
+      svg: 'assets/svg/onboarding_three.svg',
+
+      body: 'Hãy bắt đầu sử dụng dịch vụ của chúng tôi',
+      title: 'Bắt đầu thôi',
+>>>>>>> origin/MinhAndHieu6
       subBody: '',
     )
   ];
@@ -65,7 +83,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           if (pageIndex == 0)
             TextButton(
                 onPressed: () {
+<<<<<<< HEAD
                   Navigator.push(
+=======
+                  Navigator.pushReplacement(
+>>>>>>> origin/MinhAndHieu6
                     context,
                     MaterialPageRoute(
                         builder: (context) => const SelectCityView()),
@@ -107,7 +129,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     dotsCount: 3,
                     position: int.parse(pageIndex.toString()),
                     decorator: DotsDecorator(
+<<<<<<< HEAD
                       activeColor: const Color(0xFF2DBB54),
+=======
+                      activeColor: const Color(0xFFC68642),
+>>>>>>> origin/MinhAndHieu6
                       color: FrontendConfigs.kIconColor,
                       size: const Size.square(9.0),
                       activeSize: const Size(27.0, 8.0),
@@ -126,7 +152,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     } else if (pageIndex == 1) {
                       controller.jumpToPage(2);
                     } else if (pageIndex == 2) {
+<<<<<<< HEAD
                       Navigator.push(
+=======
+                      Navigator.pushReplacement(
+>>>>>>> origin/MinhAndHieu6
                           context,
                           MaterialPageRoute(
                               builder: (context) => const SelectCityView()));

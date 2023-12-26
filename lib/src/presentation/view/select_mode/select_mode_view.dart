@@ -25,12 +25,16 @@ class SelectModeView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+<<<<<<< HEAD
         actions: [_popMenu()],
+=======
+>>>>>>> origin/MinhAndHieu6
       ),
       body: const SelectModeBody(),
     );
   }
 
+<<<<<<< HEAD
   Widget _popMenu() {
     return PopupMenuButton(
         icon: const Icon(
@@ -54,4 +58,29 @@ class SelectModeView extends StatelessWidget {
                   ))
             ]);
   }
+=======
+  // Widget _popMenu() {
+  //   return PopupMenuButton(
+  //       icon: const Icon(
+  //         Icons.more_vert,
+  //         size: 20,
+  //         color: Colors.white,
+  //       ),
+  //       shape: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(6),
+  //           borderSide: BorderSide.none),
+  //       itemBuilder: (context) => [
+  //             PopupMenuItem(
+  //                 height: 40,
+  //                 child: CustomText(
+  //                   text: 'English',
+  //                 )),
+  //             PopupMenuItem(
+  //                 height: 40,
+  //                 child: CustomText(
+  //                   text: 'Spanish',
+  //                 ))
+  //           ]);
+  // }
+>>>>>>> origin/MinhAndHieu6
 }

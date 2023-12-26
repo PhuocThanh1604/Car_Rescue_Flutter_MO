@@ -17,17 +17,26 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 60,
               ),
+<<<<<<< HEAD
               Transform.translate(
                 offset: const Offset(-12, 0),
                 child: Image.asset(
                   "assets/images/logo.png",
                   height: 100,
                   width: 100,
+=======
+              Center(
+                child: Image.asset(
+                  "assets/images/logocarescue.png",
+                  height: 200,
+                  width: 500,
+>>>>>>> origin/MinhAndHieu6
                 ),
               ),
               const SizedBox(
                 height: 18,
               ),
+<<<<<<< HEAD
               RichText(
                   text: const TextSpan(
                       text: "  Be your own ",
@@ -46,11 +55,17 @@ class SelectCityBody extends StatelessWidget {
                           fontSize: 15),
                     )
                   ])),
+=======
+>>>>>>> origin/MinhAndHieu6
               const SizedBox(
                 height: 44,
               ),
               CustomText(
+<<<<<<< HEAD
                 text: "Select your city",
+=======
+                text: "Chọn thành phố bạn đang sống",
+>>>>>>> origin/MinhAndHieu6
                 fontSize: 21,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.5,
@@ -58,6 +73,7 @@ class SelectCityBody extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
+<<<<<<< HEAD
               CityButton(btnLabel: "Ibiza"),
               const SizedBox(
                 height: 18,
@@ -67,6 +83,17 @@ class SelectCityBody extends StatelessWidget {
                 height: 18,
               ),
               CityButton(btnLabel: "Dubai"),
+=======
+
+              CityButton(btnLabel: "TP Hồ Chí Minh"),
+              const SizedBox(
+                height: 18,
+              ),
+              CityButton(
+                btnLabel: "Hà Nội (Sớm ra mắt)",
+                isDisabled: true,
+              ),
+>>>>>>> origin/MinhAndHieu6
             ],
           ),
         ),

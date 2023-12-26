@@ -40,7 +40,11 @@ class BottomBarWidget extends StatelessWidget {
                     hintText: "Write your message here....",
                     hintStyle: TextStyle(
                       fontSize: 10,
+<<<<<<< HEAD
                       fontFamily: 'Poppins',
+=======
+                      fontFamily: 'Montserrat',
+>>>>>>> origin/MinhAndHieu6
                       fontWeight: FontWeight.w400,
                     )),
               ),
